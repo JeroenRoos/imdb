@@ -8,7 +8,7 @@ package nl.inholland.layers.model;
 import java.security.Principal;
 import org.mongodb.morphia.annotations.Entity;
 
-@Entity(value = "genres")
+@Entity(value = "genres", noClassnameStored = true)
 public class Genre extends EntityModel
 {
     private String name;
