@@ -50,12 +50,20 @@ public class GenreService extends BaseService {
     }
     
     public void update(String genreId, Genre genre){
-        ObjectId objectId = null;
+        ObjectId objectId;
         if(ObjectId.isValid(genreId)){
             objectId = new ObjectId(genreId);
             Query query = genreDAO.createQuery().field("_id").equal(objectId);
             UpdateOperations<Genre> ops = genreDAO.createUpdateOperations().set("name", genre.getName());
             genreDAO.update(query, ops);
+        }
+    }
+    
+    public void delete(String genreId){
+        ObjectId objectId;
+        if(ObjectId.isValid(genreId)){
+            objectId = new ObjectId(genreId);
+            genreDAO.deleteById(objectId);
         }
     }
 }
