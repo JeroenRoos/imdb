@@ -48,7 +48,7 @@ public class SerieResource extends BaseResource
     
     @GET
     @Path("/{SerieId}")
-    public Serie get(@PathParam("SerieId") String serieId)
+    public SerieView get(@PathParam("SerieId") String serieId)
     {
         Serie serie = serieService.get(serieId);
         return seriePresenter.present(serie);

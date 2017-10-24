@@ -11,7 +11,6 @@ import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Reference;
 
 @Entity(value = "series")
-
 public class Serie extends EntityModel
 {
     private String title;
