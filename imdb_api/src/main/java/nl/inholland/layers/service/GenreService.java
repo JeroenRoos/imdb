@@ -32,7 +32,9 @@ public class GenreService extends BaseService {
     @Path("{genreId}")
     public Genre get(@PathParam("genreId")String genreId)
     {
-        return null;
+        Genre genre = new Genre();
+        genre = genreDAO.get(genreId);
+        return genre;
     }
 
     
