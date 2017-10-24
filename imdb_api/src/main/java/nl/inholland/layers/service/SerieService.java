@@ -10,6 +10,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
@@ -46,6 +47,12 @@ public class SerieService extends BaseService
     {
         List<Serie> lstSeries = new ArrayList<Serie>(serieDAO.getAll());
         return lstSeries;
+    }
+    
+    @POST
+    public void create(Serie serie)
+    {
+        serieDAO.create(serie);
     }
     
     

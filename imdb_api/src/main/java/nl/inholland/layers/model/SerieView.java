@@ -15,7 +15,7 @@ public class SerieView
     private String title;
     private String summary;
     private List<ActorView> lstActors;
-    private DirectorView director;
+    private List<DirectorView> director;
     private List<GenreView> lstGenres;
     
     private int year;
@@ -50,12 +50,12 @@ public class SerieView
         this.lstActors = lstActors;
     }
 
-    public DirectorView getDirector()
+    public List<DirectorView> getDirectors()
     {
         return director;
     }
 
-    public void setDirector(DirectorView director)
+    public void setDirector(List<DirectorView> director)
     {
         this.director = director;
     }
