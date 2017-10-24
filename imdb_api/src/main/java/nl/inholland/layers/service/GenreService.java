@@ -13,6 +13,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import nl.inholland.layers.model.Genre;
 import nl.inholland.layers.persistence.GenreDAO;
+import org.bson.types.ObjectId;
+import org.mongodb.morphia.query.Query;
+import org.mongodb.morphia.query.UpdateOperations;
 
 
 /**
@@ -28,9 +31,7 @@ public class GenreService extends BaseService {
         this.genreDAO = genreDAO;
     }
     
-    @GET
-    @Path("{genreId}")
-    public Genre get(@PathParam("genreId")String genreId)
+    public Genre get(String genreId)
     {
         Genre genre = new Genre();
         genre = genreDAO.get(genreId);
@@ -46,5 +47,15 @@ public class GenreService extends BaseService {
     
     public void create(Genre genre){
         genreDAO.create(genre);
+    }
+    
+    public void update(String genreId, Genre genre){
+        ObjectId objectId = null;
+        if(ObjectId.isValid(genreId)){
+            objectId = new ObjectId(genreId);
+            Query query = genreDAO.createQuery().field("_id").equal(objectId);
+            UpdateOperations<Genre> ops = genreDAO.createUpdateOperations().set("name", genre.getName());
+            genreDAO.update(query, ops);
+        }
     }
 }
