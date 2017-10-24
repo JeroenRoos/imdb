@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import nl.inholland.layers.model.Actor;
 import nl.inholland.layers.model.ActorView;
+import nl.inholland.layers.model.Director;
 import nl.inholland.layers.model.DirectorView;
 import nl.inholland.layers.model.Genre;
 import nl.inholland.layers.model.GenreView;
@@ -19,7 +20,7 @@ public class SeriePresenter extends BasePresenter
 
     public SerieView present(Serie serie)
     {
-        SerieView serieView = initSerieView(serie);    
+        SerieView serieView = initSerieView(serie);
         return serieView;
     }
 
@@ -62,11 +63,16 @@ public class SeriePresenter extends BasePresenter
         }
         serieView.setActors(lstActorViews);
 
-        DirectorView directorView = new DirectorView();
-        directorView.setAge(serie.getDirector().getAge());
-        directorView.setFirstName(serie.getDirector().getFirstName());
-        directorView.setLastName(serie.getDirector().getLastName());
-        serieView.setDirector(directorView);
+        List<DirectorView> lstDirectorViews = new ArrayList<>();
+        for (Director director : serie.getDirectors())
+        {
+            DirectorView directorView = new DirectorView();
+            directorView.setFirstName(director.getFirstName());
+            directorView.setLastName(director.getLastName());
+            directorView.setAge(director.getAge());
+            lstDirectorViews.add(directorView);
+        }
+        serieView.setDirector(lstDirectorViews);
 
         return serieView;
     }

@@ -21,7 +21,7 @@ public class Serie extends EntityModel
     private List<Actor> actors;
     
     @Reference
-    private Director director;
+    private List<Director> director;
     
     @Reference
     private List<Genre> genre;
@@ -57,12 +57,12 @@ public class Serie extends EntityModel
         this.actors = actors;
     }
 
-    public Director getDirector()
+    public List<Director> getDirectors()
     {
         return director;
     }
 
-    public void setDirector(Director director)
+    public void setDirector(List<Director> director)
     {
         this.director = director;
     }
