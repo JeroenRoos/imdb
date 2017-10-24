@@ -28,6 +28,7 @@ import org.bson.types.ObjectId;
 public class SerieService extends BaseService
 {
     private final SerieDAO serieDAO;
+    private ResultService resultService = new ResultService();
     
     @Inject
     public SerieService(SerieDAO serieDAO)
@@ -44,7 +45,7 @@ public class SerieService extends BaseService
         // South park       : 59ef4baf6384632a4047d441
         
         Serie serie = serieDAO.get(serieId);
-        requireResult(serie, "Serie not found");
+        resultService.requireResult(serie, "Serie not found");
         return serie;
     }
     
@@ -89,13 +90,6 @@ public class SerieService extends BaseService
             objectId = new ObjectId(serieId);
             serieDAO.deleteById(objectId);
         }
-    }
-    
-    
-    protected void requireResult(Object obj, String message) throws NotFoundException
-    {
-        if (obj == null)
-            throw new NotFoundException(message);
     }
     
     
