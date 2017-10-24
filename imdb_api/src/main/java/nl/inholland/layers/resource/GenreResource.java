@@ -8,6 +8,7 @@ package nl.inholland.layers.resource;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -61,5 +62,11 @@ public class GenreResource extends BaseResource{
     @Path("/{GenreId}")
     public void update(@PathParam("GenreId") String genreId, Genre genre){
         genreService.update(genreId, genre);
+    }
+    
+    @DELETE
+    @Path("/{GenreId}")
+    public void delete(@PathParam("GenreId") String genreId){
+        genreService.delete(genreId);
     }
 }
