@@ -14,7 +14,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
+import nl.inholland.layers.model.Actor;
 import nl.inholland.layers.model.Director;
+import nl.inholland.layers.model.Genre;
 import nl.inholland.layers.model.Serie;
 import nl.inholland.layers.persistence.SerieDAO;
 import org.bson.types.ObjectId;
@@ -55,15 +57,38 @@ public class SerieService extends BaseService
     
     @POST
     public void create(Serie serie)
-    {
-         //if(ObjectId.isValid(serie.getDirectors().))
-                 
-        for (Director d : serie.getDirectors())
+    {  
+        // Check the objectId the director
+        /* for (Director d : serie.getDirectors())
         {
-            if (ObjectId.isValid(d.getId().toString()));
+            if (!ObjectId.isValid(d.getId().toString()))
+                requireResult(serie, "The director for this serie is not found");
         }
         
+        for (Actor a : serie.getActors())
+        {
+            if (!ObjectId.isValid(a.getId().toString()))
+                requireResult(serie, "The actor for this serie is not found");
+        }
+        
+        for (Genre g : serie.getGenre())
+        {
+            if (!ObjectId.isValid(g.getId().toString()))
+                requireResult(serie, "The genre for this serie is not found");
+        } */
+        
         serieDAO.create(serie);
+    }
+    
+      
+    public void delete(String serieId)
+    {
+        ObjectId objectId;
+        if(ObjectId.isValid(serieId))
+        {
+            objectId = new ObjectId(serieId);
+            serieDAO.deleteById(objectId);
+        }
     }
     
     
@@ -72,5 +97,7 @@ public class SerieService extends BaseService
         if (obj == null)
             throw new NotFoundException(message);
     }
+    
+    
     
 }

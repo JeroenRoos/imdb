@@ -8,6 +8,7 @@ package nl.inholland.layers.resource;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -59,5 +60,12 @@ public class SerieResource extends BaseResource
     public void create(Serie serie)
     {
         serieService.create(serie);
+    }
+    
+    @DELETE
+    @Path("/{SerieId}")
+    public void delete(@PathParam("SerieId") String serieId)
+    {
+        serieService.delete(serieId);
     }
 }
