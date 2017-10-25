@@ -8,8 +8,10 @@ package nl.inholland.layers.resource;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -17,6 +19,7 @@ import javax.ws.rs.core.MediaType;
 import nl.inholland.layers.model.Director;
 import nl.inholland.layers.presentation.model.DirectorPresenter;
 import nl.inholland.layers.service.DirectorService;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -58,5 +61,19 @@ public class DirectorResource extends BaseResource
     public void create(Director director)
     {
         directorService.create(director);
+    }
+    
+    @PUT
+    @Path("/{DirectorId}")
+    public void update(@PathParam("DirectorId")String directorId, Director director)
+    {
+        directorService.update(directorId, director);
+    }
+    
+    @DELETE
+    @Path("/{DirectorId}")
+    public void delete(@PathParam("DirectorId") String directorId)
+    {
+        directorService.delete(directorId);
     }
 }

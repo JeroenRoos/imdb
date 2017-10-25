@@ -7,6 +7,7 @@ package nl.inholland.layers.service;
 
 import javax.inject.Singleton;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.WebApplicationException;
 
 @Singleton
 public class ResultService {
@@ -16,4 +17,10 @@ public class ResultService {
         if (obj == null)
             throw new NotFoundException(message);
     }
+    
+    public void emptyField(String message) throws WebApplicationException
+    {
+        throw new WebApplicationException(message);
+    }
+           
 }
