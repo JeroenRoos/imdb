@@ -24,8 +24,11 @@ import org.mongodb.morphia.dao.BasicDAO;
 @Singleton
 public abstract class BaseDAO< T extends EntityModel > extends BasicDAO< T, ObjectId>
 {
+    private Datastore ds;
+    
     public BaseDAO( Class < T > entityClass, Datastore ds){
         super(entityClass, ds);
+        this.ds = ds;
     }
     
     public T get( String id){
@@ -40,10 +43,10 @@ public abstract class BaseDAO< T extends EntityModel > extends BasicDAO< T, Obje
         save(obj);
     }
     
-    public void createMore(List<T> objects){
-        save(objects);
+    public void createMany( List<T> objects){
+        ds.save(objects);
     }
-    
+        
     public void update(T obj){
         save(obj);
     }

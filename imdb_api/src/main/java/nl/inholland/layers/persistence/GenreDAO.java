@@ -17,4 +17,5 @@ public class GenreDAO extends BaseDAO<Genre> {
     {
         super(Genre.class, ds);
     }
+    
 }
