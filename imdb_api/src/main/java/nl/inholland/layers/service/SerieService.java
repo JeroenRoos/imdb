@@ -52,7 +52,7 @@ public class SerieService extends BaseService
     @GET
     public List<Serie> getAll()
     {
-        List<Serie> lstSeries = new ArrayList<Serie>(serieDAO.getAll());
+        List<Serie> lstSeries = new ArrayList<>(serieDAO.getAll());
         
         if (lstSeries.size() == 0)
             resultService.requireResult(lstSeries, "Serie not found");
@@ -62,26 +62,7 @@ public class SerieService extends BaseService
     
     @POST
     public void create(Serie serie)
-    {  
-        // Check the objectId the director
-        /* for (Director d : serie.getDirectors())
-        {
-            if (!ObjectId.isValid(d.getId().toString()))
-                requireResult(serie, "The director for this serie is not found");
-        }
-        
-        for (Actor a : serie.getActors())
-        {
-            if (!ObjectId.isValid(a.getId().toString()))
-                requireResult(serie, "The actor for this serie is not found");
-        }
-        
-        for (Genre g : serie.getGenre())
-        {
-            if (!ObjectId.isValid(g.getId().toString()))
-                requireResult(serie, "The genre for this serie is not found");
-        } */
-        
+    {         
         serieDAO.create(serie);
     }
     

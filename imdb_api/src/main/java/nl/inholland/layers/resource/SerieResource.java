@@ -19,7 +19,6 @@ import nl.inholland.layers.model.Serie;
 import nl.inholland.layers.model.SerieView;
 import nl.inholland.layers.presentation.model.SeriePresenter;
 import nl.inholland.layers.service.SerieService;
-import org.bson.types.ObjectId;
 
 /**
  *

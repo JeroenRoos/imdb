@@ -40,7 +40,7 @@ public abstract class BaseDAO< T extends EntityModel > extends BasicDAO< T, Obje
     }
     
     public void create( T obj){
-        save(obj);
+        ds.save(obj);
     }
     
     public void createMany( List<T> objects){
