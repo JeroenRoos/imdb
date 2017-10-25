@@ -53,6 +53,10 @@ public class SerieService extends BaseService
     public List<Serie> getAll()
     {
         List<Serie> lstSeries = new ArrayList<Serie>(serieDAO.getAll());
+        
+        if (lstSeries.size() == 0)
+            resultService.requireResult(lstSeries, "Serie not found");
+        
         return lstSeries;
     }
     
@@ -90,6 +94,8 @@ public class SerieService extends BaseService
             objectId = new ObjectId(serieId);
             serieDAO.deleteById(objectId);
         }
+        else
+            resultService.requireResult(serieId, "The document you're trying to delete doesn't exist.");
     }
     
     
