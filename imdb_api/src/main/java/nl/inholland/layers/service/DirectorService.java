@@ -103,10 +103,11 @@ public class DirectorService extends BaseService
         else if (director.getLastName() == "")
             resultService.emptyField("Lastname cannot be an empty string");
 
-        if (director.getAge() != 0)
+        // Dit nog fixen, als je niks invult is age automatisch 0
+        if (director.getAge() >= 18)
             update.set("age", director.getAge());
-        else if (director.getAge() == 0)
-            resultService.emptyField("Director cannot be aged 0");
+        else if (director.getAge() < 18)
+            resultService.emptyField("Director must be older than 18.");
     }
 
     public void delete(String directorId)
