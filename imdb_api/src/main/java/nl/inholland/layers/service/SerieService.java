@@ -67,6 +67,8 @@ public class SerieService extends BaseService
             UpdateOperations<Serie> update = serieDAO.createUpdateOperations();
             
             // TODO: Checks of de data in serie goed ingevuld is
+            
+            
             update.set("title", serie.getTitle());
             
             serieDAO.update(query, update);

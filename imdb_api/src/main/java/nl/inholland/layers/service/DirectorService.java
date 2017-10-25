@@ -28,15 +28,15 @@ import org.mongodb.morphia.query.UpdateOperations;
  */
 public class DirectorService extends BaseService
 {
+
     private final DirectorDAO directorDAO;
     private ResultService resultService = new ResultService();
-    
+
     @Inject
     public DirectorService(DirectorDAO directorDAO)
     {
         this.directorDAO = directorDAO;
     }
-    
 
     public Director get(String directorId)
     {
@@ -44,55 +44,66 @@ public class DirectorService extends BaseService
         resultService.requireResult(director, "Director not found");
         return director;
     }
-    
+
     public List<Director> getAll()
     {
         List<Director> lstDirectors = new ArrayList<>(directorDAO.getAll());
-        
+
         if (lstDirectors.size() == 0)
+        {
             resultService.requireResult(lstDirectors, "No directors found");
-        
+        }
+
         return lstDirectors;
     }
-    
+
     public void create(Director director)
     {
-        // TODO: Checks of de data in director goed ingevuld is
+        if (director.getFirstName() == "" || director.getFirstName() == null)
+            resultService.emptyField("Firstname cannot be an empty string");
+
+        if (director.getLastName() == "" || director.getLastName() == null)
+            resultService.emptyField("Lastname cannot be an empty string");
+
+        if (director.getAge() == 0)
+            resultService.emptyField("Director cannot be aged 0");
+
         directorDAO.create(director);
     }
-    
+
     public void update(String directorId, Director director)
     {
         ObjectId objectId;
-        if(ObjectId.isValid(directorId))
+        if (ObjectId.isValid(directorId))
         {
             objectId = new ObjectId(directorId);
             Query query = directorDAO.createQuery().field("_id").equal(objectId);
             UpdateOperations<Director> update = directorDAO.createUpdateOperations();
-            
+
             if (director.getFirstName() != "" && director.getFirstName() != null)
                 update.set("firstName", director.getFirstName());
             else if (director.getFirstName() == "")
                 resultService.emptyField("Firstname cannot be an empty string");
-            
-            if (director.getLastName() != "" && director.getLastName() != null)                    
+
+            if (director.getLastName() != "" && director.getLastName() != null)
                 update.set("lastName", director.getLastName());
             else if (director.getLastName() == "")
                 resultService.emptyField("Lastname cannot be an empty string");
-                    
+
             if (director.getAge() != 0)
-                    update.set("age", director.getAge());
+                update.set("age", director.getAge());
             else if (director.getAge() == 0)
                 resultService.emptyField("Director cannot be aged 0");
-            
+
             directorDAO.update(query, update);
         }
     }
-    
-    public void delete (String directorId)
+
+    public void delete(String directorId)
     {
         ObjectId objectId;
-        if(ObjectId.isValid(directorId)){
+        if (ObjectId.isValid(directorId))
+        {
             objectId = new ObjectId(directorId);
             directorDAO.deleteById(objectId);
         }
