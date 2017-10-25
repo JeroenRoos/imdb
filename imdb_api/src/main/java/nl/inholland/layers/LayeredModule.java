@@ -9,6 +9,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
+import com.mongodb.MongoException;
 import com.mongodb.ServerAddress;
 import javax.inject.Singleton;
 import org.mongodb.morphia.Datastore;
@@ -20,6 +21,9 @@ import org.mongodb.morphia.Morphia;
  */
 public class LayeredModule extends AbstractModule
 {
+    private final String DB_PASSWORD = System.getenv("DBPassword");
+    private final String DB_USERNAME = System.getenv("DBUsername"); 
+    
     @Override
     protected void configure()
     {
@@ -29,8 +33,8 @@ public class LayeredModule extends AbstractModule
     @Singleton
     Datastore providesDatastore()
     {
-        MongoClient mongo = new MongoClient(new MongoClientURI("mongodb://imdb:imdb@ds121575.mlab.com:21575/imdb"));
-        
+        MongoClient mongo = new MongoClient(new MongoClientURI("mongodb://" + DB_USERNAME + ":" + DB_PASSWORD + "@ds121575.mlab.com:21575/imdb"));
+
         Morphia morphia = new Morphia();
         
         return morphia.createDatastore(mongo, "imdb");

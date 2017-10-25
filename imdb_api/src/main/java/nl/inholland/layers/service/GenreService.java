@@ -45,9 +45,13 @@ public class GenreService extends BaseService {
         return genre;
     }
     
-    public void create(Genre genre){
-        genreDAO.create(genre);
+    public void create(List<Genre> genres){
+        genreDAO.save(genres);
     }
+    
+//    public void createMultiple(List<Genre> genres){
+//        genreDAO.createQuery();
+//    }
     
     public void update(String genreId, Genre genre){
         ObjectId objectId;

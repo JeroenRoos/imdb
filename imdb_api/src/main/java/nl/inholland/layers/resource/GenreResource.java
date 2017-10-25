@@ -53,10 +53,16 @@ public class GenreResource extends BaseResource{
     }
     
     @POST
-    public void create(Genre genre){
-        genreService.create(genre);
+    public void create(List<Genre> genres){
+        genreService.create(genres);
         
     }
+    
+//    @POST
+//    @Consumes(ArrayList(MediaType.APPLICATION_JSON))
+//    public void createMultiple(List<Genre> genres){
+//        genreService.createMultiple(genres);
+//    }
     
     @PUT
     @Path("/{GenreId}")

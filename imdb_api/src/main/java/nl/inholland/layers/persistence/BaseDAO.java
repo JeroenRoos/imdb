@@ -40,6 +40,10 @@ public abstract class BaseDAO< T extends EntityModel > extends BasicDAO< T, Obje
         save(obj);
     }
     
+    public void createMore(List<T> objects){
+        save(objects);
+    }
+    
     public void update(T obj){
         save(obj);
     }
