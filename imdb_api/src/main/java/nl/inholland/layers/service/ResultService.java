@@ -8,6 +8,7 @@ package nl.inholland.layers.service;
 import javax.inject.Singleton;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.WebApplicationException;
+import org.mongodb.morphia.query.UpdateOperations;
 
 @Singleton
 public class ResultService {
@@ -21,6 +22,5 @@ public class ResultService {
     public void emptyField(String message) throws WebApplicationException
     {
         throw new WebApplicationException(message);
-    }
-           
+    }           
 }

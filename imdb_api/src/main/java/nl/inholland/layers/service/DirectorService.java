@@ -59,16 +59,21 @@ public class DirectorService extends BaseService
 
     public void create(Director director)
     {
+        checkCreateValidity(director);
+        directorDAO.create(director);
+    }
+    
+    private void checkCreateValidity(Director director)
+    {
         if (director.getFirstName() == "" || director.getFirstName() == null)
             resultService.emptyField("Firstname cannot be an empty string");
-
+        
         if (director.getLastName() == "" || director.getLastName() == null)
             resultService.emptyField("Lastname cannot be an empty string");
-
+        
         if (director.getAge() == 0)
             resultService.emptyField("Director cannot be aged 0");
-
-        directorDAO.create(director);
+        
     }
 
     public void update(String directorId, Director director)
@@ -80,23 +85,28 @@ public class DirectorService extends BaseService
             Query query = directorDAO.createQuery().field("_id").equal(objectId);
             UpdateOperations<Director> update = directorDAO.createUpdateOperations();
 
-            if (director.getFirstName() != "" && director.getFirstName() != null)
-                update.set("firstName", director.getFirstName());
-            else if (director.getFirstName() == "")
-                resultService.emptyField("Firstname cannot be an empty string");
-
-            if (director.getLastName() != "" && director.getLastName() != null)
-                update.set("lastName", director.getLastName());
-            else if (director.getLastName() == "")
-                resultService.emptyField("Lastname cannot be an empty string");
-
-            if (director.getAge() != 0)
-                update.set("age", director.getAge());
-            else if (director.getAge() == 0)
-                resultService.emptyField("Director cannot be aged 0");
-
+            checkUpdateValidity(update, director);
+            
             directorDAO.update(query, update);
         }
+    }
+
+    private void checkUpdateValidity(UpdateOperations<Director> update, Director director)
+    {
+        if (director.getFirstName() != "" && director.getFirstName() != null)
+            update.set("firstName", director.getFirstName());
+        else if (director.getFirstName() == "")
+            resultService.emptyField("Firstname cannot be an empty string");
+
+        if (director.getLastName() != "" && director.getLastName() != null)
+            update.set("lastName", director.getLastName());
+        else if (director.getLastName() == "")
+            resultService.emptyField("Lastname cannot be an empty string");
+
+        if (director.getAge() != 0)
+            update.set("age", director.getAge());
+        else if (director.getAge() == 0)
+            resultService.emptyField("Director cannot be aged 0");
     }
 
     public void delete(String directorId)

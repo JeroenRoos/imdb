@@ -53,8 +53,29 @@ public class SerieService extends BaseService
     
     public void create(Serie serie)
     {         
-        // TODO: Checks of de data in serie goed ingevuld is
+        checkCreateValidity(serie);
         serieDAO.create(serie);
+    }
+    
+    private void checkCreateValidity(Serie serie)
+    {
+            if (serie.getTitle() == null || serie.getTitle() == "")
+                resultService.emptyField("Title cannot be an empty string.");
+            
+            if (serie.getSummary() == null || serie.getSummary() == "")
+                resultService.emptyField("Summary cannot be an empty string.");
+            
+            if (serie.getYear() <= 1878)
+                resultService.emptyField("The year of the movie cannot be lower than 1878. The first movie ever made comes from this year.");
+            
+            if (serie.getGenre().isEmpty())
+                resultService.emptyField("The movie must have a genre.");
+            
+            if (serie.getActors().isEmpty())
+                resultService.emptyField("The movie must have an actor.");    
+            
+            if (serie.getDirectors().isEmpty())
+                resultService.emptyField("The movie must have an director.");
     }
     
     public void update(String serieId, Serie serie)
@@ -66,13 +87,43 @@ public class SerieService extends BaseService
             Query query = serieDAO.createQuery().field("_id").equal(objectId);
             UpdateOperations<Serie> update = serieDAO.createUpdateOperations();
             
-            // TODO: Checks of de data in serie goed ingevuld is
-            
-            
-            update.set("title", serie.getTitle());
-            
+            checkUpdateValidity(update, serie);
+         
             serieDAO.update(query, update);
         }
+    }
+    
+    private void checkUpdateValidity(UpdateOperations<Serie> update, Serie serie)
+    {
+        if (serie.getTitle() != null && serie.getTitle() != "")
+                update.set("title", serie.getTitle());
+            else if (serie.getTitle() == "")
+                resultService.emptyField("Title cannot be an empty string.");
+            
+            if (serie.getSummary() != null && serie.getSummary() != "")
+                update.set("summary", serie.getSummary());
+            else if (serie.getSummary() == "")
+                resultService.emptyField("Summary cannot be an empty string.");
+            
+            if (serie.getYear() >= 1878)
+                update.set("year", serie.getYear());
+            else 
+                resultService.emptyField("The year of the movie cannot be lower than 1878. The first movie ever made comes from this year.");
+            
+            if (!serie.getGenre().isEmpty())
+                update.set("genre", serie.getGenre());
+            else 
+                resultService.emptyField("The movie must have a genre.");
+            
+            if (!serie.getActors().isEmpty())
+                update.set("actors", serie.getActors());
+            else
+                resultService.emptyField("The movie must have an actor.");    
+            
+            if (!serie.getDirectors().isEmpty())
+                update.set("director", serie.getDirectors());
+            else 
+                resultService.emptyField("The movie must have an director.");
     }
       
     public void delete(String serieId)
