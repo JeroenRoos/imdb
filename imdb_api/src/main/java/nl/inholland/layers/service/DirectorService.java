@@ -5,14 +5,18 @@
  */
 package nl.inholland.layers.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import nl.inholland.layers.model.Director;
 import nl.inholland.layers.model.Genre;
+import nl.inholland.layers.model.Serie;
 import nl.inholland.layers.persistence.DirectorDAO;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.query.Query;
@@ -33,31 +37,35 @@ public class DirectorService extends BaseService
         this.directorDAO = directorDAO;
     }
     
-    @GET
-    @Path("/{_id}")
-    public Director get(@PathParam("_id") String directorId)
+
+    public Director get(String directorId)
     {
-        //TODO
-        return null;
+        Director director = directorDAO.get(directorId);
+        resultService.requireResult(director, "Director not found");
+        return director;
     }
     
-    @GET
     public List<Director> getAll()
     {
-        //TODO
-        return null;
+        List<Director> lstDirectors = new ArrayList<>(directorDAO.getAll());
+        
+        if (lstDirectors.size() == 0)
+            resultService.requireResult(lstDirectors, "No directors found");
+        
+        return lstDirectors;
     }
     
-    @POST
     public void create(Director director)
     {
+        // TODO: Checks of de data in director goed ingevuld is
         directorDAO.create(director);
     }
     
     public void update(String directorId, Director director)
     {
-         ObjectId objectId;
-        if(ObjectId.isValid(directorId)){
+        ObjectId objectId;
+        if(ObjectId.isValid(directorId))
+        {
             objectId = new ObjectId(directorId);
             Query query = directorDAO.createQuery().field("_id").equal(objectId);
             UpdateOperations<Director> update = directorDAO.createUpdateOperations();
@@ -74,6 +82,8 @@ public class DirectorService extends BaseService
                     
             if (director.getAge() != 0)
                     update.set("age", director.getAge());
+            else if (director.getAge() == 0)
+                resultService.emptyField("Director cannot be aged 0");
             
             directorDAO.update(query, update);
         }

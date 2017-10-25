@@ -8,18 +8,12 @@ package nl.inholland.layers.service;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.NotFoundException;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
-import nl.inholland.layers.model.Actor;
 import nl.inholland.layers.model.Director;
-import nl.inholland.layers.model.Genre;
 import nl.inholland.layers.model.Serie;
 import nl.inholland.layers.persistence.SerieDAO;
 import org.bson.types.ObjectId;
+import org.mongodb.morphia.query.Query;
+import org.mongodb.morphia.query.UpdateOperations;
 
 /**
  *
@@ -35,10 +29,8 @@ public class SerieService extends BaseService
     {
         this.serieDAO = serieDAO;
     }
-    
-    @GET
-    @Path("/{_id}")
-    public Serie get (@PathParam("_id") String serieId)
+
+    public Serie get (String serieId)
     {
         // Game of Thrones  : 59e5d711df5ac0534fbe1670
         // Mr. Robot        : 59e5d463df5ac0534fbde725
@@ -49,7 +41,6 @@ public class SerieService extends BaseService
         return serie;
     }
     
-    @GET
     public List<Serie> getAll()
     {
         List<Serie> lstSeries = new ArrayList<>(serieDAO.getAll());
@@ -60,12 +51,26 @@ public class SerieService extends BaseService
         return lstSeries;
     }
     
-    @POST
     public void create(Serie serie)
     {         
+        // TODO: Checks of de data in serie goed ingevuld is
         serieDAO.create(serie);
     }
     
+    public void update(String serieId, Serie serie)
+    {
+        ObjectId objectId;
+        if(ObjectId.isValid(serieId))
+        {
+            objectId = new ObjectId(serieId);
+            Query query = serieDAO.createQuery().field("_id").equal(objectId);
+            UpdateOperations<Serie> update = serieDAO.createUpdateOperations();
+            
+            // TODO: Checks of de data in serie goed ingevuld is
+            
+            serieDAO.update(query, update);
+        }
+    }
       
     public void delete(String serieId)
     {

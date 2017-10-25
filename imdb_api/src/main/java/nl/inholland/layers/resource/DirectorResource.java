@@ -17,9 +17,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import nl.inholland.layers.model.Director;
+import nl.inholland.layers.model.DirectorView;
 import nl.inholland.layers.presentation.model.DirectorPresenter;
 import nl.inholland.layers.service.DirectorService;
-import org.bson.types.ObjectId;
 
 /**
  *
@@ -43,18 +43,18 @@ public class DirectorResource extends BaseResource
     }
     
     @GET
-    public List<Director> getAll()
+    public List<DirectorView> getAll()
     {
-        //TODO
-        return null;
+        List<Director> lstDirectors = directorService.getAll();
+        return directorPresenter.present(lstDirectors);
     }
     
     @GET
-    @Path("{GenreId}")
-    public Director get (@PathParam("DirectorId") String directorId)
+    @Path("/{DirectorId}")
+    public DirectorView get (@PathParam("DirectorId") String directorId)
     {
-        //TODO
-        return null;
+        Director director = directorService.get(directorId);
+        return directorPresenter.present(director);
     }
     
     @POST
