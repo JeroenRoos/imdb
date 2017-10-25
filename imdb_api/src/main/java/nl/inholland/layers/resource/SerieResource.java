@@ -11,6 +11,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -59,6 +60,13 @@ public class SerieResource extends BaseResource
     public void create(Serie serie)
     {
         serieService.create(serie);
+    }
+    
+    @PUT
+    @Path("/{SerieId}")
+    public void update(@PathParam("SerieId") String serieId, Serie serie)
+    {
+        serieService.update(serieId, serie);
     }
     
     @DELETE
