@@ -53,7 +53,14 @@ public class DirectorService extends BaseService
     {
         List<Director> lstDirectors = directorDAO.getByLastName(directorName);
         return lstDirectors;
+    }  
+    
+    public List<Director> getByAge(String age)
+    {
+        List<Director> lstDirectors = directorDAO.getByAge(Integer.parseInt(age));
+        return lstDirectors;
     }
+    
     
     public void create(Director director)
     {

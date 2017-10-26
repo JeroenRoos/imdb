@@ -28,4 +28,9 @@ public class DirectorDAO extends BaseDAO<Director>
         return createQuery().field("lastName").equal(directorName).asList();
     }
     
+    public List<Director> getByAge(int age)
+    {
+        return createQuery().field("age").equal(age).asList();
+    }
+    
 }
