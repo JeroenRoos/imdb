@@ -43,9 +43,9 @@ public class SerieService extends BaseService
     
     public List<Serie> getAll()
     {
-        List<Serie> lstSeries = new ArrayList<>(serieDAO.getAll());
+        List<Serie> lstSeries = serieDAO.getAll();
         
-        if (lstSeries.size() == 0)
+        if (lstSeries.isEmpty())
             resultService.requireResult(lstSeries, "Serie not found");
         
         return lstSeries;
@@ -67,10 +67,10 @@ public class SerieService extends BaseService
     
     private void checkCreateValidity(Serie serie)
     {
-            if (serie.getTitle() == null || serie.getTitle() == "")
+            if (serie.getTitle() == null || "".equals(serie.getTitle()))
                 resultService.emptyField("Title cannot be an empty string.");
             
-            if (serie.getSummary() == null || serie.getSummary() == "")
+            if (serie.getSummary() == null || "".equals(serie.getSummary()))
                 resultService.emptyField("Summary cannot be an empty string.");
             
             if (serie.getYear() <= 1878)
@@ -103,14 +103,14 @@ public class SerieService extends BaseService
     
     private void checkUpdateValidity(UpdateOperations<Serie> update, Serie serie)
     {
-        if (serie.getTitle() != null && serie.getTitle() != "")
+        if (serie.getTitle() != null && !"".equals(serie.getTitle()))
                 update.set("title", serie.getTitle());
-            else if (serie.getTitle() == "")
+            else if ("".equals(serie.getTitle()))
                 resultService.emptyField("Title cannot be an empty string.");
             
-            if (serie.getSummary() != null && serie.getSummary() != "")
+            if (serie.getSummary() != null && !"".equals(serie.getSummary()))
                 update.set("summary", serie.getSummary());
-            else if (serie.getSummary() == "")
+            else if ("".equals(serie.getSummary()))
                 resultService.emptyField("Summary cannot be an empty string.");
             
             if (serie.getYear() >= 1878)
