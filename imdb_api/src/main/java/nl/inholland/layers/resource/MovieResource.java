@@ -5,14 +5,19 @@
  */
 package nl.inholland.layers.resource;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -20,37 +25,61 @@ import nl.inholland.layers.model.Movie;
 import nl.inholland.layers.model.MovieView;
 import nl.inholland.layers.presentation.model.MoviePresenter;
 import nl.inholland.layers.service.MovieService;
+import org.bson.types.ObjectId;
 
 @Path("/movies")
 @Consumes (MediaType.APPLICATION_JSON)
 @Produces (MediaType.APPLICATION_JSON)
 public class MovieResource extends BaseResource
 {
-    private final MovieService MovieService;
-    private final MoviePresenter MoviePresenter;
+    private final MovieService movieService;
+    private final MoviePresenter moviePresenter;
     
     @Inject
-    public MovieResource( MovieService MovieService,
-            MoviePresenter MoviePresenter){
-        this.MovieService = MovieService;
-        this.MoviePresenter = MoviePresenter;
+    public MovieResource( MovieService movieService,
+            MoviePresenter moviePresenter){
+        this.movieService = movieService;
+        this.moviePresenter = moviePresenter;
     }
     
     @GET
     public List<MovieView> getAll(@Context HttpHeaders httpHeaders){
         
         List<String> headers = httpHeaders.getRequestHeader("authtoken");
-        List<Movie> movies = MovieService.getAll();
+        List<Movie> movies = movieService.getAll();
         
-        return MoviePresenter.present(movies);
+        return moviePresenter.present(movies);
     }
     
     @GET
     @Path("/{MovieId}")
-    public Movie get( @PathParam("MovieId") String MovieId){
-        Movie Movie = MovieService.get(MovieId);
+    public Movie get( @PathParam("MovieId") String movieId){
+        Movie Movie = movieService.get(movieId);
         
-        return MoviePresenter.present(Movie);
+        return moviePresenter.present(Movie);
+    }
+    
+    @PUT
+    public void update(@QueryParam("id") String movieIds){
+        List<String> movieIdsAsList = Arrays.asList(movieIds.split(","));
+        
+        movieService.update(movieIdsAsList);
+        
+    }
+    
+    @DELETE
+    public void delete(@QueryParam("id") String movieIds){
+        List<String> movieIdsAsList = Arrays.asList(movieIds.split(","));
+        List<ObjectId> movieIdsAsObjectIdList = new ArrayList<>();
+        
+        for(String id : movieIdsAsList){
+            if(ObjectId.isValid(id)){
+                ObjectId objectId = new ObjectId(id);
+                movieIdsAsObjectIdList.add(objectId);
+            }
+        }
+        movieService.delete(movieIdsAsObjectIdList);
+
     }
     
     @POST

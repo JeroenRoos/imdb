@@ -13,6 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import nl.inholland.layers.model.Movie;
 import nl.inholland.layers.persistence.MovieDAO;
+import org.bson.types.ObjectId;
 
 public class MovieService extends BaseService
 {
@@ -33,6 +34,14 @@ public class MovieService extends BaseService
     {
         List<Movie> movies = movieDAO.getAll();
         return movies;
+    }
+    
+    public void update(List<String> movieIds){
+        
+    }
+    
+    public void delete(List<ObjectId> movieIds){
+        movieDAO.deleteManyById(movieIds);
     }
     
 }

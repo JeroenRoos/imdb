@@ -50,4 +50,5 @@ public abstract class BaseDAO< T extends EntityModel > extends BasicDAO< T, Obje
     public void update(T obj){
         save(obj);
     }
+
 }
