@@ -24,17 +24,19 @@ public class UserService extends BaseService
         this.userDAO = userDAO;
     }
     
-    @GET
-    @Path("{userId}")
     public User get(@PathParam("userId")String userId)
     {
         return null;
     }
-
-    @GET
+    
     public List<User> getAll()
     {
         List<User> users = new ArrayList<User>(userDAO.getAll());
+        return users;
+    }
+    
+    public List<User> getByGender(String gender){
+        List<User> users = userDAO.getByGender(gender);
         return users;
     }
     
