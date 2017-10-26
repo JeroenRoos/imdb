@@ -9,12 +9,14 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import nl.inholland.layers.model.Director;
 import nl.inholland.layers.model.DirectorView;
@@ -43,9 +45,14 @@ public class DirectorResource extends BaseResource
     }
     
     @GET
-    public List<DirectorView> getAll()
+    public List<DirectorView> getAll(@DefaultValue("") @QueryParam("lastName") String lastName)
     {
-        List<Director> lstDirectors = directorService.getAll();
+        List<Director> lstDirectors;
+        if (!"".equals(lastName))
+            lstDirectors = directorService.getByName(lastName);
+        else
+            lstDirectors = directorService.getAll();
+        
         return directorPresenter.present(lstDirectors);
     }
     
@@ -55,14 +62,6 @@ public class DirectorResource extends BaseResource
     {
         Director director = directorService.get(directorId);
         return directorPresenter.present(director);
-    }
-    
-    @GET
-    @Path("/{directorName}")
-    public DirectorView getByName(@PathParam("directorName") String directorName)
-    {
-        
-        return null;
     }
     
     @POST
