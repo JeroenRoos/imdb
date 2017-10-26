@@ -55,9 +55,19 @@ public class DirectorService extends BaseService
         return lstDirectors;
     }  
     
-    public List<Director> getByAge(String age)
+    public List<Director> getByAge(String directorAge)
     {
-        List<Director> lstDirectors = directorDAO.getByAge(Integer.parseInt(age));
+        int age = 0;
+        try
+        {
+            age = Integer.parseInt(directorAge);
+        }
+        catch (Exception ex)
+        {
+            resultService.parsingError("Something went wrong while converting the age to an integer.");
+        }
+        
+        List<Director> lstDirectors = directorDAO.getByAge(age);
         return lstDirectors;
     }
     

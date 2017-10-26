@@ -22,5 +22,10 @@ public class ResultService {
     public void emptyField(String message) throws WebApplicationException
     {
         throw new WebApplicationException(message);
-    }           
+    }         
+    
+    public void parsingError(String message) throws WebApplicationException
+    {
+        throw new WebApplicationException(message);
+    }    
 }

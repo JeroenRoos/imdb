@@ -51,10 +51,10 @@ public class DirectorResource extends BaseResource
         List<Director> lstDirectors;
         if (!"".equals(lastName))
             lstDirectors = directorService.getByName(lastName);
+        
         else if (!"".equals(age))
-        {
             lstDirectors = directorService.getByAge(age);
-        }
+        
         else
             lstDirectors = directorService.getAll();
         
