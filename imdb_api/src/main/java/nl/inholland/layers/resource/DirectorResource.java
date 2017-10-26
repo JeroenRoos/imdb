@@ -57,6 +57,14 @@ public class DirectorResource extends BaseResource
         return directorPresenter.present(director);
     }
     
+    @GET
+    @Path("/{directorName}")
+    public DirectorView getByName(@PathParam("directorName") String directorName)
+    {
+        
+        return null;
+    }
+    
     @POST
     public void create(List<Director> lstDirectors)
     {
