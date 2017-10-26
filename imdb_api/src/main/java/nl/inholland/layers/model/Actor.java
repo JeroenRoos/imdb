@@ -5,7 +5,7 @@
  */
 package nl.inholland.layers.model;
 
-import java.security.Principal;
+
 import org.mongodb.morphia.annotations.Entity;
 
 @Entity(value = "actors")

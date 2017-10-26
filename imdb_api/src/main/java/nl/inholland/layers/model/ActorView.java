@@ -5,6 +5,8 @@
  */
 package nl.inholland.layers.model;
 
+import java.util.List;
+
 /**
  *
  * @author youp
@@ -15,6 +17,8 @@ public class ActorView
     
     private String lastName;
     
+   private List<ActorView> actors;
+   
     private int age;
 
     public String getFirstName()
@@ -46,4 +50,10 @@ public class ActorView
     {
         this.age = age;
     }
+    
+     public List<ActorView> getActors()
+    {
+        return actors;
+    }
+
 }
