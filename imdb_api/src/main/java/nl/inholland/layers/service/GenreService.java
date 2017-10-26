@@ -33,25 +33,29 @@ public class GenreService extends BaseService {
     
     public Genre get(String genreId)
     {
-        Genre genre = new Genre();
-        genre = genreDAO.get(genreId);
+        Genre genre = genreDAO.get(genreId);
         return genre;
     }
-
+    
     
     public List<Genre> getAll()
     {
-        List<Genre> genre = new ArrayList<Genre>(genreDAO.getAll());
+        List<Genre> genre = genreDAO.getAll();
         return genre;
     }
     
-    public void create(List<Genre> genres){
-        genreDAO.createMany(genres);
+    public List<Genre> getByName(String genreName){
+        List<Genre> genres = genreDAO.getByName(genreName);
+        return genres;
     }
     
-//    public void createMultiple(List<Genre> genres){
-//        genreDAO.createQuery();
-//    }
+    public void create(Genre genre){
+        genreDAO.create(genre);
+    }
+    
+    public void createMany(List<Genre> genres){
+        genreDAO.createMany(genres);
+    }
     
     public void update(String genreId, Genre genre){
         ObjectId objectId;
