@@ -34,7 +34,7 @@ public class MovieService extends BaseService
     @GET
     public List<Movie> getAll()
     {
-        List<Movie> movies = new ArrayList<Movie>(movieDAO.getAll());
+        List<Movie> movies = movieDAO.getAll();
         return movies;
     }
     

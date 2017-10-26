@@ -9,12 +9,14 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import nl.inholland.layers.presentation.model.GenrePresenter;
 import nl.inholland.layers.service.GenreService;
@@ -38,10 +40,19 @@ public class GenreResource extends BaseResource{
     }
     
     @GET
-    public List<Genre> getAll(){
-        List<Genre> genres = genreService.getAll();
+    public List<Genre> getAll(@DefaultValue("") @QueryParam("name") String genreName ){
+        if(!"".equals(genreName)){
+            List<Genre> genres = genreService.getByName(genreName);
+            
+            return genrePresenter.present(genres);
+
+        }else{
+            
+            List<Genre> genres = genreService.getAll();
         
-        return genrePresenter.present(genres);
+            return genrePresenter.present(genres);
+        }
+       
     }
     
     @GET
@@ -51,18 +62,11 @@ public class GenreResource extends BaseResource{
         
         return genrePresenter.present(genre);
     }
-    
+            
     @POST
-    public void create(List<Genre> genres){
-        genreService.create(genres);
-        
+    public void createMany(List<Genre> genres){
+        genreService.createMany(genres);
     }
-    
-//    @POST
-//    @Consumes(ArrayList(MediaType.APPLICATION_JSON))
-//    public void createMultiple(List<Genre> genres){
-//        genreService.createMultiple(genres);
-//    }
     
     @PUT
     @Path("/{GenreId}")

@@ -5,9 +5,11 @@
  */
 package nl.inholland.layers.persistence;
 
+import java.util.List;
 import javax.inject.Inject;
 import nl.inholland.layers.model.Genre;
 import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.query.Query;
 
 
 public class GenreDAO extends BaseDAO<Genre> {
@@ -18,4 +20,7 @@ public class GenreDAO extends BaseDAO<Genre> {
         super(Genre.class, ds);
     }
     
+        public List<Genre> getByName(String genreName){
+        return createQuery().field("name").equal(genreName).asList();
+    }
 }
