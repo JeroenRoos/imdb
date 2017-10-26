@@ -13,6 +13,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import nl.inholland.layers.model.Movie;
 import nl.inholland.layers.model.MovieView;
@@ -35,7 +37,9 @@ public class MovieResource extends BaseResource
     }
     
     @GET
-    public List<MovieView> getAll(){
+    public List<MovieView> getAll(@Context HttpHeaders httpHeaders){
+        
+        List<String> headers = httpHeaders.getRequestHeader("authtoken");
         List<Movie> movies = MovieService.getAll();
         
         return MoviePresenter.present(movies);
