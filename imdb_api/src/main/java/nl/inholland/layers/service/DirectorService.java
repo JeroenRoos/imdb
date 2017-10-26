@@ -8,15 +8,7 @@ package nl.inholland.layers.service;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import nl.inholland.layers.model.Director;
-import nl.inholland.layers.model.Genre;
-import nl.inholland.layers.model.Serie;
 import nl.inholland.layers.persistence.DirectorDAO;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.query.Query;
@@ -30,7 +22,7 @@ public class DirectorService extends BaseService
 {
 
     private final DirectorDAO directorDAO;
-    private ResultService resultService = new ResultService();
+    private final ResultService resultService = new ResultService();
 
     @Inject
     public DirectorService(DirectorDAO directorDAO)
@@ -49,13 +41,36 @@ public class DirectorService extends BaseService
     {
         List<Director> lstDirectors = new ArrayList<>(directorDAO.getAll());
 
-        if (lstDirectors.size() == 0)
+        if (lstDirectors.isEmpty())
         {
             resultService.requireResult(lstDirectors, "No directors found");
         }
 
         return lstDirectors;
     }
+    
+    public List<Director> getByName(String directorName)
+    {
+        List<Director> lstDirectors = directorDAO.getByLastName(directorName);
+        return lstDirectors;
+    }  
+    
+    public List<Director> getByAge(String directorAge)
+    {
+        int age = 0;
+        try
+        {
+            age = Integer.parseInt(directorAge);
+        }
+        catch (Exception ex)
+        {
+            resultService.parsingError("Something went wrong while converting the age to an integer.");
+        }
+        
+        List<Director> lstDirectors = directorDAO.getByAge(age);
+        return lstDirectors;
+    }
+    
     
     public void create(Director director)
     {
@@ -73,10 +88,10 @@ public class DirectorService extends BaseService
     
     private void checkCreateValidity(Director director)
     {
-        if (director.getFirstName() == "" || director.getFirstName() == null)
+        if ("".equals(director.getFirstName()) || director.getFirstName() == null)
             resultService.emptyField("Firstname cannot be an empty string");
         
-        if (director.getLastName() == "" || director.getLastName() == null)
+        if ("".equals(director.getLastName()) || director.getLastName() == null)
             resultService.emptyField("Lastname cannot be an empty string");
         
         if (director.getAge() == 0)
@@ -101,17 +116,16 @@ public class DirectorService extends BaseService
 
     private void checkUpdateValidity(UpdateOperations<Director> update, Director director)
     {
-        if (director.getFirstName() != "" && director.getFirstName() != null)
+        if (!"".equals(director.getFirstName()) && director.getFirstName() != null)
             update.set("firstName", director.getFirstName());
-        else if (director.getFirstName() == "")
+        else if ("".equals(director.getFirstName()))
             resultService.emptyField("Firstname cannot be an empty string");
 
-        if (director.getLastName() != "" && director.getLastName() != null)
+        if (!"".equals(director.getLastName()) && director.getLastName() != null)
             update.set("lastName", director.getLastName());
-        else if (director.getLastName() == "")
+        else if ("".equals(director.getLastName()))
             resultService.emptyField("Lastname cannot be an empty string");
 
-        // Dit nog fixen, als je niks invult is age automatisch 0
         if (director.getAge() >= 18)
             update.set("age", director.getAge());
         else if (director.getAge() < 18)
