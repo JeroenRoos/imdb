@@ -23,15 +23,12 @@ public class MovieService extends BaseService
     public MovieService(MovieDAO movieDAO){
         this.movieDAO = movieDAO;
     }
-    
-    @GET
-    @Path("{movieId}")
+
     public Movie get(@PathParam("MovieId")String movieId)
     {
         return null;
     }
-
-    @GET
+    
     public List<Movie> getAll()
     {
         List<Movie> movies = movieDAO.getAll();
