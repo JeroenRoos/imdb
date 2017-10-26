@@ -57,9 +57,12 @@ public class SerieResource extends BaseResource
     }
     
     @POST
-    public void create(Serie serie)
+    public void create(List<Serie> lstSeries)
     {
-        serieService.create(serie);
+        if (lstSeries.size() == 1)
+            serieService.create(lstSeries.get(0));
+        else
+            serieService.createMany(lstSeries);
     }
     
     @PUT

@@ -57,6 +57,14 @@ public class SerieService extends BaseService
         serieDAO.create(serie);
     }
     
+    public void createMany(List<Serie> lstSeries)
+    {         
+        for (Serie serie : lstSeries)
+            checkCreateValidity(serie);
+        
+        serieDAO.createMany(lstSeries);
+    }
+    
     private void checkCreateValidity(Serie serie)
     {
             if (serie.getTitle() == null || serie.getTitle() == "")
