@@ -5,6 +5,7 @@
  */
 package nl.inholland.layers.resource;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -22,6 +23,7 @@ import nl.inholland.layers.model.Director;
 import nl.inholland.layers.model.DirectorView;
 import nl.inholland.layers.presentation.model.DirectorPresenter;
 import nl.inholland.layers.service.DirectorService;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -79,16 +81,24 @@ public class DirectorResource extends BaseResource
     }
     
     @PUT
-    @Path("/{DirectorId}")
-    public void update(@PathParam("DirectorId")String directorId, Director director)
+    public void update(@QueryParam("DirectorId")String directorIds)
     {
-        directorService.update(directorId, director);
+        String[] ids = directorIds.split(",");
+        
+        // if (ids.length == 1)
+        //     directorService.update(ids[0]);
+        // else
+            directorService.updateMany(ids);
     }
     
     @DELETE
-    @Path("/{DirectorId}")
-    public void delete(@PathParam("DirectorId") String directorId)
-    {
-        directorService.delete(directorId);
+    public void delete(@QueryParam("DirectorId") String directorIds)
+    {     
+        String[] ids = directorIds.split(",");
+        
+        if (ids.length == 1)
+            directorService.delete(ids[0]);
+        else
+            directorService.deleteMany(ids);
     }
 }

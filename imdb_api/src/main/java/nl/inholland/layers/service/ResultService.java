@@ -27,5 +27,11 @@ public class ResultService {
     public void parsingError(String message) throws WebApplicationException
     {
         throw new WebApplicationException(message);
-    }    
+    } 
+    
+    public void noValidObjectId(String message)
+    {
+        throw new WebApplicationException(message);
+    }
+        
 }

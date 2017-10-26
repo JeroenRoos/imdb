@@ -94,7 +94,6 @@ public class DirectorService extends BaseService
         
         if (director.getAge() == 0)
             resultService.emptyField("Director cannot be aged 0");
-        
     }
 
     public void update(String directorId, Director director)
@@ -110,6 +109,11 @@ public class DirectorService extends BaseService
             
             directorDAO.update(query, update);
         }
+    }
+    
+    public void updateMany(String[] ids)
+    {
+        
     }
 
     private void checkUpdateValidity(UpdateOperations<Director> update, Director director)
@@ -129,7 +133,7 @@ public class DirectorService extends BaseService
         else if (director.getAge() < 18)
             resultService.emptyField("Director must be older than 18.");
     }
-
+    
     public void delete(String directorId)
     {
         ObjectId objectId;
@@ -138,5 +142,25 @@ public class DirectorService extends BaseService
             objectId = new ObjectId(directorId);
             directorDAO.deleteById(objectId);
         }
+        else
+            resultService.noValidObjectId("The director id is not valid");
+    }
+
+    public void deleteMany(String[] ids)
+    {
+        List<ObjectId> lstObjectIds = new ArrayList<>();
+        
+        for (int i = 0; i < ids.length; i++)
+        {
+            if (ObjectId.isValid(ids[i]))
+            {
+                ObjectId objectId = new ObjectId(ids[i]);
+                lstObjectIds.add(objectId);
+            }
+            else
+                resultService.noValidObjectId("The director id is not valid");
+        }
+        
+        directorDAO.deleteManyById(lstObjectIds);
     }
 }
