@@ -92,7 +92,7 @@ public class DirectorResource extends BaseResource
     }
     
     @DELETE
-    public void delete(@QueryParam("DirectorId") String directorIds)
+    public void delete(@QueryParam("id") String directorIds)
     {     
         String[] ids = directorIds.split(",");
         
