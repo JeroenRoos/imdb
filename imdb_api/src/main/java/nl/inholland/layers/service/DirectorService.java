@@ -96,24 +96,46 @@ public class DirectorService extends BaseService
             resultService.emptyField("Director cannot be aged 0");
     }
 
-    public void update(String directorId, Director director)
+    // Ik haal hier director op waardoor de director die geupdate zou moeten worden overschreven wordt
+    public void update(String directorId)
     {
         ObjectId objectId;
         if (ObjectId.isValid(directorId))
         {
+            Director director = directorDAO.get(directorId);
             objectId = new ObjectId(directorId);
             Query query = directorDAO.createQuery().field("_id").equal(objectId);
             UpdateOperations<Director> update = directorDAO.createUpdateOperations();
 
-            checkUpdateValidity(update, director);
-            
+            checkUpdateValidity(update, director);          
             directorDAO.update(query, update);
         }
     }
     
+    
+    // Ik haal hier director op waardoor de director die geupdate zou moeten worden overschreven wordt
     public void updateMany(String[] ids)
     {
+        //List<ObjectId> lstObjectIds = new ArrayList<>();
         
+        for (int i = 0; i < ids.length; i++)
+        {
+            if (ObjectId.isValid(ids[i]))
+            {
+                Director director = directorDAO.get(ids[i]);
+                ObjectId objectId = new ObjectId(ids[i]);
+                
+                Query query = directorDAO.createQuery().field("_id").equal(objectId);
+                UpdateOperations<Director> update = directorDAO.createUpdateOperations();
+                checkUpdateValidity(update, director); 
+                directorDAO.update(query, update);
+                //lstObjectIds.add(objectId);
+            }
+            else
+                resultService.noValidObjectId("The director id is not valid");
+        }
+        
+        //directorDAO.updateManyById(lstObjectIds);
     }
 
     private void checkUpdateValidity(UpdateOperations<Director> update, Director director)

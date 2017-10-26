@@ -81,15 +81,17 @@ public class DirectorResource extends BaseResource
     }
     
     @PUT
-    public void update(@QueryParam("DirectorId")String directorIds)
+    @Path("/{id}")
+    public void update(@PathParam("id") String directorIds)
     {
         String[] ids = directorIds.split(",");
         
-        // if (ids.length == 1)
-        //     directorService.update(ids[0]);
-        // else
+         if (ids.length == 1)
+             directorService.update(ids[0]);
+         else
             directorService.updateMany(ids);
     }
+    
     
     @DELETE
     public void delete(@QueryParam("id") String directorIds)
@@ -101,4 +103,17 @@ public class DirectorResource extends BaseResource
         else
             directorService.deleteMany(ids);
     }
+    
+    /* Deze manier werkt ook prima
+    @DELETE
+    @Path("/{id}")
+    public void delete(@PathParam("id") String directorIds)
+    {     
+        String[] ids = directorIds.split(",");
+        
+        if (ids.length == 1)
+            directorService.delete(ids[0]);
+        else
+            directorService.deleteMany(ids);
+    } */
 }

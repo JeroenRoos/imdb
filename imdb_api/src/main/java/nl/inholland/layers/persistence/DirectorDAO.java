@@ -43,4 +43,9 @@ public class DirectorDAO extends BaseDAO<Director>
         ds.delete(query.filter("_id in", lstObjects));
     }
     
+    public void updateManyById()
+    {
+        //save(obj);
+    }
+    
 }
