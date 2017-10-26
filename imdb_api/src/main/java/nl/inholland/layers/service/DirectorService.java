@@ -56,11 +56,19 @@ public class DirectorService extends BaseService
 
         return lstDirectors;
     }
-
+    
     public void create(Director director)
     {
         checkCreateValidity(director);
         directorDAO.create(director);
+    }
+
+    public void createMany(List<Director> lstDirectors)
+    {
+        for (Director director : lstDirectors)
+            checkCreateValidity(director);
+        
+        directorDAO.createMany(lstDirectors);
     }
     
     private void checkCreateValidity(Director director)

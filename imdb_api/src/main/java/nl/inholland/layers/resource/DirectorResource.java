@@ -58,9 +58,12 @@ public class DirectorResource extends BaseResource
     }
     
     @POST
-    public void create(Director director)
+    public void create(List<Director> lstDirectors)
     {
-        directorService.create(director);
+        if (lstDirectors.size() == 1)
+            directorService.create(lstDirectors.get(0));
+        else
+            directorService.createMany(lstDirectors);
     }
     
     @PUT
