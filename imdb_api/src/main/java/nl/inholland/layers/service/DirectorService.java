@@ -97,12 +97,11 @@ public class DirectorService extends BaseService
     }
 
     // Ik haal hier director op waardoor de director die geupdate zou moeten worden overschreven wordt
-    public void update(String directorId)
+    public void update(String directorId, Director director)
     {
         ObjectId objectId;
         if (ObjectId.isValid(directorId))
         {
-            Director director = directorDAO.get(directorId);
             objectId = new ObjectId(directorId);
             Query query = directorDAO.createQuery().field("_id").equal(objectId);
             UpdateOperations<Director> update = directorDAO.createUpdateOperations();
@@ -114,7 +113,7 @@ public class DirectorService extends BaseService
     
     
     // Ik haal hier director op waardoor de director die geupdate zou moeten worden overschreven wordt
-    public void updateMany(String[] ids)
+    public void updateMany(String[] ids, Director director)
     {
         //List<ObjectId> lstObjectIds = new ArrayList<>();
         
@@ -122,7 +121,6 @@ public class DirectorService extends BaseService
         {
             if (ObjectId.isValid(ids[i]))
             {
-                Director director = directorDAO.get(ids[i]);
                 ObjectId objectId = new ObjectId(ids[i]);
                 
                 Query query = directorDAO.createQuery().field("_id").equal(objectId);
