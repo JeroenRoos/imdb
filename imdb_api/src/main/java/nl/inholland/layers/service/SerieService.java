@@ -95,13 +95,14 @@ public class SerieService extends BaseService
             Query query = serieDAO.createQuery().field("_id").equal(objectId);
             UpdateOperations<Serie> update = serieDAO.createUpdateOperations();
             
-            checkUpdateValidity(update, serie);
-         
+            checkUpdateValidity(update, serie, objectId);        
             serieDAO.update(query, update);
         }
+        else
+            resultService.noValidObjectId("The director id is not valid");
     }
     
-    private void checkUpdateValidity(UpdateOperations<Serie> update, Serie serie)
+    private void checkUpdateValidity(UpdateOperations<Serie> update, Serie serie, ObjectId id)
     {
         if (serie.getTitle() != null && !"".equals(serie.getTitle()))
                 update.set("title", serie.getTitle());
@@ -130,6 +131,11 @@ public class SerieService extends BaseService
             
             if (!serie.getDirectors().isEmpty())
                 update.set("director", serie.getDirectors());
+            else if (serie.getYear() == 0)
+            {
+                Serie s = serieDAO.get(id);
+                serie.setYear(s.getYear()); 
+            }
             else 
                 resultService.emptyField("The movie must have an director.");
     }

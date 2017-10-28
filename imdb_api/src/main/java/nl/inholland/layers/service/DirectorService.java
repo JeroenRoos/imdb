@@ -106,17 +106,17 @@ public class DirectorService extends BaseService
             Query query = directorDAO.createQuery().field("_id").equal(objectId);
             UpdateOperations<Director> update = directorDAO.createUpdateOperations();
 
-            checkUpdateValidity(update, director);          
+            checkUpdateValidity(update, director, objectId);          
             directorDAO.update(query, update);
         }
+        else
+            resultService.noValidObjectId("The director id is not valid");
     }
     
     
     // Ik haal hier director op waardoor de director die geupdate zou moeten worden overschreven wordt
     public void updateMany(String[] ids, Director director)
     {
-        //List<ObjectId> lstObjectIds = new ArrayList<>();
-        
         for (int i = 0; i < ids.length; i++)
         {
             if (ObjectId.isValid(ids[i]))
@@ -125,18 +125,15 @@ public class DirectorService extends BaseService
                 
                 Query query = directorDAO.createQuery().field("_id").equal(objectId);
                 UpdateOperations<Director> update = directorDAO.createUpdateOperations();
-                checkUpdateValidity(update, director); 
+                checkUpdateValidity(update, director, objectId); 
                 directorDAO.update(query, update);
-                //lstObjectIds.add(objectId);
             }
             else
                 resultService.noValidObjectId("The director id is not valid");
         }
-        
-        //directorDAO.updateManyById(lstObjectIds);
     }
 
-    private void checkUpdateValidity(UpdateOperations<Director> update, Director director)
+    private void checkUpdateValidity(UpdateOperations<Director> update, Director director, ObjectId id)
     {
         if (!"".equals(director.getFirstName()) && director.getFirstName() != null)
             update.set("firstName", director.getFirstName());
@@ -150,7 +147,12 @@ public class DirectorService extends BaseService
 
         if (director.getAge() >= 18)
             update.set("age", director.getAge());
-        else if (director.getAge() < 18)
+        else if (director.getAge() == 0)
+        {
+            Director d = directorDAO.get(id);
+            director.setAge(d.getAge()); 
+        }
+        else 
             resultService.emptyField("Director must be older than 18.");
     }
     
