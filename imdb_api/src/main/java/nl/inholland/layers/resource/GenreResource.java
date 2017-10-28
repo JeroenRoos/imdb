@@ -40,7 +40,7 @@ public class GenreResource extends BaseResource{
     }
     
     @GET
-    public List<Genre> getAll(@DefaultValue("") @QueryParam("name") String genreName ){
+    public List<GenreView> getAll(@DefaultValue("") @QueryParam("name") String genreName ){
         if(!"".equals(genreName)){
             List<Genre> genres = genreService.getByName(genreName);
             
@@ -57,7 +57,7 @@ public class GenreResource extends BaseResource{
     
     @GET
     @Path("/{GenreId}")
-    public Genre get( @PathParam("GenreId") String genreId){
+    public GenreView get( @PathParam("GenreId") String genreId){
         Genre genre = genreService.get(genreId);
         
         return genrePresenter.present(genre);

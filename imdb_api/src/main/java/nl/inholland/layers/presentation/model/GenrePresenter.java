@@ -5,22 +5,38 @@
  */
 package nl.inholland.layers.presentation.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import nl.inholland.layers.model.Genre;
+import nl.inholland.layers.model.GenreView;
 
 
 
 public class GenrePresenter extends BasePresenter {
     
-    public List<Genre> present(List<Genre> genres)
+    public List<GenreView> present (List<Genre> lstGenres)
     {
-        return genres;
-        
+        List<GenreView> view = new ArrayList<>();
+        for (Genre genre : lstGenres)
+        {
+            GenreView genreView = initGenreView(genre);
+            view.add(genreView);
+        }
+        return view;
     }
-
-    public Genre present(Genre genre)
+    
+    public GenreView present(Genre genre)
     {
-                
-        return genre;
+        GenreView genreView = initGenreView(genre);
+        return genreView;
+    }
+    
+    private GenreView initGenreView(Genre genre)
+    {
+        GenreView genreView = new GenreView();
+        
+        genreView.setName(genre.getName());
+        
+        return genreView;
     }
 }
