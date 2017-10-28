@@ -14,6 +14,8 @@ import javax.ws.rs.PathParam;
 import nl.inholland.layers.model.Movie;
 import nl.inholland.layers.persistence.MovieDAO;
 import org.bson.types.ObjectId;
+import org.mongodb.morphia.query.Query;
+import org.mongodb.morphia.query.UpdateOperations;
 
 public class MovieService extends BaseService
 {
@@ -25,9 +27,10 @@ public class MovieService extends BaseService
         this.movieDAO = movieDAO;
     }
 
-    public Movie get(@PathParam("MovieId")String movieId)
+    public Movie get(String movieId)
     {
-        return null;
+        Movie movie = movieDAO.get(movieId);
+        return movie;
     }
     
     public List<Movie> getAll()
@@ -36,12 +39,56 @@ public class MovieService extends BaseService
         return movies;
     }
     
-    public void update(List<String> movieIds){
-        
+    
+    public void update(String movieId, Movie movie){
+        if(ObjectId.isValid(movieId))
+        {
+            ObjectId objectId = new ObjectId(movieId);
+            Query query = movieDAO.createQuery().field("_id").equal(objectId);
+            UpdateOperations<Movie> update = movieDAO.createUpdateOperations();
+            movieDAO.update(query, update);
+        }
     }
     
-    public void delete(List<ObjectId> movieIds){
-        movieDAO.deleteManyById(movieIds);
+    public void updateMany(String[] movieIds, Movie movie)
+    {
+        for (int i = 0; i < movieIds.length; i++)
+        {
+            if (ObjectId.isValid(movieIds[i]))
+            {
+                ObjectId objectId = new ObjectId(movieIds[i]);
+                
+                Query query = movieDAO.createQuery().field("_id").equal(objectId);
+                UpdateOperations<Movie> update = movieDAO.createUpdateOperations();
+                movieDAO.update(query, update);
+            }
+        }
+    }
+    
+    public void delete(String movieId)
+    {
+        ObjectId objectId;
+        if (ObjectId.isValid(movieId))
+        {
+            objectId = new ObjectId(movieId);
+            movieDAO.deleteById(objectId);
+        }
+    }
+
+    public void deleteMany(String[] ids)
+    {
+        List<ObjectId> lstObjectIds = new ArrayList<>();
+        
+        for (int i = 0; i < ids.length; i++)
+        {
+            if (ObjectId.isValid(ids[i]))
+            {
+                ObjectId objectId = new ObjectId(ids[i]);
+                lstObjectIds.add(objectId);
+            }
+        }
+        
+        movieDAO.deleteManyById(lstObjectIds);
     }
     
 }

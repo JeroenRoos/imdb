@@ -24,9 +24,10 @@ public class UserService extends BaseService
         this.userDAO = userDAO;
     }
     
-    public User get(@PathParam("userId")String userId)
+    public User get(String userId)
     {
-        return null;
+        User user = userDAO.get(userId);
+        return user;
     }
     
     public List<User> getAll()
@@ -35,8 +36,23 @@ public class UserService extends BaseService
         return users;
     }
     
+    
+    public List<User> getByName(String name){
+        List<User> users = userDAO.getByName(name);
+        return users;
+    }
+    
+    public List<User> getByIsAdmin(boolean isAdmin){
+        List<User> users = userDAO.getByIsAdmin(isAdmin);
+        return users;
+    }
+    
     public List<User> getByGender(String gender){
         List<User> users = userDAO.getByGender(gender);
+        return users;
+    }
+    public List<User> getByParameters(String name, String gender, String isAdmin){
+        List<User> users = userDAO.getByParameters(name, gender, isAdmin);
         return users;
     }
     

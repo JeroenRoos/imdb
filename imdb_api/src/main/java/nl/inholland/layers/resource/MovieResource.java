@@ -53,21 +53,24 @@ public class MovieResource extends BaseResource
     
     @GET
     @Path("/{MovieId}")
-    public Movie get( @PathParam("MovieId") String movieId){
+    public MovieView get( @PathParam("MovieId") String movieId){
         Movie Movie = movieService.get(movieId);
         
         return moviePresenter.present(Movie);
     }
     
     @PUT
-    public void update(@QueryParam("id") String movieIds){
-        List<String> movieIdsAsList = Arrays.asList(movieIds.split(","));
+    public void update(@QueryParam("id") String movieIds, Movie movie){
+        //List<String> movieIdsAsList = Arrays.asList(movieIds.split(","));
+        String[] movieIdsAsList = movieIds.split(",");
         
-        movieService.update(movieIdsAsList);
-        
+         if (movieIdsAsList.length == 1)
+             movieService.update(movieIdsAsList[0], movie);
+         else
+            movieService.updateMany(movieIdsAsList, movie);
     }
     
-    @DELETE
+    /*@DELETE
     public void delete(@QueryParam("id") String movieIds){
         List<String> movieIdsAsList = Arrays.asList(movieIds.split(","));
         List<ObjectId> movieIdsAsObjectIdList = new ArrayList<>();
@@ -79,7 +82,17 @@ public class MovieResource extends BaseResource
             }
         }
         movieService.delete(movieIdsAsObjectIdList);
-
+    }*/
+    
+    @DELETE
+    public void delete(@QueryParam("id") String movieIds) //@PathParam
+    {     
+        String[] ids = movieIds.split(",");
+        
+        if (ids.length == 1)
+            movieService.delete(ids[0]);
+        else
+            movieService.deleteMany(ids);
     }
     
     @POST

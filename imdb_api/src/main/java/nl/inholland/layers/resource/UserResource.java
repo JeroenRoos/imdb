@@ -38,8 +38,10 @@ public class UserResource extends BaseResource
     }
     
     @GET
-    public List<UserView> getAll(@DefaultValue("") @QueryParam("gender") String gender){
-        if(!"".equals(gender)){
+    public List<UserView> getAll(@DefaultValue("") @QueryParam("gender") String gender,
+            @DefaultValue("") @QueryParam("name") String name,
+            @DefaultValue("") @QueryParam("isAdmin") String isAdmin){
+        /*if(!"".equals(gender)){
             List<User> users = userService.getByGender(gender);
             
             return userPresenter.present(users);
@@ -47,7 +49,15 @@ public class UserResource extends BaseResource
             List<User> users = userService.getAll();
         
             return userPresenter.present(users);
-        }
+        }*/
+        List<User> users;
+        if (!"".equals(gender) || !"".equals(name) || !"".equals(isAdmin))
+             users = userService.getByParameters(name, gender, isAdmin);
+        else
+             users = userService.getAll();
+            
+        
+        return userPresenter.present(users);
     }
     
     @GET

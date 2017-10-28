@@ -26,7 +26,23 @@ public class MoviePresenter extends BasePresenter
         List<MovieView> view = new ArrayList<MovieView>();
         
         for (Movie movie : movies){
-            MovieView movieView = new MovieView();
+            MovieView movieView = initMovieView(movie);
+            
+            view.add(movieView);
+        }
+        return view;
+    }
+    
+    
+    public MovieView present(Movie movie)
+    {
+        MovieView movieView = initMovieView(movie);
+        return movieView;
+    }
+    
+    private MovieView initMovieView(Movie movie)
+    {
+        MovieView movieView = new MovieView();
             
             movieView.setTitle(movie.getTitle());
             movieView.setSummary(movie.getSummary());
@@ -60,21 +76,8 @@ public class MoviePresenter extends BasePresenter
             movieView.setDirector(directorView);
             movieView.setGenres(genres);
             movieView.setYear(movie.getYear());
-            
-            view.add(movieView);
-        }
-
-        return view;
         
-    }
-
-    public Movie present(Movie Movie)
-    {
-        Movie view;
-        
-        view = Movie;
-        
-        return view;
+        return movieView;
     }
    
 }
