@@ -5,19 +5,16 @@
  */
 package nl.inholland.layers.model;
 
-import java.security.Principal;
-import org.mongodb.morphia.annotations.Entity;
+import java.util.List;
 
-@Entity(value = "users")
-public class User extends EntityModel 
+
+public class UserView 
 {
     private String name;
-    
     private String gender;
-    
     private boolean isAdmin;
-    
-    public String getName()
+
+   public String getName()
     {
         return name;
     }
@@ -46,7 +43,5 @@ public class User extends EntityModel
     {
         this.isAdmin = isAdmin;
     }
-
-    
     
 }

@@ -40,4 +40,11 @@ public class UserService extends BaseService
         return users;
     }
     
+    public void create(User user){
+        userDAO.create(user);
+    }
+    
+    public void createMany(List<User> users){
+        userDAO.createMany(users);
+    }
 }

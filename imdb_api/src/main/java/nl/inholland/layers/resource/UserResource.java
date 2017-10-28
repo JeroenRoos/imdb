@@ -19,6 +19,7 @@ import javax.ws.rs.core.MediaType;
 import nl.inholland.layers.presentation.model.UserPresenter;
 import nl.inholland.layers.service.UserService;
 import nl.inholland.layers.model.User;
+import nl.inholland.layers.model.UserView;
 
 
 @Path("/users")
@@ -37,7 +38,7 @@ public class UserResource extends BaseResource
     }
     
     @GET
-    public List<User> getAll(@DefaultValue("") @QueryParam("gender") String gender){
+    public List<UserView> getAll(@DefaultValue("") @QueryParam("gender") String gender){
         if(!"".equals(gender)){
             List<User> users = userService.getByGender(gender);
             
@@ -51,15 +52,18 @@ public class UserResource extends BaseResource
     
     @GET
     @Path("/{userId}")
-    public User get( @PathParam("userId") String userId){
+    public UserView get( @PathParam("userId") String userId){
         User user = userService.get(userId);
         
         return userPresenter.present(user);
     }
     
     @POST
-    public void create(User user){
-        
+    public void create(List<User> users){
+        if (users.size() == 1)
+            userService.create(users.get(0));
+        else
+            userService.createMany(users);
     }
 }
 

@@ -8,26 +8,35 @@ package nl.inholland.layers.presentation.model;
 import java.util.ArrayList;
 import java.util.List;
 import nl.inholland.layers.model.User;
+import nl.inholland.layers.model.UserView;
 
 public class UserPresenter extends BasePresenter
 {
-    public List<User> present(List<User> users)
+    public List<UserView> present (List<User> users)
     {
-        List<User> view;
-
-        view = users;
-
-        return view;
-        
-    }
-
-    public User present(User user)
-    {
-        User view;
-        
-        view = user;
-        
+        List<UserView> view = new ArrayList<>();
+        for (User user : users)
+        {
+            UserView userView = initUserView(user);
+            view.add(userView);
+        }
         return view;
     }
-   
+    
+    public UserView present(User user)
+    {
+        UserView userView = initUserView(user);
+        return userView;
+    }
+    
+    private UserView initUserView(User user)
+    {
+        UserView userView = new UserView();
+        
+        userView.setName(user.getName());
+        userView.setGender(user.getGender());
+        userView.setIsAdmin(user.getIsAdmin());
+        
+        return userView;
+    }
 }
