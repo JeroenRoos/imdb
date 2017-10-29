@@ -91,6 +91,7 @@ public class MoviePresenter extends BasePresenter
                 comments.add(commentView);
             }
             
+            movieView.setComments(comments);
             DirectorView directorView = new DirectorView();
             
             directorView.setId(movie.getDirector().getId());
