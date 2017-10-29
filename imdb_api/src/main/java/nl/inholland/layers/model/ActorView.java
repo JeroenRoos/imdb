@@ -16,8 +16,6 @@ public class ActorView
     private String firstName;
     
     private String lastName;
-    
-   private List<ActorView> actors;
    
     private int age;
 
@@ -50,10 +48,4 @@ public class ActorView
     {
         this.age = age;
     }
-    
-     public List<ActorView> getActors()
-    {
-        return actors;
-    }
-
 }

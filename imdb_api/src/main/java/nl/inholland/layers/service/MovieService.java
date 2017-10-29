@@ -41,22 +41,30 @@ public class MovieService extends BaseService
     
     
     public void update(String movieId, Movie movie){
+        ObjectId objectId;
         if(ObjectId.isValid(movieId))
         {
-            ObjectId objectId = new ObjectId(movieId);
+            objectId = new ObjectId(movieId);
             Query query = movieDAO.createQuery().field("_id").equal(objectId);
-            UpdateOperations<Movie> update = movieDAO.createUpdateOperations();
+            UpdateOperations<Movie> update = movieDAO.createUpdateOperations()
+                    .set("title", movie.getTitle())
+                    .set("summary", movie.getSummary())
+                    .set("actors", movie.getActors())
+                    .set("director", movie.getDirector())
+                    .set("genre", movie.getGenre())
+                    .set("year", movie.getYear());
             movieDAO.update(query, update);
         }
     }
     
     public void updateMany(String[] movieIds, Movie movie)
     {
+        ObjectId objectId;
         for (int i = 0; i < movieIds.length; i++)
         {
             if (ObjectId.isValid(movieIds[i]))
             {
-                ObjectId objectId = new ObjectId(movieIds[i]);
+                objectId = new ObjectId(movieIds[i]);
                 
                 Query query = movieDAO.createQuery().field("_id").equal(objectId);
                 UpdateOperations<Movie> update = movieDAO.createUpdateOperations();
