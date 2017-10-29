@@ -8,11 +8,8 @@ package nl.inholland.layers.persistence;
 import java.util.List;
 import javax.inject.Inject;
 import nl.inholland.layers.model.Actor;
-<<<<<<< HEAD
 import nl.inholland.layers.model.Director;
-=======
 import nl.inholland.layers.model.Genre;
->>>>>>> b8fe32c7922fe782dbef51cc0a82135851bdcea1
 import nl.inholland.layers.model.Movie;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
