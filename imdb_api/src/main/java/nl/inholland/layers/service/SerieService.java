@@ -62,20 +62,17 @@ public class SerieService extends BaseService
     {
         List<Director> lstDirectors = directorDAO.getByLastName(directorLastName);
         
-        if (lstDirectors.size() == 0)
-            resultService.requireResult(lstDirectors, "No directors found with name: " + directorLastName);
+        if (lstDirectors.isEmpty())
+            resultService.requireResult(lstDirectors, "No series found with name: " + directorLastName);
     
         return serieDAO.getByDirector(lstDirectors);
     }
     
     public List<Serie> getSeriesByGenreName(String genreName)
     {
-        List<Genre> lstGenres = genreDAO.getByName(genreName);
-        
-        if (lstGenres.size() == 0)
-            resultService.requireResult(lstGenres, "No directors found with name: " + genreName);
-    
-        return serieDAO.getByGenre(lstGenres);
+        Genre genre = genreDAO.getByName(genreName);
+        resultService.requireResult(genre, "No series found with name: " + genreName);
+        return serieDAO.getByGenre(genre);
     }
     
     public void create(Serie serie)
