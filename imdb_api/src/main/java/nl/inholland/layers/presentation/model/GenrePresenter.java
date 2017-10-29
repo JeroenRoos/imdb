@@ -37,6 +37,7 @@ public class GenrePresenter extends BasePresenter {
     {
         GenreView genreView = new GenreView();
         
+        genreView.setId(genre.getId());
         genreView.setName(genre.getName());
         
         return genreView;

@@ -33,6 +33,7 @@ public class UserPresenter extends BasePresenter
     {
         UserView userView = new UserView();
         
+        userView.setId(user.getId());
         userView.setName(user.getName());
         userView.setGender(user.getGender());
         userView.setIsAdmin(user.getIsAdmin());

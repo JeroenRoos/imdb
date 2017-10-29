@@ -5,6 +5,7 @@
  */
 package nl.inholland.layers.resource;
 
+import java.util.Arrays;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -42,9 +43,9 @@ public class GenreResource extends BaseResource{
     @GET
     public List<GenreView> getAll(@DefaultValue("") @QueryParam("name") String genreName ){
         if(!"".equals(genreName)){
-            List<Genre> genres = genreService.getByName(genreName);
+            Genre genre = genreService.getByName(genreName);
             
-            return genrePresenter.present(genres);
+            return genrePresenter.present(genre);
 
         }else{
             
@@ -84,6 +85,17 @@ public class GenreResource extends BaseResource{
     @Path("/{GenreId}")
     public void update(@PathParam("GenreId") String genreId, Genre genre){
         genreService.update(genreId, genre);
+    }
+    
+    @PUT
+    public void updateMany(@QueryParam("id") String genreIds, Genre genre){
+        
+        List<String> ids = Arrays.asList(genreIds.split(","));
+        
+        if (ids.size() == 1)
+             genreService.update(ids.get(0), genre);
+        else
+            genreService.updateMany(ids, genre);
     }
     
     @DELETE

@@ -39,13 +39,24 @@ public class MovieService extends BaseService
 
     public Movie get(String movieId)
     {
-        Movie movie = movieDAO.get(movieId);
+        Movie movie = null;
+        if(ObjectId.isValid(movieId)){
+            movie = movieDAO.get(movieId);
+            resultService.requireResult(movie, "Movie not found");
+        }else{
+            resultService.noValidObjectId("Invalid movie id");
+        }
         return movie;
+
     }
     
     public List<Movie> getAll()
     {
         List<Movie> movies = movieDAO.getAll();
+        movies.removeAll(movies);
+        if(movies.isEmpty()){
+            resultService.requireResult(movies, "No movies found");
+        }
         return movies;
     }
     

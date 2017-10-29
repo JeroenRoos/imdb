@@ -25,6 +25,7 @@ import org.mongodb.morphia.query.UpdateOperations;
 public class GenreService extends BaseService {
     
     private final GenreDAO genreDAO;
+    private ResultService resultService = new ResultService();
     
     @Inject
     public GenreService(GenreDAO genreDAO){
@@ -56,8 +57,8 @@ public class GenreService extends BaseService {
     }
     
     public Genre getByName(String genreName){
-        Genre genres = genreDAO.getByName(genreName);
-        return genres;
+        Genre genre = genreDAO.getByName(genreName);
+        return genre;
     }
     
     public void create(Genre genre){
@@ -72,10 +73,22 @@ public class GenreService extends BaseService {
         ObjectId objectId;
         if(ObjectId.isValid(genreId)){
             objectId = new ObjectId(genreId);
-            Query query = genreDAO.createQuery().field("_id").equal(objectId);
-            UpdateOperations<Genre> ops = genreDAO.createUpdateOperations().set("name", genre.getName());
-            genreDAO.update(query, ops);
+            genreDAO.updateById(objectId, genre);
+
+        }else{
+            resultService.noValidObjectId("Invalid genre id");
         }
+    }
+    
+    public void updateMany(List<String> genreIds, Genre genre){
+        List<ObjectId> objectIds = new ArrayList<>();
+        for(String id : genreIds){
+            if(ObjectId.isValid(id)){
+                objectIds.add(new ObjectId(id));
+            }
+        }
+        
+        genreDAO.updateMany(objectIds, genre);
     }
     
     public void delete(String genreId){
@@ -83,6 +96,8 @@ public class GenreService extends BaseService {
         if(ObjectId.isValid(genreId)){
             objectId = new ObjectId(genreId);
             genreDAO.deleteById(objectId);
+        }else{
+            resultService.noValidObjectId("Invalid genre id");
         }
     }
 }

@@ -54,12 +54,10 @@ public class MovieResource extends BaseResource
             movies = movieService.getMoviesForGenre(genre);
         }
         else{
-            
             movies = movieService.getAll();
         }
         
         return moviePresenter.present(movies);
-
     }
     
     @GET
@@ -69,6 +67,7 @@ public class MovieResource extends BaseResource
         
         return moviePresenter.present(Movie);
     }
+    
     @PUT
     @Path("/{movieId}")
     public void update(@PathParam("movieId") String movieId, Movie movie){
@@ -77,7 +76,7 @@ public class MovieResource extends BaseResource
     }
     
     @DELETE
-    public void delete(@QueryParam("id") String movieIds) //@PathParam
+    public void delete(@QueryParam("id") String movieIds)
     {     
         String[] ids = movieIds.split(",");
         
