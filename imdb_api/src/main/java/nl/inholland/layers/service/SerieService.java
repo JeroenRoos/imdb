@@ -78,7 +78,7 @@ public class SerieService extends BaseService
     public void create(Serie serie)
     {         
         checkCreateValidity(serie);
-        checkDuplicate(serie);
+        //checkDuplicate(serie);
         serieDAO.create(serie);
     }
     
@@ -87,7 +87,7 @@ public class SerieService extends BaseService
         for (Serie serie : lstSeries)
         {
             checkCreateValidity(serie);
-            checkDuplicate(serie);
+            //checkDuplicate(serie);
         }
         
         serieDAO.createMany(lstSeries);
@@ -102,21 +102,16 @@ public class SerieService extends BaseService
                 resultService.emptyField("Summary cannot be an empty string.");
             
             if (serie.getYear() <= 1878)
-                resultService.emptyField("The year of the movie cannot be lower than 1878. The first movie ever made comes from this year.");
+                resultService.emptyField("The year of the serie cannot be lower than 1878. The first piece of movie ever made comes from this year.");
             
             if (serie.getGenre().isEmpty())
-                resultService.emptyField("The movie must have a genre.");
+                resultService.emptyField("The serie must have a genre.");
             
             if (serie.getActors().isEmpty())
-                resultService.emptyField("The movie must have an actor.");    
+                resultService.emptyField("The serie must have an actor.");    
             
             if (serie.getDirectors().isEmpty())
-                resultService.emptyField("The movie must have an director.");
-    }
-    
-    private void checkDuplicate(Serie serie)
-    {
-        
+                resultService.emptyField("The serie must have an director.");
     }
             
     public void update(String serieId, Serie serie)
@@ -124,6 +119,7 @@ public class SerieService extends BaseService
         ObjectId objectId;
         if(ObjectId.isValid(serieId))
         {
+            checkIfSerieExists(serieId);
             objectId = new ObjectId(serieId);
             Query query = serieDAO.createQuery().field("_id").equal(objectId);
             UpdateOperations<Serie> update = serieDAO.createUpdateOperations();
@@ -132,7 +128,7 @@ public class SerieService extends BaseService
             serieDAO.update(query, update);
         }
         else
-            resultService.noValidObjectId("The director id is not valid");
+            resultService.noValidObjectId("The serie id is not valid");
     }
     
     private void checkUpdateValidity(UpdateOperations<Serie> update, Serie serie, ObjectId id)
@@ -149,28 +145,28 @@ public class SerieService extends BaseService
             
             if (serie.getYear() >= 1878)
                 update.set("year", serie.getYear());
-            else 
-                resultService.emptyField("The year of the movie cannot be lower than 1878. The first movie ever made comes from this year.");
-            
-            if (!serie.getGenre().isEmpty())
-                update.set("genre", serie.getGenre());
-            else 
-                resultService.emptyField("The movie must have a genre.");
-            
-            if (!serie.getActors().isEmpty())
-                update.set("actors", serie.getActors());
-            else
-                resultService.emptyField("The movie must have an actor.");    
-            
-            if (!serie.getDirectors().isEmpty())
-                update.set("director", serie.getDirectors());
             else if (serie.getYear() == 0)
             {
                 Serie s = serieDAO.get(id);
                 serie.setYear(s.getYear()); 
             }
             else 
-                resultService.emptyField("The movie must have an director.");
+                resultService.emptyField("The year of the serie cannot be lower than 1878. The first movie ever made comes from this year.");
+            
+            if (serie.getGenre() != null || !serie.getGenre().isEmpty())
+                update.set("genre", serie.getGenre());
+            else 
+                resultService.emptyField("The serie must have a genre.");
+            
+            if (serie.getActors() != null || !serie.getActors().isEmpty())
+                update.set("actors", serie.getActors());
+            else
+                resultService.emptyField("The serie must have an actor.");    
+            
+            if (serie.getDirectors() != null || !serie.getDirectors().isEmpty())
+                update.set("director", serie.getDirectors());
+            else 
+                resultService.emptyField("The serie must have an director.");
     }
       
     public void delete(String serieId)
@@ -178,13 +174,17 @@ public class SerieService extends BaseService
         ObjectId objectId;
         if(ObjectId.isValid(serieId))
         {
+            checkIfSerieExists(serieId);
             objectId = new ObjectId(serieId);
             serieDAO.deleteById(objectId);
         }
         else
-            resultService.requireResult(serieId, "The document you're trying to delete doesn't exist.");
+            resultService.noValidObjectId("The Serie you're trying to delete doesn't exist.");
     }
     
-    
-    
+    private void checkIfSerieExists(String serieId)
+    {
+        Serie serie = serieDAO.get(serieId);
+        resultService.requireResult(serie, "The Serie you're trying to edit doesn't exist");
+    }
 }

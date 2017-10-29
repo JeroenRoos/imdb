@@ -117,6 +117,7 @@ public class DirectorService extends BaseService
         ObjectId objectId;
         if (ObjectId.isValid(directorId))
         {
+            checkIfDirectorExists(directorId);
             objectId = new ObjectId(directorId);
             Query query = directorDAO.createQuery().field("_id").equal(objectId);
             UpdateOperations<Director> update = directorDAO.createUpdateOperations();
@@ -135,6 +136,7 @@ public class DirectorService extends BaseService
         {
             if (ObjectId.isValid(ids[i]))
             {
+                checkIfDirectorExists(ids[i]);
                 ObjectId objectId = new ObjectId(ids[i]);
                 
                 Query query = directorDAO.createQuery().field("_id").equal(objectId);
@@ -175,6 +177,7 @@ public class DirectorService extends BaseService
         ObjectId objectId;
         if (ObjectId.isValid(directorId))
         {
+            checkIfDirectorExists(directorId);
             objectId = new ObjectId(directorId);
             directorDAO.deleteById(objectId);
         }
@@ -190,6 +193,7 @@ public class DirectorService extends BaseService
         {
             if (ObjectId.isValid(ids[i]))
             {
+                checkIfDirectorExists(ids[i]);
                 ObjectId objectId = new ObjectId(ids[i]);
                 lstObjectIds.add(objectId);
             }
@@ -198,5 +202,11 @@ public class DirectorService extends BaseService
         }
         
         directorDAO.deleteManyById(lstObjectIds);
+    }
+    
+    private void checkIfDirectorExists(String directorId)
+    {
+        Director director = directorDAO.get(directorId);
+        resultService.requireResult(director, "The Director you're trying to delete doesn't exist");
     }
 }
