@@ -9,8 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import nl.inholland.layers.model.Director;
+import nl.inholland.layers.model.Genre;
 import nl.inholland.layers.model.Serie;
 import nl.inholland.layers.persistence.DirectorDAO;
+import nl.inholland.layers.persistence.GenreDAO;
 import nl.inholland.layers.persistence.SerieDAO;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.query.Query;
@@ -24,13 +26,15 @@ public class SerieService extends BaseService
 {
     private final SerieDAO serieDAO;
     private final DirectorDAO directorDAO;
+    private final GenreDAO genreDAO;
     private ResultService resultService = new ResultService();
     
     @Inject
-    public SerieService(SerieDAO serieDAO, DirectorDAO directorDAO)
+    public SerieService(SerieDAO serieDAO, DirectorDAO directorDAO, GenreDAO genreDAO)
     {
         this.serieDAO = serieDAO;
         this.directorDAO = directorDAO;
+        this.genreDAO = genreDAO;
     }
 
     public Serie get (String serieId)
@@ -54,7 +58,7 @@ public class SerieService extends BaseService
         return lstSeries;
     }
     
-    public List<Serie> getSeriesForDirectorLastName(String directorLastName)
+    public List<Serie> getSeriesByDirectorLastName(String directorLastName)
     {
         List<Director> lstDirectors = directorDAO.getByLastName(directorLastName);
         
@@ -62,6 +66,16 @@ public class SerieService extends BaseService
             resultService.requireResult(lstDirectors, "No directors found with name: " + directorLastName);
     
         return serieDAO.getByDirector(lstDirectors);
+    }
+    
+    public List<Serie> getSeriesByGenreName(String genreName)
+    {
+        List<Genre> lstGenres = genreDAO.getByName(genreName);
+        
+        if (lstGenres.size() == 0)
+            resultService.requireResult(lstGenres, "No directors found with name: " + genreName);
+    
+        return serieDAO.getByGenre(lstGenres);
     }
     
     public void create(Serie serie)
