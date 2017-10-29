@@ -32,12 +32,7 @@ public class CommentDAO extends BaseDAO<Comment>
         ds.delete(query.filter("_id in", lstObjects));
     }
     
-    public List<Comment> getByUser(User user){
-        //Query<Comment> query = ds.createQuery(Comment.class);
-        
-        //query.filter("users in", user);
-        //List<Comment> comments = query.field("name").equal(user.getName()).asList();
-        
+    public List<Comment> getByUser(User user){        
         List<Comment> comments = createQuery().field("user").equal(user).asList();
         return comments;
     }
