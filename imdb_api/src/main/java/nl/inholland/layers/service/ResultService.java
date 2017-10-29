@@ -6,6 +6,7 @@
 package nl.inholland.layers.service;
 
 import javax.inject.Singleton;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.WebApplicationException;
 import org.mongodb.morphia.query.UpdateOperations;
@@ -21,17 +22,17 @@ public class ResultService {
     
     public void emptyField(String message) throws WebApplicationException
     {
-        throw new WebApplicationException(message);
+        throw new BadRequestException(message);
     }         
     
     public void parsingError(String message) throws WebApplicationException
     {
-        throw new WebApplicationException(message);
+        throw new BadRequestException(message);
     } 
     
     public void noValidObjectId(String message)
     {
-        throw new WebApplicationException(message);
+        throw new BadRequestException(message);
     }
     
     public void duplicateDocument(String message)
