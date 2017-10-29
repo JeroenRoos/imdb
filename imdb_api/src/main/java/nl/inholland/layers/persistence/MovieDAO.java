@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import nl.inholland.layers.model.Actor;
+import nl.inholland.layers.model.Genre;
 import nl.inholland.layers.model.Movie;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
@@ -31,9 +32,15 @@ public class MovieDAO extends BaseDAO<Movie>
     public List<Movie> getByActor(List<Actor> actors){
         Query<Movie> query = ds.createQuery(Movie.class);
         
-        query.filter("actors. in", actors);
-        List<Movie> movies = query.asList();
-        return movies;
+        query.filter("actors in", actors);
+        return query.asList();
+    }
+    
+    public List<Movie> getByGenre(Genre genre){
+        Query<Movie> query = ds.createQuery(Movie.class);
+        
+        query.filter("genre ==", genre);
+        return query.asList();
     }
         
     public void deleteManyById( List<ObjectId> objects){

@@ -20,7 +20,7 @@ public class GenreDAO extends BaseDAO<Genre> {
         super(Genre.class, ds);
     }
     
-        public List<Genre> getByName(String genreName){
-        return createQuery().field("name").equal(genreName).asList();
+        public Genre getByName(String genreName){
+        return createQuery().field("name").equal(genreName).get();
     }
 }
