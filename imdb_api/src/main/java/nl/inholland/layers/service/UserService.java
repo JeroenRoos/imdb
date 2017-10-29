@@ -42,8 +42,8 @@ public class UserService extends BaseService
     }
     
     
-    public User getByName(String name){
-       User user = userDAO.getByName(name);
+    public List<User> getByName(String name){
+       List<User> user = userDAO.getByName(name);
         return user;
     }
     

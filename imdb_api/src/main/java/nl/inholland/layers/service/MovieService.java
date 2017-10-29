@@ -84,7 +84,7 @@ public class MovieService extends BaseService
     }
     
     public List<Movie> getMoviesForUserNameCommented(String userName){
-        User userObject = userDAO.getByName(userName);
+        User userObject = userDAO.getSingleUserByName(userName);
         
         resultService.requireResult(userObject, "No user found with name: " + userName);
         

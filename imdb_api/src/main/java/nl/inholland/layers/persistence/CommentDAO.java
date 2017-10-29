@@ -33,10 +33,12 @@ public class CommentDAO extends BaseDAO<Comment>
     }
     
     public List<Comment> getByUser(User user){
-        Query<Comment> query = ds.createQuery(Comment.class);
+        //Query<Comment> query = ds.createQuery(Comment.class);
         
-        query.filter("users in", user);
-        List<Comment> comments = query.asList();
+        //query.filter("users in", user);
+        //List<Comment> comments = query.field("name").equal(user.getName()).asList();
+        
+        List<Comment> comments = createQuery().field("user").equal(user).asList();
         return comments;
     }
 }

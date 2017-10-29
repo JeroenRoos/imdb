@@ -32,7 +32,11 @@ public class UserDAO extends BaseDAO<User>
         return createQuery().field("gender").equal(gender).asList();
     }
     
-    public User getByName(String name){
+    public List<User> getByName(String name){
+        return createQuery().field("name").equal(name).asList();
+    }
+    
+    public User getSingleUserByName(String name){
         return createQuery().field("name").equal(name).get();
     }
     
