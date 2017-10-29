@@ -36,7 +36,7 @@ public class ResultService {
     
     public void duplicateDocument(String message)
     {
-        
+        throw new WebApplicationException(message);
     }
         
 }

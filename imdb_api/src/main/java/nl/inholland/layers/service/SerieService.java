@@ -63,7 +63,7 @@ public class SerieService extends BaseService
         List<Director> lstDirectors = directorDAO.getByLastName(directorLastName);
         
         if (lstDirectors.isEmpty())
-            resultService.requireResult(lstDirectors, "No series found with name: " + directorLastName);
+            resultService.requireResult(null, "No series found with name: " + directorLastName);
     
         return serieDAO.getByDirector(lstDirectors);
     }

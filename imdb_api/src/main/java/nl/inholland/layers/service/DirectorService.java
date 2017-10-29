@@ -42,7 +42,7 @@ public class DirectorService extends BaseService
         List<Director> lstDirectors = directorDAO.getAll();
 
         if (lstDirectors.isEmpty())
-            resultService.requireResult(lstDirectors, "No directors found");
+            resultService.requireResult(null, "No directors found");
 
         return lstDirectors;
     }
