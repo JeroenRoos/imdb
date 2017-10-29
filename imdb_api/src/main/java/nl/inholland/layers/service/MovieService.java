@@ -8,13 +8,13 @@ package nl.inholland.layers.service;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import nl.inholland.layers.model.Actor;
+import nl.inholland.layers.model.Director;
+import nl.inholland.layers.persistence.DirectorDAO;
 import nl.inholland.layers.model.Genre;
 import nl.inholland.layers.model.Movie;
 import nl.inholland.layers.persistence.ActorDAO;
+import nl.inholland.layers.persistence.CommentDAO;
 import nl.inholland.layers.persistence.GenreDAO;
 import nl.inholland.layers.persistence.MovieDAO;
 import org.bson.types.ObjectId;
@@ -26,14 +26,19 @@ public class MovieService extends BaseService
 
     private final MovieDAO movieDAO;
     private final ActorDAO actorDAO;
-    private final GenreDAO genreDAO;
+    private final DirectorDAO directorDAO;
+    private final CommentDAO commentDAO;
+
     private final ResultService resultService = new ResultService();
+    private final GenreDAO genreDAO;
     
     @Inject
-    public MovieService(MovieDAO movieDAO, ActorDAO actorDAO, GenreDAO genreDAO){
+    public MovieService(MovieDAO movieDAO, ActorDAO actorDAO, GenreDAO genreDAO, DirectorDAO directorDAO, CommentDAO commentDAO){
         this.movieDAO = movieDAO;
         this.actorDAO = actorDAO;
         this.genreDAO = genreDAO;
+        this.directorDAO = directorDAO;
+        this.commentDAO = commentDAO;
                
     }
 
@@ -61,12 +66,20 @@ public class MovieService extends BaseService
     }
     
     public List<Movie> getMoviesForActorName(String actorName){
-        List<Actor> actors = actorDAO.getByName(actorName);
+        List<Actor> actors = actorDAO.getByFirstName(actorName);
         
         resultService.requireResult(actors, "No actors found with last name: " + actorName);
         
         return movieDAO.getByActor(actors);
     }
+     public List<Movie> getMoviesForDirectorName(String directorLastName){
+        List<Director> directors = directorDAO.getByLastName(directorLastName);
+        
+        resultService.requireResult(directors, "No directors found with last name: " + directorLastName);
+        
+        return movieDAO.getByDirector(directors);
+    }
+       
     
     public List<Movie> getMoviesForGenre(String genre){
         Genre genreObject = genreDAO.getByName(genre);
@@ -74,6 +87,15 @@ public class MovieService extends BaseService
         resultService.requireResult(genreObject, "No genre found with name: + genre");
         
         return movieDAO.getByGenre(genreObject);
+    }
+       
+    
+    public List<Movie> getMoviesForYear(int year){
+        List<Movie> movies = movieDAO.getByYear(year);
+        
+        resultService.requireResult(movies, "No movies found with year: "+ year);
+        
+        return movies;
     }
     
     

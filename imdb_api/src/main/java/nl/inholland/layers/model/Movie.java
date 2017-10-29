@@ -25,6 +25,9 @@ public class Movie extends EntityModel
     private List<Actor> actors;
     
     @Reference
+    private List<Comment> comments;
+    
+    @Reference
     private Director director;
     
     @Reference
@@ -60,6 +63,16 @@ public class Movie extends EntityModel
     public void setActors(List<Actor> actors)
     {
         this.actors = actors;
+    }
+
+    public List<Comment> getComments()
+    {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments)
+    {
+        this.comments = comments;
     }
 
     public Director getDirector()

@@ -7,21 +7,23 @@ package nl.inholland.layers.resource;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import nl.inholland.layers.model.Actor;
-import nl.inholland.layers.model.Director;
 import nl.inholland.layers.presentation.model.ActorPresenter;
 import nl.inholland.layers.service.ActorService;
 
 /**
  *
- * @author Tiel
+ * @author CTiel
  */
 @Path("/actors")
 @Consumes (MediaType.APPLICATION_JSON)
@@ -64,8 +66,27 @@ public class ActorResource extends BaseResource{
         }
       
     }
-    
-    
+    //post actor
+    @POST
+    public void create(List<Actor> lstActors)
+    {
+        if (lstActors.size() == 1)
+            actorService.create(lstActors.get(0));
+        else
+            actorService.createMany(lstActors);
+    }
+        
+      @PUT
+     @Path("/{id}")
+    public void update(@PathParam("id") String actorIds, Actor actor) //@PathParam
+    {
+        String[] ids = actorIds.split(",");
+        
+         if (ids.length == 1)
+             actorService.update(ids[0], actor);
+         else
+            actorService.updateMany(ids, actor);
+    }  
     //get by Id
     @GET
     @Path("/{actorId}")
@@ -75,5 +96,14 @@ public class ActorResource extends BaseResource{
         return actorPresenter.present(actor);
     }
 
-
+     @DELETE
+    public void delete(@DefaultValue("") @QueryParam("id") String directorIds) 
+    {     
+        String[] ids = directorIds.split(",");
+        
+        if (ids.length == 1)
+            actorService.delete(ids[0]);
+        else
+            actorService.deleteMany(ids);
+    }
 }
