@@ -67,20 +67,17 @@ public class SerieService extends BaseService
     {
         List<Director> lstDirectors = directorDAO.getByLastName(directorLastName);
         
-        if (lstDirectors.size() == 0)
-            resultService.requireResult(lstDirectors, "No directors found with name: " + directorLastName);
+        if (lstDirectors.isEmpty())
+            resultService.requireResult(null, "No series found with name: " + directorLastName);
     
         return serieDAO.getByDirector(lstDirectors);
     }
     
     public List<Serie> getSeriesByGenreName(String genreName)
     {
-        List<Genre> lstGenres = genreDAO.getByName(genreName);
-        
-        if (lstGenres.size() == 0)
-            resultService.requireResult(lstGenres, "No directors found with name: " + genreName);
-    
-        return serieDAO.getByGenre(lstGenres);
+        Genre genre = genreDAO.getByName(genreName);
+        resultService.requireResult(genre, "No series found with name: " + genreName);
+        return serieDAO.getByGenre(genre);
     }
     
     public List<Serie> getSeriesByActorFirstName(String actorName)
@@ -96,13 +93,17 @@ public class SerieService extends BaseService
     public void create(Serie serie)
     {         
         checkCreateValidity(serie);
+        checkDuplicate(serie);
         serieDAO.create(serie);
     }
     
     public void createMany(List<Serie> lstSeries)
     {         
         for (Serie serie : lstSeries)
+        {
             checkCreateValidity(serie);
+            checkDuplicate(serie);
+        }
         
         serieDAO.createMany(lstSeries);
     }
@@ -128,6 +129,11 @@ public class SerieService extends BaseService
                 resultService.emptyField("The movie must have an director.");
     }
     
+    private void checkDuplicate(Serie serie)
+    {
+        
+    }
+            
     public void update(String serieId, Serie serie)
     {
         ObjectId objectId;

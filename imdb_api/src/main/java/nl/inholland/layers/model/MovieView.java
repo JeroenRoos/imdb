@@ -6,20 +6,27 @@
 package nl.inholland.layers.model;
 
 import java.util.List;
+import org.bson.types.ObjectId;
 
 public class MovieView
 {
+    private ObjectId id;
     private String title;
-    
     private String summary;
-    
     private List<ActorView> actors;
-    
     private DirectorView director;
-    
-    private List<GenreView> genres;
-    
+    private List<GenreView> genres; 
     private int year;
+    
+    public ObjectId getId()
+    {
+        return id;
+    }
+
+    public void setId(ObjectId id)
+    {
+        this.id = id;
+    }
 
     public String getTitle()
     {

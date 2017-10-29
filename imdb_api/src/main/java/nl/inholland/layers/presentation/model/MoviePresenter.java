@@ -43,7 +43,7 @@ public class MoviePresenter extends BasePresenter
     private MovieView initMovieView(Movie movie)
     {
         MovieView movieView = new MovieView();
-            
+            movieView.setId(movie.getId());
             movieView.setTitle(movie.getTitle());
             movieView.setSummary(movie.getSummary());
             
@@ -51,6 +51,7 @@ public class MoviePresenter extends BasePresenter
             for( Actor actor : movie.getActors()){
                 ActorView actorView = new ActorView();
                 
+                actorView.setId(actor.getId());
                 actorView.setFirstName(actor.getFirstName());
                 actorView.setLastName(actor.getLastName());
                 actorView.setAge(actor.getAge());
@@ -63,12 +64,14 @@ public class MoviePresenter extends BasePresenter
             for(Genre genre : movie.getGenre()){
                 GenreView genreView = new GenreView();
                 
+                genreView.setId(genre.getId());
                 genreView.setName(genre.getName());
                 genres.add(genreView);
             }
             
             DirectorView directorView = new DirectorView();
             
+            directorView.setId(movie.getDirector().getId());
             directorView.setAge(movie.getDirector().getAge());
             directorView.setFirstName(movie.getDirector().getFirstName());
             directorView.setLastName(movie.getDirector().getLastName());

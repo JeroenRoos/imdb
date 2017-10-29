@@ -9,10 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import nl.inholland.layers.model.Actor;
+<<<<<<< HEAD
 import nl.inholland.layers.model.Director;
 import nl.inholland.layers.model.Movie;
 import nl.inholland.layers.persistence.ActorDAO;
 import nl.inholland.layers.persistence.DirectorDAO;
+=======
+import nl.inholland.layers.model.Genre;
+import nl.inholland.layers.model.Movie;
+import nl.inholland.layers.persistence.ActorDAO;
+import nl.inholland.layers.persistence.GenreDAO;
+>>>>>>> b8fe32c7922fe782dbef51cc0a82135851bdcea1
 import nl.inholland.layers.persistence.MovieDAO;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.query.Query;
@@ -23,6 +30,7 @@ public class MovieService extends BaseService
 
     private final MovieDAO movieDAO;
     private final ActorDAO actorDAO;
+<<<<<<< HEAD
     private final DirectorDAO directorDAO;
 
     private final ResultService resultService = new ResultService();
@@ -32,6 +40,17 @@ public class MovieService extends BaseService
         this.movieDAO = movieDAO;
         this.actorDAO = actorDAO;
         this.directorDAO = directorDAO;
+=======
+    private final GenreDAO genreDAO;
+    private final ResultService resultService = new ResultService();
+    
+    @Inject
+    public MovieService(MovieDAO movieDAO, ActorDAO actorDAO, GenreDAO genreDAO){
+        this.movieDAO = movieDAO;
+        this.actorDAO = actorDAO;
+        this.genreDAO = genreDAO;
+               
+>>>>>>> b8fe32c7922fe782dbef51cc0a82135851bdcea1
     }
 
     public Movie get(String movieId)
@@ -53,6 +72,7 @@ public class MovieService extends BaseService
         
         return movieDAO.getByActor(actors);
     }
+<<<<<<< HEAD
      public List<Movie> getMoviesForDirectorName(String directorLastName){
         List<Director> directors = directorDAO.getByLastName(directorLastName);
         
@@ -61,6 +81,17 @@ public class MovieService extends BaseService
         return movieDAO.getByDirector(directors);
     }
        
+=======
+    
+    public List<Movie> getMoviesForGenre(String genre){
+        Genre genreObject = genreDAO.getByName(genre);
+        
+        resultService.requireResult(genreObject, "No genre found with name: + genre");
+        
+        return movieDAO.getByGenre(genreObject);
+    }
+    
+>>>>>>> b8fe32c7922fe782dbef51cc0a82135851bdcea1
     
     public void update(String movieId, Movie movie){
         ObjectId objectId;

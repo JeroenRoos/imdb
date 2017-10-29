@@ -33,16 +33,14 @@ public class SerieDAO extends BaseDAO<Serie>
      {
         Query<Serie> query = ds.createQuery(Serie.class);      
         query.filter("director. in", lstDirectors);
-        List<Serie> lstSeries = query.asList();
-        return lstSeries;
+        return query.asList();
     }
      
-     public List<Serie> getByGenre(List<Genre> lstGenres)
+     public List<Serie> getByGenre(Genre genre)
      {
         Query<Serie> query = ds.createQuery(Serie.class);      
-        query.filter("genre. in", lstGenres);
-        List<Serie> lstSeries = query.asList();
-        return lstSeries;
+        query.filter("genre ==", genre);
+        return query.asList();
      }
      
      public List<Serie> getByActor(List<Actor> lstActors)

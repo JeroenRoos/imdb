@@ -33,5 +33,10 @@ public class ResultService {
     {
         throw new WebApplicationException(message);
     }
+    
+    public void duplicateDocument(String message)
+    {
+        throw new WebApplicationException(message);
+    }
         
 }

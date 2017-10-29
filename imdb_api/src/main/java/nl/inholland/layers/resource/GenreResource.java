@@ -42,9 +42,9 @@ public class GenreResource extends BaseResource{
     @GET
     public List<GenreView> getAll(@DefaultValue("") @QueryParam("name") String genreName ){
         if(!"".equals(genreName)){
-            List<Genre> genres = genreService.getByName(genreName);
+            Genre genre = genreService.getByName(genreName);
             
-            return genrePresenter.present(genres);
+            return genrePresenter.present(genre);
 
         }else{
             

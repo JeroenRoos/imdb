@@ -55,8 +55,8 @@ public class GenreService extends BaseService {
         return genre;
     }
     
-    public List<Genre> getByName(String genreName){
-        List<Genre> genres = genreDAO.getByName(genreName);
+    public Genre getByName(String genreName){
+        Genre genres = genreDAO.getByName(genreName);
         return genres;
     }
     
