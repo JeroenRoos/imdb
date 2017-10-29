@@ -10,6 +10,7 @@ import java.util.List;
 import javax.inject.Inject;
 import nl.inholland.layers.model.Director;
 import nl.inholland.layers.model.Serie;
+import nl.inholland.layers.persistence.DirectorDAO;
 import nl.inholland.layers.persistence.SerieDAO;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.query.Query;
@@ -22,12 +23,14 @@ import org.mongodb.morphia.query.UpdateOperations;
 public class SerieService extends BaseService
 {
     private final SerieDAO serieDAO;
+    private final DirectorDAO directorDAO;
     private ResultService resultService = new ResultService();
     
     @Inject
-    public SerieService(SerieDAO serieDAO)
+    public SerieService(SerieDAO serieDAO, DirectorDAO directorDAO)
     {
         this.serieDAO = serieDAO;
+        this.directorDAO = directorDAO;
     }
 
     public Serie get (String serieId)
@@ -49,6 +52,16 @@ public class SerieService extends BaseService
             resultService.requireResult(lstSeries, "Serie not found");
         
         return lstSeries;
+    }
+    
+    public List<Serie> getSeriesForDirectorLastName(String directorLastName)
+    {
+        List<Director> lstDirectors = directorDAO.getByLastName(directorLastName);
+        
+        if (lstDirectors.size() == 0)
+            resultService.requireResult(lstDirectors, "No directors found with name: " + directorLastName);
+    
+        return serieDAO.getByDirector(lstDirectors);
     }
     
     public void create(Serie serie)
