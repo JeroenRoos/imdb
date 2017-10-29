@@ -7,10 +7,6 @@ package nl.inholland.layers.model;
 
 import java.util.List;
 
-/**
- *
- * @author youp
- */
 public class MovieView
 {
     private String title;

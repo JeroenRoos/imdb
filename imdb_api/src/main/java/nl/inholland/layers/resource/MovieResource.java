@@ -67,35 +67,10 @@ public class MovieResource extends BaseResource
     }
     @PUT
     @Path("/{movieId}")
-    public void update(@PathParam("movieId") String movieId, Movie movie){;
+    public void update(@PathParam("movieId") String movieId, Movie movie){
+        
         movieService.update(movieId, movie);
     }
-    
-    /*@PUT
-    @Path("/{movieIds}")
-    public void update(@PathParam("movieIds") String movieIds, Movie movie){
-        //List<String> movieIdsAsList = Arrays.asList(movieIds.split(","));
-        String[] movieIdsAsList = movieIds.split(",");
-        
-         if (movieIdsAsList.length == 1)
-             movieService.update(movieIdsAsList[0], movie);
-         else
-            movieService.updateMany(movieIdsAsList, movie);
-    }*/
-    
-    /*@DELETE
-    public void delete(@QueryParam("id") String movieIds){
-        List<String> movieIdsAsList = Arrays.asList(movieIds.split(","));
-        List<ObjectId> movieIdsAsObjectIdList = new ArrayList<>();
-        
-        for(String id : movieIdsAsList){
-            if(ObjectId.isValid(id)){
-                ObjectId objectId = new ObjectId(id);
-                movieIdsAsObjectIdList.add(objectId);
-            }
-        }
-        movieService.delete(movieIdsAsObjectIdList);
-    }*/
     
     @DELETE
     public void delete(@QueryParam("id") String movieIds) //@PathParam

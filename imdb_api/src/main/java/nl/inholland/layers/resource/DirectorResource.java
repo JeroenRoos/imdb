@@ -81,8 +81,7 @@ public class DirectorResource extends BaseResource
     }
     
     @PUT
-    // @Path("/{id}")
-    public void update(@QueryParam("id") String directorIds, Director director) //@PathParam
+    public void update(@QueryParam("id") String directorIds, Director director) 
     {
         String[] ids = directorIds.split(",");
         
@@ -94,8 +93,7 @@ public class DirectorResource extends BaseResource
     
     
     @DELETE
-    // @Path("/{id}")
-    public void delete(@QueryParam("id") String directorIds) //@PathParam
+    public void delete(@QueryParam("id") String directorIds) 
     {     
         String[] ids = directorIds.split(",");
         
