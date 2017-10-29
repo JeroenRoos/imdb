@@ -6,6 +6,7 @@
 package nl.inholland.layers.model;
 
 import java.util.List;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -13,12 +14,24 @@ import java.util.List;
  */
 public class ActorView
 {
+    private ObjectId id;
+    
     private String firstName;
     
     private String lastName;
    
     private int age;
 
+    public ObjectId getId()
+    {
+        return id;
+    }
+
+    public void setId(ObjectId id)
+    {
+        this.id = id;
+    }
+   
     public String getFirstName()
     {
         return firstName;

@@ -6,13 +6,25 @@
 package nl.inholland.layers.model;
 
 import java.util.List;
+import org.bson.types.ObjectId;
 
 
 public class UserView 
 {
+    private ObjectId id;
     private String name;
     private String gender;
     private boolean isAdmin;
+     
+    public ObjectId getId()
+    {
+        return id;
+    }
+
+    public void setId(ObjectId id)
+    {
+        this.id = id;
+    }
 
    public String getName()
     {

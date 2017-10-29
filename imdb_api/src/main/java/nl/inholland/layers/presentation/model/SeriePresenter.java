@@ -39,6 +39,7 @@ public class SeriePresenter extends BasePresenter
     {
         SerieView serieView = new SerieView();
 
+        serieView.setId(serie.getId());
         serieView.setTitle(serie.getTitle());
         serieView.setSummary(serie.getSummary());
         serieView.setYear(serie.getYear());
@@ -47,6 +48,7 @@ public class SeriePresenter extends BasePresenter
         for (Genre genre : serie.getGenre())
         {
             GenreView genreView = new GenreView();
+            genreView.setId(genre.getId());
             genreView.setName(genre.getName());
             lstGenreViews.add(genreView);
         }
@@ -56,6 +58,7 @@ public class SeriePresenter extends BasePresenter
         for (Actor actor : serie.getActors())
         {
             ActorView actorView = new ActorView();
+            actorView.setId(actor.getId());
             actorView.setFirstName(actor.getFirstName());
             actorView.setLastName(actor.getLastName());
             actorView.setAge(actor.getAge());
@@ -67,6 +70,7 @@ public class SeriePresenter extends BasePresenter
         for (Director director : serie.getDirectors())
         {
             DirectorView directorView = new DirectorView();
+            directorView.setId(director.getId());
             directorView.setFirstName(director.getFirstName());
             directorView.setLastName(director.getLastName());
             directorView.setAge(director.getAge());

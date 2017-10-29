@@ -5,17 +5,29 @@
  */
 package nl.inholland.layers.model;
 
+import org.bson.types.ObjectId;
+
 /**
  *
  * @author youp
  */
 public class DirectorView
 {
-    private String firstName;
-    
-    private String lastName;
-    
+    private ObjectId id;
+    private String firstName;    
+    private String lastName;   
     private int age;
+    
+    
+    public ObjectId getId()
+    {
+        return id;
+    }
+
+    public void setId(ObjectId id)
+    {
+        this.id = id;
+    }
 
     public String getFirstName()
     {

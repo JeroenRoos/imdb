@@ -6,12 +6,14 @@
 package nl.inholland.layers.model;
 
 import java.util.List;
+import org.bson.types.ObjectId;
 /**
  *
  * @author Jeroen
  */
 public class SerieView 
 {
+    private ObjectId id;
     private String title;
     private String summary;
     private List<ActorView> lstActors;
@@ -19,6 +21,16 @@ public class SerieView
     private List<GenreView> lstGenres;
     
     private int year;
+    
+    public ObjectId getId()
+    {
+        return id;
+    }
+
+    public void setId(ObjectId id)
+    {
+        this.id = id;
+    }
 
    public String getTitle()
     {

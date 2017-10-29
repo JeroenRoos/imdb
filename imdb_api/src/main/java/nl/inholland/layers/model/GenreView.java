@@ -5,13 +5,26 @@
  */
 package nl.inholland.layers.model;
 
+import org.bson.types.ObjectId;
+
 /**
  *
  * @author youp
  */
 public class GenreView
 {
+    private ObjectId id;
     private String name;
+    
+        public ObjectId getId()
+    {
+        return id;
+    }
+
+    public void setId(ObjectId id)
+    {
+        this.id = id;
+    }
 
     public String getName()
     {
