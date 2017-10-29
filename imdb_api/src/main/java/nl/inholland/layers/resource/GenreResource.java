@@ -57,10 +57,22 @@ public class GenreResource extends BaseResource{
     
     @GET
     @Path("/{GenreId}")
-    public GenreView get( @PathParam("GenreId") String genreId){
-        Genre genre = genreService.get(genreId);
+    public List<GenreView> get( @PathParam("GenreId") String genreIds){
         
-        return genrePresenter.present(genre);
+        String[] ids = genreIds.split(",");
+        
+        if (ids.length == 1)
+        {
+            Genre genre = genreService.get(ids[0]);
+        
+            return genrePresenter.present(genre);
+        }
+        else
+        {
+            List<Genre> genres =  genreService.getMany(ids);
+            
+            return genrePresenter.present(genres);
+        }
     }
             
     @POST

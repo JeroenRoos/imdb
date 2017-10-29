@@ -58,9 +58,15 @@ public class MovieResource extends BaseResource
         
         return moviePresenter.present(Movie);
     }
-    
     @PUT
-    public void update(@QueryParam("id") String movieIds, Movie movie){
+    @Path("/{movieId}")
+    public void update(@PathParam("movieId") String movieId, Movie movie){;
+        movieService.update(movieId, movie);
+    }
+    
+    /*@PUT
+    @Path("/{movieIds}")
+    public void update(@PathParam("movieIds") String movieIds, Movie movie){
         //List<String> movieIdsAsList = Arrays.asList(movieIds.split(","));
         String[] movieIdsAsList = movieIds.split(",");
         
@@ -68,7 +74,7 @@ public class MovieResource extends BaseResource
              movieService.update(movieIdsAsList[0], movie);
          else
             movieService.updateMany(movieIdsAsList, movie);
-    }
+    }*/
     
     /*@DELETE
     public void delete(@QueryParam("id") String movieIds){

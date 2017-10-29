@@ -13,6 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import nl.inholland.layers.model.User;
 import nl.inholland.layers.persistence.UserDAO;
+import org.bson.types.ObjectId;
 
 public class UserService extends BaseService
 {
@@ -62,5 +63,26 @@ public class UserService extends BaseService
     
     public void createMany(List<User> users){
         userDAO.createMany(users);
+        
+    }public void delete(String userId)
+    {
+        ObjectId objectId;
+        if (ObjectId.isValid(userId))
+        {
+            objectId = new ObjectId(userId);
+            userDAO.deleteById(objectId);
+        }
+    }
+
+    public void deleteMany(String[] ids)
+    {        
+        for (int i = 0; i < ids.length; i++)
+        {
+            if (ObjectId.isValid(ids[i]))
+            {
+                ObjectId objectId = new ObjectId(ids[i]);
+                userDAO.deleteById(objectId);
+            }
+        }
     }
 }

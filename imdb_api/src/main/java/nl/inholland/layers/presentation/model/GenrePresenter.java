@@ -14,7 +14,7 @@ import nl.inholland.layers.model.GenreView;
 
 public class GenrePresenter extends BasePresenter {
     
-    public List<GenreView> present (List<Genre> lstGenres)
+    public List<GenreView> present(List<Genre> lstGenres)
     {
         List<GenreView> view = new ArrayList<>();
         for (Genre genre : lstGenres)
@@ -25,10 +25,12 @@ public class GenrePresenter extends BasePresenter {
         return view;
     }
     
-    public GenreView present(Genre genre)
+    public List<GenreView> present(Genre genre)
     {
+        List<GenreView> view = new ArrayList<>();
         GenreView genreView = initGenreView(genre);
-        return genreView;
+        view.add(genreView);
+        return view;
     }
     
     private GenreView initGenreView(Genre genre)

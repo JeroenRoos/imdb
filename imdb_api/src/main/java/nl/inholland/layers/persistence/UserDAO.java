@@ -8,12 +8,15 @@ package nl.inholland.layers.persistence;
 import java.util.List;
 import javax.inject.Inject;
 import nl.inholland.layers.model.User;
+import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.annotations.Field;
 import org.mongodb.morphia.query.Query;
 
 public class UserDAO extends BaseDAO<User>
 {
+    private Datastore ds;
+    
     @Inject
     public UserDAO(Datastore ds)
     {

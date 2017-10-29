@@ -36,6 +36,17 @@ public class GenreService extends BaseService {
         Genre genre = genreDAO.get(genreId);
         return genre;
     }
+
+    public List<Genre> getMany(String[] ids)
+    {        
+        List<Genre> genres = new ArrayList<Genre>();
+        for (int i = 0; i < ids.length; i++)
+        {
+            genres.add(genreDAO.get(ids[i]));
+        }
+        
+        return genres;
+    }
     
     
     public List<Genre> getAll()

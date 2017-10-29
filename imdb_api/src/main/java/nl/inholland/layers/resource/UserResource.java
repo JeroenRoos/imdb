@@ -8,6 +8,7 @@ package nl.inholland.layers.resource;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -74,6 +75,18 @@ public class UserResource extends BaseResource
             userService.create(users.get(0));
         else
             userService.createMany(users);
+    }
+    
+    @DELETE
+    @Path("/{UserId}")
+    public void delete(@PathParam("UserId") String userIds) //@PathParam
+    {     
+        String[] ids = userIds.split(",");
+        
+        if (ids.length == 1)
+            userService.delete(ids[0]);
+        else
+            userService.deleteMany(ids);
     }
 }
 
