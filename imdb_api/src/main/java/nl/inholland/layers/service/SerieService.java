@@ -81,13 +81,17 @@ public class SerieService extends BaseService
     public void create(Serie serie)
     {         
         checkCreateValidity(serie);
+        checkDuplicate(serie);
         serieDAO.create(serie);
     }
     
     public void createMany(List<Serie> lstSeries)
     {         
         for (Serie serie : lstSeries)
+        {
             checkCreateValidity(serie);
+            checkDuplicate(serie);
+        }
         
         serieDAO.createMany(lstSeries);
     }
@@ -113,6 +117,11 @@ public class SerieService extends BaseService
                 resultService.emptyField("The movie must have an director.");
     }
     
+    private void checkDuplicate(Serie serie)
+    {
+        
+    }
+            
     public void update(String serieId, Serie serie)
     {
         ObjectId objectId;

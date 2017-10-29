@@ -73,13 +73,17 @@ public class DirectorService extends BaseService
     public void create(Director director)
     {
         checkCreateValidity(director);
+        checkDuplicate(director);
         directorDAO.create(director);
     }
 
     public void createMany(List<Director> lstDirectors)
     {
         for (Director director : lstDirectors)
+        {
             checkCreateValidity(director);
+            checkDuplicate(director);
+        }
         
         directorDAO.createMany(lstDirectors);
     }
@@ -95,8 +99,19 @@ public class DirectorService extends BaseService
         if (director.getAge() == 0)
             resultService.emptyField("Director cannot be aged 0");
     }
-
-    // Ik haal hier director op waardoor de director die geupdate zou moeten worden overschreven wordt
+    
+    public void checkDuplicate(Director director)
+    {
+        List<Director> lstDirectors = directorDAO.getAll();
+        for (Director d : lstDirectors)
+        {
+            if (d.getFirstName().equals(director.getFirstName()) && d.getLastName().equals(director.getLastName()))
+            {
+                resultService.duplicateDocument("An director with the name " + director.getFirstName() + " " + director.getLastName() + " already exists.");
+            }
+        }
+    }
+    
     public void update(String directorId, Director director)
     {
         ObjectId objectId;
@@ -114,7 +129,6 @@ public class DirectorService extends BaseService
     }
     
     
-    // Ik haal hier director op waardoor de director die geupdate zou moeten worden overschreven wordt
     public void updateMany(String[] ids, Director director)
     {
         for (int i = 0; i < ids.length; i++)
