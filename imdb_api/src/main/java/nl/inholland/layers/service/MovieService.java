@@ -74,6 +74,15 @@ public class MovieService extends BaseService
         
         return movieDAO.getByGenre(genreObject);
     }
+       
+    
+    public List<Movie> getMoviesForYear(int year){
+        List<Movie> movies = movieDAO.getByYear(year);
+        
+        resultService.requireResult(movies, "No movies found with year: "+ year);
+        
+        return movies;
+    }
     
     
     public void update(String movieId, Movie movie){

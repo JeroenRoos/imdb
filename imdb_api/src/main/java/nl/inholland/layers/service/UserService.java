@@ -22,6 +22,7 @@ public class UserService extends BaseService
 {
 
     private final UserDAO userDAO;
+    private final ResultService resultService = new ResultService();
     
     @Inject
     public UserService(UserDAO userDAO){
@@ -61,13 +62,22 @@ public class UserService extends BaseService
     }
     
     public void create(User user){
+        checkEntryValidity(user);
+        checkDuplicate(user);
         userDAO.create(user);
     }
     
     public void createMany(List<User> users){
+        for (User u : users)
+        {
+            checkEntryValidity(u);
+            checkDuplicate(u);
+        }
         userDAO.createMany(users);
         
-    }public void delete(String userId)
+    }
+    
+    public void delete(String userId)
     {
         ObjectId objectId;
         if (ObjectId.isValid(userId))
@@ -75,6 +85,8 @@ public class UserService extends BaseService
             objectId = new ObjectId(userId);
             userDAO.deleteById(objectId);
         }
+        else
+            resultService.noValidObjectId("The user id is not valid");
     }
 
     public void deleteMany(String[] ids)
@@ -86,6 +98,8 @@ public class UserService extends BaseService
                 ObjectId objectId = new ObjectId(ids[i]);
                 userDAO.deleteById(objectId);
             }
+            else
+                resultService.noValidObjectId("The director id is not valid");
         }
     }
     
@@ -98,8 +112,11 @@ public class UserService extends BaseService
                     .set("name", user.getName())
                     .set("gender", user.getGender())
                     .set("isAdmin", user.getIsAdmin());
+            checkEntryValidity(user);
             userDAO.update(query, ops);
         }
+        else
+            resultService.noValidObjectId("The user id is not valid");
     }
 
     public void updateMany(String[] ids, User[] users)
@@ -110,6 +127,31 @@ public class UserService extends BaseService
             {
                 ObjectId objectId = new ObjectId(ids[i]);
                 update(ids[i], users[i]);
+            }
+            else
+                resultService.noValidObjectId("The user id is not valid");
+        }
+    }
+    
+    
+    
+    private void checkEntryValidity(User u)
+    {
+        if ("".equals(u.getName()) || u.getName() == null)
+            resultService.emptyField("name cannot be an empty");
+        
+        if ("".equals(u.getGender()) || u.getGender() == null)
+            resultService.emptyField("gender cannot be an empty");
+    }
+    
+    public void checkDuplicate(User user)
+    {
+        List<User> users = userDAO.getAll();
+        for (User u : users)
+        {
+            if (u.getName().equals(user.getName()))
+            {
+                resultService.duplicateDocument("A user with the name " + user.getName() + " already exists.");
             }
         }
     }

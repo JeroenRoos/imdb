@@ -42,6 +42,13 @@ public class MovieDAO extends BaseDAO<Movie>
         query.filter("genre ==", genre);
         return query.asList();
     }
+    
+    public List<Movie> getByYear(int year){
+        Query<Movie> query = ds.createQuery(Movie.class);
+        
+        query.filter("year ==", year);
+        return query.asList();
+    }
  
         public List<Movie> getByDirector(List<Director> directors){
         Query<Movie> query = ds.createQuery(Movie.class);

@@ -25,6 +25,7 @@ import org.mongodb.morphia.query.UpdateOperations;
 public class GenreService extends BaseService {
     
     private final GenreDAO genreDAO;
+    private final ResultService resultService = new ResultService();
     
     @Inject
     public GenreService(GenreDAO genreDAO){
@@ -34,6 +35,7 @@ public class GenreService extends BaseService {
     public Genre get(String genreId)
     {
         Genre genre = genreDAO.get(genreId);
+        resultService.requireResult(genre, "genre not found");
         return genre;
     }
 
@@ -44,6 +46,7 @@ public class GenreService extends BaseService {
         {
             genres.add(genreDAO.get(ids[i]));
         }
+        resultService.requireResult(genres, "genres not found");
         
         return genres;
     }
@@ -52,6 +55,7 @@ public class GenreService extends BaseService {
     public List<Genre> getAll()
     {
         List<Genre> genre = genreDAO.getAll();
+        resultService.requireResult(genre, "genres not found");
         return genre;
     }
     
