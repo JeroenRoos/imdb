@@ -44,12 +44,18 @@ public class MovieResource extends BaseResource
     }
     
     @GET
-    public List<MovieView> getAll(@DefaultValue("") @QueryParam("actorLastName") String actorName){
-        List<Movie> movies;
+    public List<MovieView> getAll(@DefaultValue("") @QueryParam("actorLastName") String actorName, 
+            @DefaultValue("") @QueryParam("directorLastName") String directorLastName){
+        List<Movie> movies = null;
         if(!"".equals(actorName)){
             
             movies = movieService.getMoviesForActorName(actorName);            
-        }else{
+        }
+        else if(!"".equals(directorLastName)){
+            
+         movies = movieService.getMoviesForDirectorName(directorLastName);
+        }
+        else{
             
             movies = movieService.getAll();
         }

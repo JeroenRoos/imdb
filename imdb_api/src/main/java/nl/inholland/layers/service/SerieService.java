@@ -8,9 +8,11 @@ package nl.inholland.layers.service;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
+import nl.inholland.layers.model.Actor;
 import nl.inholland.layers.model.Director;
 import nl.inholland.layers.model.Genre;
 import nl.inholland.layers.model.Serie;
+import nl.inholland.layers.persistence.ActorDAO;
 import nl.inholland.layers.persistence.DirectorDAO;
 import nl.inholland.layers.persistence.GenreDAO;
 import nl.inholland.layers.persistence.SerieDAO;
@@ -27,14 +29,17 @@ public class SerieService extends BaseService
     private final SerieDAO serieDAO;
     private final DirectorDAO directorDAO;
     private final GenreDAO genreDAO;
+    private final ActorDAO actorDAO;
+
     private ResultService resultService = new ResultService();
     
     @Inject
-    public SerieService(SerieDAO serieDAO, DirectorDAO directorDAO, GenreDAO genreDAO)
+    public SerieService(SerieDAO serieDAO, DirectorDAO directorDAO, GenreDAO genreDAO, ActorDAO actorDAO)
     {
         this.serieDAO = serieDAO;
         this.directorDAO = directorDAO;
         this.genreDAO = genreDAO;
+        this.actorDAO = actorDAO;
     }
 
     public Serie get (String serieId)
@@ -76,6 +81,16 @@ public class SerieService extends BaseService
             resultService.requireResult(lstGenres, "No directors found with name: " + genreName);
     
         return serieDAO.getByGenre(lstGenres);
+    }
+    
+    public List<Serie> getSeriesByActorFirstName(String actorName)
+    {
+        List<Actor> lstActors = actorDAO.getByFirstName(actorName);
+        
+        if (lstActors.size() == 0)
+            resultService.requireResult(lstActors, "No actors found with name: " + actorName);
+    
+        return serieDAO.getByActor(lstActors);
     }
     
     public void create(Serie serie)

@@ -8,12 +8,11 @@ package nl.inholland.layers.service;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import nl.inholland.layers.model.Actor;
+import nl.inholland.layers.model.Director;
 import nl.inholland.layers.model.Movie;
 import nl.inholland.layers.persistence.ActorDAO;
+import nl.inholland.layers.persistence.DirectorDAO;
 import nl.inholland.layers.persistence.MovieDAO;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.query.Query;
@@ -24,13 +23,15 @@ public class MovieService extends BaseService
 
     private final MovieDAO movieDAO;
     private final ActorDAO actorDAO;
+    private final DirectorDAO directorDAO;
+
     private final ResultService resultService = new ResultService();
     
     @Inject
-    public MovieService(MovieDAO movieDAO, ActorDAO actorDAO){
+    public MovieService(MovieDAO movieDAO, ActorDAO actorDAO, DirectorDAO directorDAO){
         this.movieDAO = movieDAO;
         this.actorDAO = actorDAO;
-        
+        this.directorDAO = directorDAO;
     }
 
     public Movie get(String movieId)
@@ -46,13 +47,20 @@ public class MovieService extends BaseService
     }
     
     public List<Movie> getMoviesForActorName(String actorName){
-        List<Actor> actors = actorDAO.getByName(actorName);
+        List<Actor> actors = actorDAO.getByFirstName(actorName);
         
         resultService.requireResult(actors, "No actors found with last name: " + actorName);
         
         return movieDAO.getByActor(actors);
     }
-    
+     public List<Movie> getMoviesForDirectorName(String directorLastName){
+        List<Director> directors = directorDAO.getByLastName(directorLastName);
+        
+        resultService.requireResult(directors, "No directors found with last name: " + directorLastName);
+        
+        return movieDAO.getByDirector(directors);
+    }
+       
     
     public void update(String movieId, Movie movie){
         ObjectId objectId;

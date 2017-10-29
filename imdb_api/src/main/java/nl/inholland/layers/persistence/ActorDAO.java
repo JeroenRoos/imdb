@@ -8,7 +8,9 @@ package nl.inholland.layers.persistence;
 import java.util.List;
 import javax.inject.Inject;
 import nl.inholland.layers.model.Actor;
+import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.query.Query;
 
 /**
  *
@@ -16,22 +18,35 @@ import org.mongodb.morphia.Datastore;
  */
 public class ActorDAO extends BaseDAO<Actor> {
 
+    private Datastore ds;
+
     @Inject
-    public ActorDAO(Datastore ds)
-    {
+    public ActorDAO(Datastore ds) {
         super(Actor.class, ds);
+        this.ds = ds;
     }
-    
-    /**
-     *
-     * @param lastName
-     * @return
-     */
-    public List<Actor> getByName(String lastName){
+
+    public List<Actor> getByFirstName(String firstName) {
+        return createQuery().field("firstName").equal(firstName).asList();
+    }
+
+    public List<Actor> getByLastName(String lastName) {
         return createQuery().field("lastName").equal(lastName).asList();
-    }    
-        public List<Actor> getByAge(int age)
-    {
+    }
+
+    public List<Actor> getByAge(int age) {
         return createQuery().field("age").equal(age).asList();
     }
+
+    public void deleteManyById(List<ObjectId> lstObjects) {
+        Query<Actor> query = ds.createQuery(Actor.class);
+        ds.delete(query.filter("_id in", lstObjects));
+    }
+        public Actor getById(ObjectId id) {
+        return createQuery().field("_id").equal(id).get();
+    }
+    public void updateManyById() {
+        //
+    }
+
 }
