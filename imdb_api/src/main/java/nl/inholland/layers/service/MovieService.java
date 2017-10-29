@@ -58,7 +58,6 @@ public class MovieService extends BaseService
     public List<Movie> getAll()
     {
         List<Movie> movies = movieDAO.getAll();
-        movies.removeAll(movies);
         if(movies.isEmpty()){
             resultService.requireResult(movies, "No movies found");
         }
