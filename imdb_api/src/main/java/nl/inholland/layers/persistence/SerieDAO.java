@@ -7,6 +7,7 @@ package nl.inholland.layers.persistence;
 
 import java.util.List;
 import javax.inject.Inject;
+import nl.inholland.layers.model.Actor;
 import nl.inholland.layers.model.Director;
 import nl.inholland.layers.model.Genre;
 import nl.inholland.layers.model.Serie;
@@ -40,5 +41,13 @@ public class SerieDAO extends BaseDAO<Serie>
         Query<Serie> query = ds.createQuery(Serie.class);      
         query.filter("genre ==", genre);
         return query.asList();
+     }
+     
+     public List<Serie> getByActor(List<Actor> lstActors)
+     {
+        Query<Serie> query = ds.createQuery(Serie.class);      
+        query.filter("actors in", lstActors);
+        List<Serie> lstSeries = query.asList();
+        return lstSeries;
      }
 }

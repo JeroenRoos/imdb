@@ -10,16 +10,14 @@ import nl.inholland.layers.model.Actor;
 
 /**
  *
- * @author Tiel
+ * @author CTiel
  */
 public class ActorPresenter extends BasePresenter {
     
     //present a list of actors
     public List<Actor> present(List<Actor> actors)
-    {
-        
-        return actors;
-        
+    {        
+        return actors;        
     }
 
     //present an actor
