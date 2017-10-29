@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import nl.inholland.layers.model.Actor;
+import nl.inholland.layers.model.Comment;
 import nl.inholland.layers.model.Director;
 import nl.inholland.layers.persistence.DirectorDAO;
 import nl.inholland.layers.model.Genre;
@@ -87,7 +88,9 @@ public class MovieService extends BaseService
         
         resultService.requireResult(userObject, "No user found with name: " + userName);
         
-        return movieDAO.getByGenre(userObject);
+        List<Comment> comments = commentDAO.getByUser(userObject);
+        
+        return movieDAO.getByComments(comments);
     }
     
     public List<Movie> getMoviesForGenre(String genre){
