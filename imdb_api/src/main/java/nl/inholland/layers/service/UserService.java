@@ -11,9 +11,12 @@ import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import nl.inholland.layers.model.Genre;
 import nl.inholland.layers.model.User;
 import nl.inholland.layers.persistence.UserDAO;
 import org.bson.types.ObjectId;
+import org.mongodb.morphia.query.Query;
+import org.mongodb.morphia.query.UpdateOperations;
 
 public class UserService extends BaseService
 {
@@ -82,6 +85,31 @@ public class UserService extends BaseService
             {
                 ObjectId objectId = new ObjectId(ids[i]);
                 userDAO.deleteById(objectId);
+            }
+        }
+    }
+    
+    public void update(String userId, User user){
+        ObjectId objectId;
+        if(ObjectId.isValid(userId)){
+            objectId = new ObjectId(userId);
+            Query query = userDAO.createQuery().field("_id").equal(objectId);
+            UpdateOperations<User> ops = userDAO.createUpdateOperations()
+                    .set("name", user.getName())
+                    .set("gender", user.getGender())
+                    .set("isAdmin", user.getIsAdmin());
+            userDAO.update(query, ops);
+        }
+    }
+
+    public void updateMany(String[] ids, User[] users)
+    {        
+        for (int i = 0; i < ids.length; i++)
+        {
+            if (ObjectId.isValid(ids[i]))
+            {
+                ObjectId objectId = new ObjectId(ids[i]);
+                update(ids[i], users[i]);
             }
         }
     }
