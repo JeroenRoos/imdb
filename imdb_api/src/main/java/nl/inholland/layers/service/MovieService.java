@@ -108,6 +108,7 @@ public class MovieService extends BaseService
                     .set("title", movie.getTitle())
                     .set("summary", movie.getSummary())
                     .set("actors", movie.getActors())
+                    .set("comments", movie.getComments())
                     .set("director", movie.getDirector())
                     .set("genre", movie.getGenre())
                     .set("year", movie.getYear());
