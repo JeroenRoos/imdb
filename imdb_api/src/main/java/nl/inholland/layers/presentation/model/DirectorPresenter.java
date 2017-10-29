@@ -37,6 +37,7 @@ public class DirectorPresenter extends BasePresenter
     {
         DirectorView directorView = new DirectorView();
         
+        directorView.setId(director.getId());
         directorView.setFirstName(director.getFirstName());
         directorView.setLastName(director.getLastName());
         directorView.setAge(director.getAge());

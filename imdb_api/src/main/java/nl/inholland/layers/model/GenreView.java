@@ -16,7 +16,7 @@ public class GenreView
     private ObjectId id;
     private String name;
     
-        public ObjectId getId()
+    public ObjectId getId()
     {
         return id;
     }
