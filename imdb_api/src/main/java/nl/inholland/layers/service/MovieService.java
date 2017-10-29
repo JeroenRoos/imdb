@@ -11,7 +11,9 @@ import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import nl.inholland.layers.model.Actor;
 import nl.inholland.layers.model.Movie;
+import nl.inholland.layers.persistence.ActorDAO;
 import nl.inholland.layers.persistence.MovieDAO;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.query.Query;
@@ -21,10 +23,14 @@ public class MovieService extends BaseService
 {
 
     private final MovieDAO movieDAO;
+    private final ActorDAO actorDAO;
+    private final ResultService resultService = new ResultService();
     
     @Inject
-    public MovieService(MovieDAO movieDAO){
+    public MovieService(MovieDAO movieDAO, ActorDAO actorDAO){
         this.movieDAO = movieDAO;
+        this.actorDAO = actorDAO;
+        
     }
 
     public Movie get(String movieId)
@@ -37,6 +43,14 @@ public class MovieService extends BaseService
     {
         List<Movie> movies = movieDAO.getAll();
         return movies;
+    }
+    
+    public List<Movie> getMoviesForActorName(String actorName){
+        List<Actor> actors = actorDAO.getByName(actorName);
+        
+        resultService.requireResult(actors, "No actors found with last name: " + actorName);
+        
+        return movieDAO.getByActor(actors);
     }
     
     

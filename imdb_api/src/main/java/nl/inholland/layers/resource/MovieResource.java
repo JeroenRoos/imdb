@@ -11,6 +11,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -43,12 +44,18 @@ public class MovieResource extends BaseResource
     }
     
     @GET
-    public List<MovieView> getAll(@Context HttpHeaders httpHeaders){
-        
-        List<String> headers = httpHeaders.getRequestHeader("authtoken");
-        List<Movie> movies = movieService.getAll();
+    public List<MovieView> getAll(@DefaultValue("") @QueryParam("actorLastName") String actorName){
+        List<Movie> movies;
+        if(!"".equals(actorName)){
+            
+            movies = movieService.getMoviesForActorName(actorName);            
+        }else{
+            
+            movies = movieService.getAll();
+        }
         
         return moviePresenter.present(movies);
+
     }
     
     @GET
