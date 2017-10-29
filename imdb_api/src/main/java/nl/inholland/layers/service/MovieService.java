@@ -14,6 +14,7 @@ import nl.inholland.layers.persistence.DirectorDAO;
 import nl.inholland.layers.model.Genre;
 import nl.inholland.layers.model.Movie;
 import nl.inholland.layers.persistence.ActorDAO;
+import nl.inholland.layers.persistence.CommentDAO;
 import nl.inholland.layers.persistence.GenreDAO;
 import nl.inholland.layers.persistence.MovieDAO;
 import org.bson.types.ObjectId;
@@ -26,16 +27,18 @@ public class MovieService extends BaseService
     private final MovieDAO movieDAO;
     private final ActorDAO actorDAO;
     private final DirectorDAO directorDAO;
+    private final CommentDAO commentDAO;
 
     private final ResultService resultService = new ResultService();
     private final GenreDAO genreDAO;
     
     @Inject
-    public MovieService(MovieDAO movieDAO, ActorDAO actorDAO, GenreDAO genreDAO, DirectorDAO directorDAO){
+    public MovieService(MovieDAO movieDAO, ActorDAO actorDAO, GenreDAO genreDAO, DirectorDAO directorDAO, CommentDAO commentDAO){
         this.movieDAO = movieDAO;
         this.actorDAO = actorDAO;
         this.genreDAO = genreDAO;
         this.directorDAO = directorDAO;
+        this.commentDAO = commentDAO;
                
     }
 

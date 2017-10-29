@@ -9,11 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 import nl.inholland.layers.model.Actor;
 import nl.inholland.layers.model.ActorView;
+import nl.inholland.layers.model.Comment;
+import nl.inholland.layers.model.CommentView;
 import nl.inholland.layers.model.DirectorView;
 import nl.inholland.layers.model.Genre;
 import nl.inholland.layers.model.GenreView;
 import nl.inholland.layers.model.Movie;
 import nl.inholland.layers.model.MovieView;
+import nl.inholland.layers.model.UserView;
 
 /**
  *
@@ -67,6 +70,25 @@ public class MoviePresenter extends BasePresenter
                 genreView.setId(genre.getId());
                 genreView.setName(genre.getName());
                 genres.add(genreView);
+            }
+            
+            List<CommentView> comments = new ArrayList<>();
+            for(Comment comment : movie.getComments()){
+                CommentView commentView = new CommentView();
+                
+                commentView.setId(comment.getId());
+                commentView.setMessage(comment.getMessage());
+                
+            
+                UserView userView = new UserView();
+                userView.setId(comment.getUser().getId());
+                userView.setName(comment.getUser().getName());
+                userView.setGender(comment.getUser().getGender());
+                userView.setIsAdmin(comment.getUser().getIsAdmin());
+                
+                commentView.setUser(userView);
+                
+                comments.add(commentView);
             }
             
             DirectorView directorView = new DirectorView();

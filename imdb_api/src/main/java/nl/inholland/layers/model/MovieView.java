@@ -14,6 +14,7 @@ public class MovieView
     private String title;
     private String summary;
     private List<ActorView> actors;
+    private List<CommentView> comments;
     private DirectorView director;
     private List<GenreView> genres; 
     private int year;
@@ -66,6 +67,16 @@ public class MovieView
     public void setActors(List<ActorView> actors)
     {
         this.actors = actors;
+    }
+
+    public List<CommentView> getComments()
+    {
+        return comments;
+    }
+
+    public void setComments(List<CommentView> comments)
+    {
+        this.comments = comments;
     }
 
     public DirectorView getDirector()
