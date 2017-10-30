@@ -9,6 +9,7 @@ import com.hubspot.dropwizard.guice.GuiceBundle;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import nl.inholland.health.DatabaseHealthCheck;
 
 public class LayeredApplication extends Application<LayeredConfiguration>
 {
@@ -39,6 +40,9 @@ public class LayeredApplication extends Application<LayeredConfiguration>
     public void run( final LayeredConfiguration configuration, 
                      final Environment environment) throws Exception
     {        
-        
+        environment.healthChecks().register( 
+                "database", 
+                guiceBundle.getInjector().getInstance( 
+                        DatabaseHealthCheck.class ) );
     }
 }
