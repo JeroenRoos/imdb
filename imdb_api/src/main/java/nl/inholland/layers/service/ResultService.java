@@ -9,11 +9,10 @@ import javax.inject.Singleton;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.WebApplicationException;
-import org.mongodb.morphia.query.UpdateOperations;
 
 @Singleton
-public class ResultService {
-    
+public class ResultService 
+{    
     public void requireResult(Object obj, String message) throws NotFoundException
     {
         if (obj == null)
@@ -38,6 +37,5 @@ public class ResultService {
     public void duplicateDocument(String message)
     {
         throw new WebApplicationException(message);
-    }
-        
+    }     
 }

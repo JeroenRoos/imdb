@@ -84,8 +84,8 @@ public class SerieService extends BaseService
     {
         List<Actor> lstActors = actorDAO.getByFirstName(actorName);
         
-        if (lstActors.size() == 0)
-            resultService.requireResult(lstActors, "No actors found with name: " + actorName);
+        if (lstActors.isEmpty())
+            resultService.requireResult(null, "No actors found with name: " + actorName);
     
         return serieDAO.getByActor(lstActors);
     }
