@@ -90,14 +90,22 @@ public class SerieService extends BaseService
         return serieDAO.getByActor(lstActors);
     }
     
-    public void create(Serie serie)
+    public void create(List<Serie> lstSeries)
+    {
+        if (lstSeries.size() == 1)
+            createOne(lstSeries.get(0));
+        else
+            createMany(lstSeries);
+    }
+    
+    private void createOne(Serie serie)
     {         
         checkCreateValidity(serie);
         //checkDuplicate(serie);
         serieDAO.create(serie);
     }
     
-    public void createMany(List<Serie> lstSeries)
+    private void createMany(List<Serie> lstSeries)
     {         
         for (Serie serie : lstSeries)
         {
@@ -105,6 +113,7 @@ public class SerieService extends BaseService
             //checkDuplicate(serie);
         }
         
+        // Create all Series after each Serie is checked for validity
         serieDAO.createMany(lstSeries);
     }
     
