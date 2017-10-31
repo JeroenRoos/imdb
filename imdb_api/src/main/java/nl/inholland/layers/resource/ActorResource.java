@@ -18,6 +18,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import nl.inholland.layers.model.Actor;
+import nl.inholland.layers.model.ActorView;
 import nl.inholland.layers.presentation.model.ActorPresenter;
 import nl.inholland.layers.service.ActorService;
 
@@ -42,7 +43,7 @@ public class ActorResource extends BaseResource{
     
     //get all
     @GET
-    public List<Actor> getAll(@DefaultValue("") @QueryParam("lastName") String lastName, 
+    public List<ActorView> getAll(@DefaultValue("") @QueryParam("lastName") String lastName, 
             @DefaultValue("") @QueryParam("age") String age ){
         
         List<Actor> actors;
@@ -90,7 +91,7 @@ public class ActorResource extends BaseResource{
     //get by Id
     @GET
     @Path("/{actorId}")
-    public Actor get( @PathParam("actorId") String actorId){
+    public ActorView get( @PathParam("actorId") String actorId){
         Actor actor = actorService.get(actorId);
         
         return actorPresenter.present(actor);
