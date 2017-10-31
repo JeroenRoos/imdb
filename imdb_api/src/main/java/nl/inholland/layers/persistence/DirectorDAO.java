@@ -8,9 +8,11 @@ package nl.inholland.layers.persistence;
 import java.util.List;
 import javax.inject.Inject;
 import nl.inholland.layers.model.Director;
+import nl.inholland.layers.model.Genre;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
+import org.mongodb.morphia.query.UpdateOperations;
 
 /**
  *
@@ -43,9 +45,10 @@ public class DirectorDAO extends BaseDAO<Director>
         ds.delete(query.filter("_id in", lstObjects));
     }
     
-    public void updateManyById()
+    public void updateMany(Query[] lstQueries, UpdateOperations[] lstUpdateOperations)
     {
-        //save(obj);
+        for (int i = 0; i < lstUpdateOperations.length; i++)
+            update(lstQueries[i], lstUpdateOperations[i]);
     }
     
 }

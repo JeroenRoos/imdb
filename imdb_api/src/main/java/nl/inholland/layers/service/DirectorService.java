@@ -148,9 +148,11 @@ public class DirectorService extends BaseService
             resultService.noValidObjectId("The director id is not valid");
     }
     
-    // Fix dat hij pas zn dingen update als alles door de check is gekomen
     private void updateMany(String[] ids, Director director)
     {       
+        Query[] lstQueries = new Query[ids.length];
+        UpdateOperations[] lstUpdateOperations = new UpdateOperations[ids.length];
+        
         for (int i = 0; i < ids.length; i++)
         {
             if (ObjectId.isValid(ids[i]))
@@ -161,13 +163,15 @@ public class DirectorService extends BaseService
                 Query query = directorDAO.createQuery().field("_id").equal(objectId);
                 UpdateOperations<Director> update = directorDAO.createUpdateOperations();
                 checkUpdateValidity(update, director, objectId); 
-                directorDAO.update(query, update);
+                
+                lstQueries[i] = query;
+                lstUpdateOperations[i] = update;
             }
             else
                 resultService.noValidObjectId("The director id is not valid");
         }
         
-        //directorDAO.updateMany(director);
+        directorDAO.updateMany(lstQueries, lstUpdateOperations);
     }
 
     private void checkUpdateValidity(UpdateOperations<Director> update, Director director, ObjectId id)
