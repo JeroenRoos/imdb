@@ -6,6 +6,7 @@
 package nl.inholland.layers.service;
 
 import javax.inject.Singleton;
+import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.WebApplicationException;
 import org.mongodb.morphia.query.UpdateOperations;
@@ -37,6 +38,11 @@ public class ResultService {
     public void duplicateDocument(String message)
     {
         throw new WebApplicationException(message);
+    }
+    
+    public void notAuthorizedException(String message) throws NotAuthorizedException
+    {
+        throw new NotAuthorizedException(message);
     }
         
 }

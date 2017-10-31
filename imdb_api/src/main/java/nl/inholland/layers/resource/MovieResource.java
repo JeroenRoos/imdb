@@ -22,10 +22,12 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import nl.inholland.layers.model.Movie;
 import nl.inholland.layers.model.MovieView;
 import nl.inholland.layers.presentation.model.MoviePresenter;
 import nl.inholland.layers.service.MovieService;
+import nl.inholland.layers.service.ResultService;
 import org.bson.types.ObjectId;
 
 @Path("/movies")
@@ -35,6 +37,9 @@ public class MovieResource extends BaseResource
 {
     private final MovieService movieService;
     private final MoviePresenter moviePresenter;
+    private final ResultService resultService = new ResultService();
+    private final String HEADER_KEY = System.getenv("HEADER_KEY");
+    private final String HEADER_VALUE = System.getenv("HEADER_VALUE");
     
     @Inject
     public MovieResource( MovieService movieService,
@@ -45,7 +50,17 @@ public class MovieResource extends BaseResource
     
     @GET
     public List<MovieView> getAll(@DefaultValue("") @QueryParam("actorLastName") String actorName, 
-            @DefaultValue("") @QueryParam("directorLastName") String directorLastName){
+            @DefaultValue("") @QueryParam("directorLastName") String directorLastName,
+            @Context HttpHeaders headers){
+        
+        List<String> headerParams = null;
+        if(headers.getRequestHeader(HEADER_KEY) != null){
+            
+        headerParams = headers.getRequestHeader(HEADER_KEY);
+        }
+        
+        if(headerParams != null && headerParams.contains(HEADER_VALUE)){
+       
         List<Movie> movies = null;
         if(!"".equals(actorName)){
             
@@ -61,6 +76,11 @@ public class MovieResource extends BaseResource
         }
         
         return moviePresenter.present(movies);
+        }
+        
+        resultService.notAuthorizedException("Invalid headers");
+        
+        return null;
     }
     
     @GET

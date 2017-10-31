@@ -18,11 +18,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import nl.inholland.layers.model.Director;
 import nl.inholland.layers.model.DirectorView;
 import nl.inholland.layers.presentation.model.DirectorPresenter;
 import nl.inholland.layers.service.DirectorService;
+import nl.inholland.layers.service.ResultService;
 import org.bson.types.ObjectId;
 
 /**
@@ -37,6 +40,9 @@ public class DirectorResource extends BaseResource
 {
     private final DirectorService directorService;
     private final DirectorPresenter directorPresenter;
+    private final ResultService resultService = new ResultService();
+    private final String HEADER_KEY = System.getenv("HEADER_KEY");
+    private final String HEADER_VALUE = System.getenv("HEADER_VALUE");
     
     @Inject
     public DirectorResource(DirectorService directorService, 
@@ -81,14 +87,27 @@ public class DirectorResource extends BaseResource
     }
     
     @PUT
-    public void update(@QueryParam("id") String directorIds, Director director) 
+    public void update(@QueryParam("id") String directorIds, Director director,
+            @Context HttpHeaders headers)
     {
+        List<String> headerParams = null;
+        if(headers.getRequestHeader(HEADER_KEY) != null)
+        {          
+            headerParams = headers.getRequestHeader(HEADER_KEY);
+        }
+        
+        if(headerParams != null && headerParams.contains(HEADER_VALUE)){
         String[] ids = directorIds.split(",");
         
          if (ids.length == 1)
              directorService.update(ids[0], director);
          else
             directorService.updateMany(ids, director);
+         
+        }
+        resultService.notAuthorizedException("Invalid headers");
+        
+        
     }
     
     
