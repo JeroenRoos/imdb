@@ -9,14 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import nl.inholland.layers.model.Actor;
+import nl.inholland.layers.model.Comment;
 import nl.inholland.layers.model.Director;
 import nl.inholland.layers.persistence.DirectorDAO;
 import nl.inholland.layers.model.Genre;
 import nl.inholland.layers.model.Movie;
+import nl.inholland.layers.model.User;
 import nl.inholland.layers.persistence.ActorDAO;
 import nl.inholland.layers.persistence.CommentDAO;
 import nl.inholland.layers.persistence.GenreDAO;
 import nl.inholland.layers.persistence.MovieDAO;
+import nl.inholland.layers.persistence.UserDAO;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
@@ -28,18 +31,19 @@ public class MovieService extends BaseService
     private final ActorDAO actorDAO;
     private final DirectorDAO directorDAO;
     private final CommentDAO commentDAO;
+    private final UserDAO userDAO;
 
     private final ResultService resultService = new ResultService();
     private final GenreDAO genreDAO;
     
     @Inject
-    public MovieService(MovieDAO movieDAO, ActorDAO actorDAO, GenreDAO genreDAO, DirectorDAO directorDAO, CommentDAO commentDAO){
+    public MovieService(MovieDAO movieDAO, ActorDAO actorDAO, GenreDAO genreDAO, DirectorDAO directorDAO, UserDAO userDAO, CommentDAO commentDAO){
         this.movieDAO = movieDAO;
         this.actorDAO = actorDAO;
         this.genreDAO = genreDAO;
         this.directorDAO = directorDAO;
+        this.userDAO = userDAO;
         this.commentDAO = commentDAO;
-               
     }
 
     public Movie get(String movieId)
@@ -78,7 +82,16 @@ public class MovieService extends BaseService
         
         return movieDAO.getByDirector(directors);
     }
-       
+    
+    public List<Movie> getMoviesForUserNameCommented(String userName){
+        User userObject = userDAO.getSingleUserByName(userName);
+        
+        resultService.requireResult(userObject, "No user found with name: " + userName);
+        
+        List<Comment> comments = commentDAO.getByUser(userObject);
+        
+        return movieDAO.getByComments(comments);
+    }
     
     public List<Movie> getMoviesForGenre(String genre){
         Genre genreObject = genreDAO.getByName(genre);

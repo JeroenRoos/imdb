@@ -43,8 +43,8 @@ public class UserService extends BaseService
     
     
     public List<User> getByName(String name){
-        List<User> users = userDAO.getByName(name);
-        return users;
+       List<User> user = userDAO.getByName(name);
+        return user;
     }
     
     public List<User> getByIsAdmin(boolean isAdmin){

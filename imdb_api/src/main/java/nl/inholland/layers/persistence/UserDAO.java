@@ -36,6 +36,10 @@ public class UserDAO extends BaseDAO<User>
         return createQuery().field("name").equal(name).asList();
     }
     
+    public User getSingleUserByName(String name){
+        return createQuery().field("name").equal(name).get();
+    }
+    
     public List<User> getByIsAdmin(boolean isAdmin){
         return createQuery().field("isAdmin").equal(isAdmin).asList();
     }

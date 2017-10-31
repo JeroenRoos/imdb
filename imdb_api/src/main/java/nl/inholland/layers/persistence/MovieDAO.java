@@ -8,6 +8,7 @@ package nl.inholland.layers.persistence;
 import java.util.List;
 import javax.inject.Inject;
 import nl.inholland.layers.model.Actor;
+import nl.inholland.layers.model.Comment;
 import nl.inholland.layers.model.Director;
 import nl.inholland.layers.model.Genre;
 import nl.inholland.layers.model.Movie;
@@ -33,6 +34,13 @@ public class MovieDAO extends BaseDAO<Movie>
         Query<Movie> query = ds.createQuery(Movie.class);
         
         query.filter("actors in", actors);
+        return query.asList();
+    }
+    
+    public List<Movie> getByComments(List<Comment> comments){
+        Query<Movie> query = ds.createQuery(Movie.class);
+        
+        query.filter("comments in", comments);
         return query.asList();
     }
     
