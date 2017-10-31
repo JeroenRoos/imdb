@@ -96,18 +96,17 @@ public class DirectorResource extends BaseResource
             headerParams = headers.getRequestHeader(HEADER_KEY);
         }
         
-        if(headerParams != null && headerParams.contains(HEADER_VALUE)){
-        String[] ids = directorIds.split(",");
-        
-         if (ids.length == 1)
-             directorService.update(ids[0], director);
-         else
-            directorService.updateMany(ids, director);
-         
+        if(headerParams != null && headerParams.contains(HEADER_VALUE))
+        {
+            String[] ids = directorIds.split(",");
+
+             if (ids.length == 1)
+                 directorService.update(ids[0], director);
+             else
+                directorService.updateMany(ids, director);        
         }
-        resultService.notAuthorizedException("Invalid headers");
-        
-        
+        else
+            resultService.notAuthorizedException("Invalid headers");      
     }
     
     
