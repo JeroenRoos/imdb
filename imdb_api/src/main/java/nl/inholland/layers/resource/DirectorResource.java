@@ -80,44 +80,19 @@ public class DirectorResource extends BaseResource
     @POST
     public void create(List<Director> lstDirectors)
     {
-        if (lstDirectors.size() == 1)
-            directorService.create(lstDirectors.get(0));
-        else
-            directorService.createMany(lstDirectors);
+          directorService.create(lstDirectors);
     }
     
     @PUT
-    public void update(@QueryParam("id") String directorIds, Director director,
-            @Context HttpHeaders headers)
-    {
-        List<String> headerParams = null;
-        if(headers.getRequestHeader(HEADER_KEY) != null)
-        {          
-            headerParams = headers.getRequestHeader(HEADER_KEY);
-        }
-        
-        if(headerParams != null && headerParams.contains(HEADER_VALUE))
-        {
-            String[] ids = directorIds.split(",");
-
-             if (ids.length == 1)
-                 directorService.update(ids[0], director);
-             else
-                directorService.updateMany(ids, director);        
-        }
-        else
-            resultService.notAuthorizedException("Invalid headers");      
+    public void update(@QueryParam("id") String directorIds, Director director)
+    {      
+        directorService.update(directorIds, director);
     }
     
     
     @DELETE
     public void delete(@QueryParam("id") String directorIds) 
-    {     
-        String[] ids = directorIds.split(",");
-        
-        if (ids.length == 1)
-            directorService.delete(ids[0]);
-        else
-            directorService.deleteMany(ids);
+    {  
+        directorService.delete(directorIds);
     }
 }

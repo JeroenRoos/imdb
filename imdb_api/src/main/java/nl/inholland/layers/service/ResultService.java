@@ -30,12 +30,12 @@ public class ResultService
         throw new BadRequestException(message);
     } 
     
-    public void noValidObjectId(String message)
+    public void noValidObjectId(String message) throws BadRequestException
     {
         throw new BadRequestException(message);
     }
     
-    public void duplicateDocument(String message)
+    public void duplicateDocument(String message) throws WebApplicationException
     {
         throw new WebApplicationException(message);
     }

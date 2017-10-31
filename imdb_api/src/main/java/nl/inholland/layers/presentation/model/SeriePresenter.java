@@ -17,7 +17,10 @@ import nl.inholland.layers.model.SerieView;
  */
 public class SeriePresenter extends BasePresenter
 {
-
+    private GenrePresenter genrePresenter = new GenrePresenter();
+    private ActorPresenter actorPresenter = new ActorPresenter();
+    private DirectorPresenter directorPresenter = new DirectorPresenter();
+    
     public SerieView present(Serie serie)
     {
         SerieView serieView = initSerieView(serie);
@@ -44,40 +47,10 @@ public class SeriePresenter extends BasePresenter
         serieView.setSummary(serie.getSummary());
         serieView.setYear(serie.getYear());
 
-        List<GenreView> lstGenreViews = new ArrayList<>();
-        for (Genre genre : serie.getGenre())
-        {
-            GenreView genreView = new GenreView();
-            genreView.setId(genre.getId());
-            genreView.setName(genre.getName());
-            lstGenreViews.add(genreView);
-        }
-        serieView.setGenre(lstGenreViews);
-
-        List<ActorView> lstActorViews = new ArrayList<>();
-        for (Actor actor : serie.getActors())
-        {
-            ActorView actorView = new ActorView();
-            actorView.setId(actor.getId());
-            actorView.setFirstName(actor.getFirstName());
-            actorView.setLastName(actor.getLastName());
-            actorView.setAge(actor.getAge());
-            lstActorViews.add(actorView);
-        }
-        serieView.setActors(lstActorViews);
-
-        List<DirectorView> lstDirectorViews = new ArrayList<>();
-        for (Director director : serie.getDirectors())
-        {
-            DirectorView directorView = new DirectorView();
-            directorView.setId(director.getId());
-            directorView.setFirstName(director.getFirstName());
-            directorView.setLastName(director.getLastName());
-            directorView.setAge(director.getAge());
-            lstDirectorViews.add(directorView);
-        }
-        serieView.setDirector(lstDirectorViews);
-
+        serieView.setGenre(genrePresenter.present(serie.getGenre()));
+        serieView.setDirector(directorPresenter.present(serie.getDirectors()));
+        serieView.setActors(actorPresenter.present(serie.getActors()));
+        
         return serieView;
     }
 }

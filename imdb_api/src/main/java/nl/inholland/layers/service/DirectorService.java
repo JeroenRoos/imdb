@@ -69,22 +69,31 @@ public class DirectorService extends BaseService
         return lstDirectors;
     }
     
+    public void create(List<Director> lstDirectors)
+    {
+        if (lstDirectors.size() == 1)
+            createOne(lstDirectors.get(0));
+        else
+            createMany(lstDirectors);
+    }
     
-    public void create(Director director)
+    private void createOne(Director director)
     {
         checkCreateValidity(director);
         checkDuplicate(director);
         directorDAO.create(director);
     }
 
-    public void createMany(List<Director> lstDirectors)
+    private void createMany(List<Director> lstDirectors)
     {
+        // Check all the Director for validity
         for (Director director : lstDirectors)
         {
             checkCreateValidity(director);
             checkDuplicate(director);
         }
         
+        // Create all the Directors after each director is checked for validity
         directorDAO.createMany(lstDirectors);
     }
     
@@ -112,7 +121,17 @@ public class DirectorService extends BaseService
         }
     }
     
-    public void update(String directorId, Director director)
+    public void update(String directorIds, Director director)
+    {
+        String[] ids = directorIds.split(",");
+
+        if (ids.length == 1)
+            updateOne(ids[0], director);
+        else
+            updateMany(ids, director);  
+    }
+    
+    private void updateOne(String directorId, Director director)
     {
         ObjectId objectId;
         if (ObjectId.isValid(directorId))
@@ -129,9 +148,9 @@ public class DirectorService extends BaseService
             resultService.noValidObjectId("The director id is not valid");
     }
     
-    
-    public void updateMany(String[] ids, Director director)
-    {
+    // Fix dat hij pas zn dingen update als alles door de check is gekomen
+    private void updateMany(String[] ids, Director director)
+    {       
         for (int i = 0; i < ids.length; i++)
         {
             if (ObjectId.isValid(ids[i]))
@@ -147,6 +166,8 @@ public class DirectorService extends BaseService
             else
                 resultService.noValidObjectId("The director id is not valid");
         }
+        
+        //directorDAO.updateMany(director);
     }
 
     private void checkUpdateValidity(UpdateOperations<Director> update, Director director, ObjectId id)
@@ -172,7 +193,17 @@ public class DirectorService extends BaseService
             resultService.emptyField("Director must be older than 18.");
     }
     
-    public void delete(String directorId)
+    public void delete(String directorIds)
+    {
+        String[] ids = directorIds.split(",");
+        
+        if (ids.length == 1)
+            deleteOne(ids[0]);
+        else
+            deleteMany(ids);
+    }
+    
+    private void deleteOne(String directorId)
     {
         ObjectId objectId;
         if (ObjectId.isValid(directorId))
@@ -185,10 +216,11 @@ public class DirectorService extends BaseService
             resultService.noValidObjectId("The director id is not valid");
     }
 
-    public void deleteMany(String[] ids)
+    private void deleteMany(String[] ids)
     {
         List<ObjectId> lstObjectIds = new ArrayList<>();
         
+        // Check each Director for validity
         for (int i = 0; i < ids.length; i++)
         {
             if (ObjectId.isValid(ids[i]))
@@ -201,6 +233,7 @@ public class DirectorService extends BaseService
                 resultService.noValidObjectId("The director id is not valid");
         }
         
+        // Delete all the Directors after each director is checked for validity
         directorDAO.deleteManyById(lstObjectIds);
     }
     
