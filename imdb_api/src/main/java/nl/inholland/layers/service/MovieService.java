@@ -90,6 +90,8 @@ public class MovieService extends BaseService
         
         List<Comment> comments = commentDAO.getByUser(userObject);
         
+        resultService.requireResult(comments, "No comments found from user: " + userName);
+
         return movieDAO.getByComments(comments);
     }
     
