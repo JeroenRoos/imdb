@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 package nl.inholland.layers;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
+import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 
 /**
  *
@@ -12,5 +14,6 @@ import io.dropwizard.Configuration;
  */
 public class LayeredConfiguration extends Configuration
 {
-    
+    @JsonProperty
+    public SwaggerBundleConfiguration swagger;
 }

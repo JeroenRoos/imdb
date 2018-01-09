@@ -5,8 +5,10 @@
  */
 package nl.inholland.layers.resource;
 
-import java.util.ArrayList;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import java.util.List;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -18,21 +20,18 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import nl.inholland.layers.model.Director;
 import nl.inholland.layers.model.DirectorView;
 import nl.inholland.layers.presentation.model.DirectorPresenter;
 import nl.inholland.layers.service.DirectorService;
-import nl.inholland.layers.service.ResultService;
-import org.bson.types.ObjectId;
 
 /**
  *
  * @author Jeroen
  */
 
+@Api("Directors")
 @Path("/directors")
 @Consumes (MediaType.APPLICATION_JSON)
 @Produces (MediaType.APPLICATION_JSON)
@@ -40,9 +39,6 @@ public class DirectorResource extends BaseResource
 {
     private final DirectorService directorService;
     private final DirectorPresenter directorPresenter;
-    private final ResultService resultService = new ResultService();
-    private final String HEADER_KEY = System.getenv("HEADER_KEY");
-    private final String HEADER_VALUE = System.getenv("HEADER_VALUE");
     
     @Inject
     public DirectorResource(DirectorService directorService, 
@@ -53,6 +49,8 @@ public class DirectorResource extends BaseResource
     }
     
     @GET
+    @RolesAllowed( {"ADMIN", "USER"} )  
+    @ApiOperation("Gets all Directors")
     public List<DirectorView> getAll(@DefaultValue("") @QueryParam("lastName") String lastName,
             @DefaultValue("") @QueryParam("age") String age)
     {
@@ -70,6 +68,8 @@ public class DirectorResource extends BaseResource
     }
     
     @GET
+    @RolesAllowed( {"ADMIN", "USER"} )  
+    @ApiOperation("Gets a Director")
     @Path("/{DirectorId}")
     public DirectorView get (@PathParam("DirectorId") String directorId)
     {
@@ -78,12 +78,16 @@ public class DirectorResource extends BaseResource
     }
     
     @POST
+    @RolesAllowed("ADMIN")
+    @ApiOperation("Create a Director")
     public void create(List<Director> lstDirectors)
     {
           directorService.create(lstDirectors);
     }
     
     @PUT
+    @RolesAllowed("ADMIN")
+    @ApiOperation("Update a Director")
     public void update(@QueryParam("id") String directorIds, Director director)
     {      
         directorService.update(directorIds, director);
@@ -91,6 +95,8 @@ public class DirectorResource extends BaseResource
     
     
     @DELETE
+    @RolesAllowed("ADMIN")
+    @ApiOperation("Delete a Director")
     public void delete(@QueryParam("id") String directorIds) 
     {  
         directorService.delete(directorIds);

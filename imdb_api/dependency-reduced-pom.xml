@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>nl.inholland</groupId>
   <artifactId>layers</artifactId>
-  <name>IMDb</name>
+  <name>imdb</name>
   <version>1.0-SNAPSHOT</version>
   <build>
     <plugins>
