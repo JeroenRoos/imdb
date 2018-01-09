@@ -9,7 +9,8 @@ import java.security.Principal;
 import org.mongodb.morphia.annotations.Entity;
 
 @Entity(value = "users", noClassnameStored = true)
-public class User extends EntityModel 
+
+public class User extends EntityModel implements Principal
 {
     private String name;
     
@@ -47,6 +48,10 @@ public class User extends EntityModel
         this.isAdmin = isAdmin;
     }
 
-    
+    public boolean hasRole(String role)
+    {
+        // Do something?
+        return false;
+    }
     
 }
