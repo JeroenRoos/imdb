@@ -17,10 +17,17 @@ public class User extends EntityModel implements Principal
     private String gender;
     
     private boolean isAdmin;
+    
+    private String username;
+    
+    private String password;
+    
+    private String role;
 
     public User(String username, String password)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.username = username;
+        this.password = password;
     }
     
     public String getName()
@@ -56,7 +63,7 @@ public class User extends EntityModel implements Principal
     public boolean hasRole(String role)
     {
         // Een gok dat het zo moet, werkelijk geen idee
-        if ("ADMIN".equals(role))
+        if (role.equals(role))
             return true;
         else 
             return false;
@@ -64,7 +71,7 @@ public class User extends EntityModel implements Principal
 
     public Object getPassword()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return password;
     }
     
 }

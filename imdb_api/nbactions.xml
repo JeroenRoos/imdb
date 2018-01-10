@@ -13,8 +13,8 @@
             <properties>
                 <exec.args>-classpath %classpath nl.inholland.layers.LayeredApplication</exec.args>
                 <exec.executable>java</exec.executable>
-                <Env.DBUsername>"imdb"</Env.DBUsername>
-                <Env.DBPassword>"imdb"</Env.DBPassword>
+                <Env.DBUsername>imdb</Env.DBUsername>
+                <Env.DBPassword>imdb</Env.DBPassword>
                 <Env.HEADER_KEY>x-authtoken</Env.HEADER_KEY>
                 <Env.HEADER_VALUE>admin</Env.HEADER_VALUE>
             </properties>

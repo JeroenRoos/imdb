@@ -75,7 +75,7 @@ public class LayeredApplication extends Application<LayeredConfiguration>
         
         // Dit is een letterlijke COPY PASTE uit het stappenplan van Nelleke, maar het werkt niet
         // Werkelijk geen idee waarom
-        /* environment.jersey().register( new AuthDynamicFeature(
+        environment.jersey().register( new AuthDynamicFeature(
                 new BasicCredentialAuthFilter.Builder<User>()
                     .setAuthenticator( 
                             guiceBundle.getInjector().getInstance( 
@@ -87,6 +87,6 @@ public class LayeredApplication extends Application<LayeredConfiguration>
                     .buildAuthFilter()));
         
         environment.jersey().register( new AuthValueFactoryProvider.Binder<>(User.class));
-        environment.jersey().register( RolesAllowedDynamicFeature.class); */
+        environment.jersey().register( RolesAllowedDynamicFeature.class);
     }
 }
