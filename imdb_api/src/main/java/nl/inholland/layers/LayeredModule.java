@@ -32,7 +32,7 @@ public class LayeredModule extends AbstractModule
     Datastore providesDatastore(LayeredConfiguration configuration)
     {
         MongoClient mongo = new MongoClient(new MongoClientURI("mongodb://" + DB_USERNAME + ":" + DB_PASSWORD + "@ds121575.mlab.com:21575/imdb"));
-        MongoClient mongo = new MongoClient(new MongoClientURI(configuration.database.mongoURI));
+        //MongoClient mongo = new MongoClient(new MongoClientURI(configuration.database.mongoURI));
 
         Morphia morphia = new Morphia();
         
