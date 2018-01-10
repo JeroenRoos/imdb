@@ -27,19 +27,16 @@ public class CommentService extends BaseService {
         this.commentDAO = commentDAO;
     }
     
-    public Comment get(String commentID)
+    public Comment getCommentById(String commentID)
     {
-        Comment comment = commentDAO.get(commentID);
+        Comment comment = (Comment) super.getById(commentID, commentDAO);
         return comment;
     }
     
-        public List<Comment> getAll()
+    public List<Comment> getAll()
     {
-        List<Comment> comments = commentDAO.getAll();
+        List<Comment> comments = super.getAll(commentDAO);
         
-        if (comments.isEmpty())
-            super.requireResult(comments, "No comments found");
-
         return comments;
     }     
         
@@ -116,33 +113,13 @@ public class CommentService extends BaseService {
     }
     
     
-        public void delete(String commentId)
+    public void delete(String commentId)
     {
-        ObjectId objectId;
-        if (ObjectId.isValid(commentId))
-        {
-            objectId = new ObjectId(commentId);
-            commentDAO.deleteById(objectId);
-        }
-        else
-            super.noValidObjectId("The comment id is not valid");
+        super.delete(commentId, commentDAO);
     }
 
     public void deleteMany(String[] ids)
     {
-        List<ObjectId> lstObjectIds = new ArrayList<>();
-        
-        for (int i = 0; i < ids.length; i++)
-        {
-            if (ObjectId.isValid(ids[i]))
-            {
-                ObjectId objectId = new ObjectId(ids[i]);
-                lstObjectIds.add(objectId);
-            }
-            else
-                super.noValidObjectId("The comment id is not valid");
-        }
-        
-        commentDAO.deleteManyById(lstObjectIds);
+        super.deleteMany(ids, commentDAO);
     }
 }

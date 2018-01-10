@@ -29,6 +29,7 @@ import nl.inholland.layers.service.ActorService;
 @Path("/actors")
 @Consumes (MediaType.APPLICATION_JSON)
 @Produces (MediaType.APPLICATION_JSON)
+
 public class ActorResource extends BaseResource{
     
     private final ActorService actorService;
@@ -72,7 +73,7 @@ public class ActorResource extends BaseResource{
     public void create(List<Actor> lstActors)
     {
         if (lstActors.size() == 1)
-            actorService.create(lstActors.get(0));
+            actorService.createActor(lstActors.get(0));
         else
             actorService.createMany(lstActors);
     }
@@ -103,8 +104,8 @@ public class ActorResource extends BaseResource{
         String[] ids = directorIds.split(",");
         
         if (ids.length == 1)
-            actorService.delete(ids[0]);
+            actorService.deleteActor(ids[0]);
         else
-            actorService.deleteMany(ids);
+            actorService.deleteManyActors(ids);
     }
 }

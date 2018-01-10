@@ -40,7 +40,7 @@ public class SerieService extends BaseService
         this.actorDAO = actorDAO;
     }
 
-    public Serie get (String serieId)
+    public Serie getById(String serieId)
     {
         // Game of Thrones  : 59e5d711df5ac0534fbe1670
         // Mr. Robot        : 59e5d463df5ac0534fbde725

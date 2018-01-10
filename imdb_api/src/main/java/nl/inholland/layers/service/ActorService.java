@@ -5,7 +5,6 @@
  */
 package nl.inholland.layers.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import nl.inholland.layers.model.Actor;
@@ -31,28 +30,16 @@ public class ActorService extends BaseService {
     //get actor by id
     public Actor get(String actorId)
     {
-        Actor actor = null;
-        try{
-           
-           actor = actorDAO.get(actorId);
-           
-        }catch(Exception e){
-            
-           super.noValidObjectId(actorId + " is geen geldig id");       
-
-        }
+            Actor actor = super.getById(actorId, actorDAO);            
         return actor;
     }
     
     //get all actors
         public List<Actor> getAll()
-    {
-        List<Actor> actors = actorDAO.getAll();
-        
-        if (actors.isEmpty())
-            super.requireResult(actors, "No actors found");
-
-        return actors;
+    {                  
+         List<Actor> actorList = super.getAll(actorDAO);
+              
+        return actorList;
     }
     
         
@@ -61,7 +48,7 @@ public class ActorService extends BaseService {
         {
         List<Actor> actors = actorDAO.getByLastName(lastName);
         return actors;
-    }
+        }
         
         //get actor by first name 
         public List<Actor> getByFirstName(String firstName)
@@ -156,8 +143,9 @@ public class ActorService extends BaseService {
         if (actor.getAge() == 0)
             super.emptyField("Director cannot be aged 0");
     }
+     
     //create new actor     
-    public void create(Actor actor)
+    public void createActor(Actor actor)
     {
         checkCreateValidity(actor);
         actorDAO.create(actor);
@@ -167,40 +155,19 @@ public class ActorService extends BaseService {
     {
         for (Actor actor : lstActors)
             checkCreateValidity(actor);
-        
+       
         actorDAO.createMany(lstActors);
     }
     
     //delete actor
-    
-        public void delete(String actorId)
+    public void deleteActor(String actorId)
     {
-        ObjectId objectId;
-        if (ObjectId.isValid(actorId))
-        {
-            objectId = new ObjectId(actorId);
-            actorDAO.deleteById(objectId);
-        }
-        else
-           super.noValidObjectId("The actor id is not valid");
-    }
-
-    public void deleteMany(String[] ids)
-    {
-        List<ObjectId> lstObjectIds = new ArrayList<>();
-        
-        for (int i = 0; i < ids.length; i++)
-        {
-            if (ObjectId.isValid(ids[i]))
-            {
-                ObjectId objectId = new ObjectId(ids[i]);
-                lstObjectIds.add(objectId);
-            }
-            else
-                super.noValidObjectId("The actor id is not valid");
-        }
-        
-        actorDAO.deleteManyById(lstObjectIds);
+        super.delete(actorId, actorDAO);
     }
     
+    //delete many
+    public void deleteManyActors(String[] ids)
+    {
+        super.deleteManyById(ids);
+    }    
 }

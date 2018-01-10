@@ -7,15 +7,19 @@ package nl.inholland.layers.resource;
 
 
 import javax.inject.Singleton;
+import nl.inholland.layers.model.EntityModel;
 
-
-/**
- *
- * @author youp
- */
 
 @Singleton
-public class BaseResource
+
+public class BaseResource <T extends EntityModel>
 {
 
+  
+    public BaseResource(){
+        
+
+    }
+
+    
 }

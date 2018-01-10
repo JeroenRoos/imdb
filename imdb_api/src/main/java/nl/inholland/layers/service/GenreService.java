@@ -27,10 +27,9 @@ public class GenreService extends BaseService {
         this.genreDAO = genreDAO;
     }
     
-    public Genre get(String genreId)
+    public Genre getById(String genreId)
     {
-        Genre genre = genreDAO.get(genreId);
-        super.requireResult(genre, "genre not found");
+        Genre genre = (Genre) super.getById(genreId, genreDAO);
         return genre;
     }
 
@@ -49,8 +48,7 @@ public class GenreService extends BaseService {
     
     public List<Genre> getAll()
     {
-        List<Genre> genre = genreDAO.getAll();
-        super.requireResult(genre, "genres not found");
+        List<Genre> genre = super.getAll(genreDAO);
         return genre;
     }
     
@@ -91,12 +89,6 @@ public class GenreService extends BaseService {
     }
     
     public void delete(String genreId){
-        ObjectId objectId;
-        if(ObjectId.isValid(genreId)){
-            objectId = new ObjectId(genreId);
-            genreDAO.deleteById(objectId);
-        }else{
-            super.noValidObjectId("Invalid genre id");
-        }
+        super.delete(genreId, genreDAO);
     }
 }

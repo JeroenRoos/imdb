@@ -5,18 +5,87 @@
  */
 package nl.inholland.layers.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.inject.Singleton;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.WebApplicationException;
 import nl.inholland.layers.model.EntityModel;
+import nl.inholland.layers.persistence.BaseDAO;
+import org.bson.types.ObjectId;
+
 
 
 
 @Singleton
 public class BaseService <T extends EntityModel>
 {
+        
+    //get all
+    public List<T> getAll(BaseDAO baseDAO)
+    {
+        List<T> objects;
+            objects = baseDAO.getAll();
+        
+        if (objects.isEmpty())
+            
+            requireResult(objects, "No results found");
+
+        return objects;
+    }
+     
+    //get by id
+    public T getById(String objectId,  BaseDAO baseDAO)
+    {
+        T object = null;
+        try{
+           
+           object = (T) baseDAO.get(objectId);
+           
+        }catch(Exception e){
+            
+           noValidObjectId(objectId + " is geen geldig id");       
+
+        }
+        return object;
+    }
+     
+    //delete    
+        public void delete(String objectId, BaseDAO baseDAO)
+    {
+        ObjectId objectIdConverted;
+        if (ObjectId.isValid(objectId))
+        {
+            objectIdConverted = new ObjectId(objectId);
+            baseDAO.deleteById(objectIdConverted);
+        }
+        else
+           noValidObjectId("The id is not valid");
+    }
+    
+        
+    //delete many
+    public void deleteMany(String[] ids, BaseDAO baseDAO)
+    {
+        List<ObjectId> lstObjectIds = new ArrayList<>();
+        
+        for (int i = 0; i < ids.length; i++)
+        {
+            if (ObjectId.isValid(ids[i]))
+            {
+                ObjectId objectId = new ObjectId(ids[i]);
+                lstObjectIds.add(objectId);
+            }
+            else
+                
+                noValidObjectId("One or more id's are not valid");
+        }
+        
+        baseDAO.deleteMany(lstObjectIds);
+    }
+        
     
     public void requireResult(Object obj, String message) throws NotFoundException
     {
@@ -48,5 +117,10 @@ public class BaseService <T extends EntityModel>
     {
         throw new NotAuthorizedException(message);
     }
-           
+
+    void get(String actorId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+       
+
 }

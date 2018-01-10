@@ -29,20 +29,15 @@ public class DirectorService extends BaseService
         this.directorDAO = directorDAO;
     }
 
-    public Director get(String directorId)
+    public Director getDirectorById(String directorId)
     {
-        Director director = directorDAO.get(directorId);
-        super.requireResult(director, "Director not found");
+        Director director = (Director) super.getById(directorId, directorDAO);
         return director;
     }
 
     public List<Director> getAll()
     {
-        List<Director> lstDirectors = directorDAO.getAll();
-
-        if (lstDirectors.isEmpty())
-            super.requireResult(null, "No directors found");
-
+        List<Director> lstDirectors = super.getAll(directorDAO);
         return lstDirectors;
     }
     
@@ -90,8 +85,7 @@ public class DirectorService extends BaseService
         {
             checkCreateValidity(director);
             checkDuplicate(director);
-        }
-        
+        }      
         // Create all the Directors after each director is checked for validity
         directorDAO.createMany(lstDirectors);
     }
@@ -208,15 +202,7 @@ public class DirectorService extends BaseService
     
     private void deleteOne(String directorId)
     {
-        ObjectId objectId;
-        if (ObjectId.isValid(directorId))
-        {
-            checkIfDirectorExists(directorId);
-            objectId = new ObjectId(directorId);
-            directorDAO.deleteById(objectId);
-        }
-        else
-            super.noValidObjectId("The director id is not valid");
+            super.delete(directorId, directorDAO);
     }
 
     private void deleteMany(String[] ids)

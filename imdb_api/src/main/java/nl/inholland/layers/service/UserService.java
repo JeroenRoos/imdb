@@ -23,7 +23,7 @@ public class UserService extends BaseService
         this.userDAO = userDAO;
     }
     
-    public User get(String userId)
+    public User getById(String userId)
     {
         User user = userDAO.get(userId);
         return user;
