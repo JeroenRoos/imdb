@@ -61,12 +61,7 @@ public class SerieService extends BaseService
     // Get all existing series
     public List<Serie> getAll()
     {
-        List<Serie> lstSeries = serieDAO.getAll();
-        
-        // Validation, check if any series exist 
-        if (lstSeries.isEmpty())
-           super.requireResult(lstSeries, "Serie not found");
-        
+        List<Serie> lstSeries = super.getAll(serieDAO);
         return lstSeries;
     }
     

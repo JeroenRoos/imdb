@@ -25,13 +25,13 @@ public class UserService extends BaseService
     
     public User getById(String userId)
     {
-        User user = userDAO.get(userId);
+        User user = super.getById(userId, userDAO);
         return user;
     }
     
     public List<User> getAll()
     {
-        List<User> users = new ArrayList<>(userDAO.getAll());
+        List<User> users = super.getAll(userDAO);
         return users;
     }
     
@@ -70,31 +70,15 @@ public class UserService extends BaseService
         userDAO.createMany(users);
         
     }
-    
+   
     public void delete(String userId)
     {
-        ObjectId objectId;
-        if (ObjectId.isValid(userId))
-        {
-            objectId = new ObjectId(userId);
-            userDAO.deleteById(objectId);
-        }
-        else
-            super.noValidObjectId("The user id is not valid");
+        super.delete(userId, userDAO);
     }
 
     public void deleteMany(String[] ids)
     {        
-        for (int i = 0; i < ids.length; i++)
-        {
-            if (ObjectId.isValid(ids[i]))
-            {
-                ObjectId objectId = new ObjectId(ids[i]);
-                userDAO.deleteById(objectId);
-            }
-            else
-                super.noValidObjectId("The director id is not valid");
-        }
+        super.deleteMany(ids, userDAO);
     }
     
     public void update(String userId, User user){

@@ -29,29 +29,18 @@ public class ActorService extends BaseService {
     }
     
     //get actor by id
-    /*public Actor get(String actorId)
+    public Actor getById(String actorId)
     {
-        Actor actor = null;
-        try{
-           
-           actor = actorDAO.get(actorId);
-           
-        }catch(Exception e){
-            
-           super.noValidObjectId(actorId + " is geen geldig id");       
+        Actor actor = super.getById(actorId,actorDAO);
 
-        }
         return actor;
-    }*/
+    }
     
     //get all actors
         public List<Actor> getAll()
     {
-        List<Actor> actors = actorDAO.getAll();
+        List<Actor> actors = super.getAll(actorDAO);
         
-        if (actors.isEmpty())
-            super.requireResult(actors, "No actors found");
-
         return actors;
     }
     
@@ -175,32 +164,12 @@ public class ActorService extends BaseService {
     
         public void delete(String actorId)
     {
-        ObjectId objectId;
-        if (ObjectId.isValid(actorId))
-        {
-            objectId = new ObjectId(actorId);
-            actorDAO.deleteById(objectId);
-        }
-        else
-           super.noValidObjectId("The actor id is not valid");
+         super.delete(actorId, actorDAO);
     }
 
     public void deleteMany(String[] ids)
-    {
-        List<ObjectId> lstObjectIds = new ArrayList<>();
-        
-        for (int i = 0; i < ids.length; i++)
-        {
-            if (ObjectId.isValid(ids[i]))
-            {
-                ObjectId objectId = new ObjectId(ids[i]);
-                lstObjectIds.add(objectId);
-            }
-            else
-                super.noValidObjectId("The actor id is not valid");
-        }
-        
-        actorDAO.deleteManyById(lstObjectIds);
+    {         
+        super.deleteManyById(ids, actorDAO);
     }
     
 }

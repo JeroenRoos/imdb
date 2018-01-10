@@ -28,10 +28,6 @@ public class BaseService <T extends EntityModel>
     {
         List<T> objects;
             objects = baseDAO.getAll();
-        
-        if (objects.isEmpty())
-            
-            requireResult(objects, "No results found");
 
         return objects;
     }
@@ -46,7 +42,7 @@ public class BaseService <T extends EntityModel>
            
         }catch(Exception e){
             
-           noValidObjectId(objectId + " is geen geldig id");       
+           noValidObjectId(objectId + " is not a valid id");       
 
         }
         return object;
@@ -62,7 +58,7 @@ public class BaseService <T extends EntityModel>
             baseDAO.deleteById(objectIdConverted);
         }
         else
-           noValidObjectId("The id is not valid");
+           noValidObjectId(objectId + " is not a valid id");
     }
     
         
