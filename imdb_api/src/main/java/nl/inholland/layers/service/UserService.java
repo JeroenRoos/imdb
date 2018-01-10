@@ -25,7 +25,7 @@ public class UserService extends BaseService
     
     public User getById(String userId)
     {
-        User user = super.getById(userId, userDAO);
+        User user = (User) super.getById(userId, userDAO);
         return user;
     }
     
