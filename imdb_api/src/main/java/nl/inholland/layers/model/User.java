@@ -23,12 +23,6 @@ public class User extends EntityModel implements Principal
     private String password;
     
     private String role;
-
-    public User(String username, String password)
-    {
-        this.username = username;
-        this.password = password;
-    }
     
     public String getName()
     {
@@ -69,9 +63,13 @@ public class User extends EntityModel implements Principal
             return false;
     }
 
-    public Object getPassword()
+    public String getPassword()
     {
         return password;
     }
     
+    public String getUsername()
+    {
+        return username;
+    }
 }

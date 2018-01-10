@@ -29,23 +29,15 @@ public class AuthenticationService implements Authenticator<BasicCredentials, Us
     
     @Override
     public Optional<User> authenticate(BasicCredentials credentials) throws AuthenticationException
-    {
-        User user = new User(credentials.getUsername(), credentials.getPassword());
+    {      
+       
+        User userFromDB = userDAO.getByCredentials(credentials.getUsername(), credentials.getPassword());
         
-//        userDAO.get(user);
-        
-        User userFromDB = new User("nelleke", "test");
-        
-        if (!user.getName().equals(userFromDB.getName()))
-        {
+        if(userFromDB == null){
             return Optional.empty();
+        }else{
+            return Optional.of(userFromDB);
         }
-        
-        if (user.getPassword().equals(userFromDB.getPassword()))
-        {
-            return Optional.of(user);
-        }
-        
-        return Optional.empty();
+                
     }
 }
