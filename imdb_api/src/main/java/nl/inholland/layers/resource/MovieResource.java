@@ -63,7 +63,7 @@ public class MovieResource extends BaseResource
     @GET
     @Path("/{MovieId}")
     public MovieView get( @PathParam("MovieId") String movieId){
-        Movie Movie = movieService.get(movieId);
+        Movie Movie = movieService.getById(movieId);
         
         return moviePresenter.present(Movie);
     }

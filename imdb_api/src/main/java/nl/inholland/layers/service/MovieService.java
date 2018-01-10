@@ -44,25 +44,18 @@ public class MovieService extends BaseService
         this.commentDAO = commentDAO;
     }
 
-    public Movie get(String movieId)
+    public Movie getById(String movieId)
     {
-        Movie movie = null;
-        if(ObjectId.isValid(movieId)){
-            movie = movieDAO.get(movieId);
-            super.requireResult(movie, "Movie not found");
-        }else{
-            super.noValidObjectId("Invalid movie id");
-        }
+        Movie movie = (Movie) super.getById(movieId, userDAO);
+   
         return movie;
 
     }
     
     public List<Movie> getAll()
     {
-        List<Movie> movies = movieDAO.getAll();
-        if(movies.isEmpty()){
-            super.requireResult(movies, "No movies found");
-        }
+        List<Movie> movies = super.getAll(movieDAO);
+
         return movies;
     }
     
@@ -147,28 +140,13 @@ public class MovieService extends BaseService
     
     public void delete(String movieId)
     {
-        ObjectId objectId;
-        if (ObjectId.isValid(movieId))
-        {
-            objectId = new ObjectId(movieId);
-            movieDAO.deleteById(objectId);
-        }
+        super.delete(movieId, userDAO);
     }
 
     public void deleteMany(String[] ids)
     {
-        List<ObjectId> lstObjectIds = new ArrayList<>();
-        
-        for (int i = 0; i < ids.length; i++)
-        {
-            if (ObjectId.isValid(ids[i]))
-            {
-                ObjectId objectId = new ObjectId(ids[i]);
-                lstObjectIds.add(objectId);
-            }
-        }
-        
-        movieDAO.deleteManyById(lstObjectIds);
+        super.deleteMany(ids, movieDAO);
+  
     }
     
 }

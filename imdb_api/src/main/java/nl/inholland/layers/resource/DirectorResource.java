@@ -69,7 +69,7 @@ public class DirectorResource extends BaseResource
     @Path("/{DirectorId}")
     public DirectorView get (@PathParam("DirectorId") String directorId)
     {
-        Director director = directorService.get(directorId);
+        Director director = directorService.getDirectorById(directorId);
         return directorPresenter.present(director);
     }
     

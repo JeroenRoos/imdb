@@ -64,7 +64,7 @@ public class GenreResource extends BaseResource{
         
         if (ids.length == 1)
         {
-            Genre genre = genreService.get(ids[0]);
+            Genre genre = genreService.getById(ids[0]);
         
             return genrePresenter.present(genre);
         }

@@ -32,11 +32,9 @@ public class DirectorService extends BaseService
         this.directorDAO = directorDAO;
     }
 
-    
-    // Get an existing director by ID
-    public Director get(String directorId)
+    public Director getDirectorById(String directorId)
     {
-        Director director = directorDAO.get(directorId);
+        Director director = (Director) super.getById(directorId, directorDAO);
         
         // Validation, check if the Director exists
         super.requireResult(director, "Director not found");
@@ -48,12 +46,7 @@ public class DirectorService extends BaseService
     // Get all existing directors
     public List<Director> getAll()
     {
-        List<Director> lstDirectors = directorDAO.getAll();
-
-        // Validation, check if any directors exist
-        if (lstDirectors.isEmpty())
-            super.requireResult(null, "No directors found");
-
+        List<Director> lstDirectors = super.getAll(directorDAO);
         return lstDirectors;
     }
     
@@ -120,8 +113,7 @@ public class DirectorService extends BaseService
             
             // Validation, check if any of the directors already exist in the database
             checkDuplicate(director);
-        }
-        
+        }      
         // Create all the Directors after each director is checked for validity
         directorDAO.createMany(lstDirectors);
     }
@@ -282,19 +274,7 @@ public class DirectorService extends BaseService
     // Delete one director by ID
     private void deleteOne(String directorId)
     {
-        ObjectId objectId;
-        
-        // Validation, check if the ID is valid
-        if (ObjectId.isValid(directorId))
-        {
-            // Validation, Check if the director exists 
-            checkIfDirectorExists(directorId);
-            
-            objectId = new ObjectId(directorId);
-            directorDAO.deleteById(objectId);
-        }
-        else
-            super.noValidObjectId("The director id is not valid");
+      super.delete(directorId, directorDAO);
     }
 
     

@@ -47,7 +47,7 @@ public class SerieService extends BaseService
 
     
     // Get an existing serie by ID
-    public Serie get (String serieId)
+    public Serie getById(String serieId)
     {
         Serie serie = serieDAO.get(serieId);
         

@@ -71,7 +71,7 @@ public class CommentResource extends BaseResource{
     @GET
     @Path("/{CommentId}")
     public CommentView get( @PathParam("CommentId") String commentId){
-        Comment comment = commentService.get(commentId);
+        Comment comment = commentService.getCommentById(commentId);
         
         return commentPresenter.present(comment);
     }

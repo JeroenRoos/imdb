@@ -67,7 +67,7 @@ public class UserResource extends BaseResource
     @GET
     @Path("/{userId}")
     public UserView get( @PathParam("userId") String userId){
-        User user = userService.get(userId);
+        User user = userService.getById(userId);
         
         return userPresenter.present(user);
     }

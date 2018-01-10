@@ -25,7 +25,7 @@ import org.mongodb.morphia.dao.BasicDAO;
 @Singleton
 public abstract class BaseDAO< T extends EntityModel> extends BasicDAO< T, ObjectId>
 {
-    private Datastore ds;
+    private final Datastore ds;
     
     public BaseDAO( Class < T > entityClass, Datastore ds){
         super(entityClass, ds);
@@ -54,8 +54,16 @@ public abstract class BaseDAO< T extends EntityModel> extends BasicDAO< T, Objec
     
     public void updateMany(List<T> lstObjects)
     {
-        for (T o : lstObjects)
-            save(o);
+        lstObjects.forEach((o) -> {
+            ds.save(o);
+        });
+    }
+    
+    public void deleteMany(List<T> lstObjects)
+    {
+        lstObjects.forEach((o) -> {
+            ds.delete(o);
+        });
     }
 
 }

@@ -29,7 +29,7 @@ public class ActorService extends BaseService {
     }
     
     //get actor by id
-    public Actor get(String actorId)
+    /*public Actor get(String actorId)
     {
         Actor actor = null;
         try{
@@ -42,7 +42,7 @@ public class ActorService extends BaseService {
 
         }
         return actor;
-    }
+    }*/
     
     //get all actors
         public List<Actor> getAll()
