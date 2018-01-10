@@ -6,6 +6,7 @@
 package nl.inholland.layers.resource;
 
 import java.util.List;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -44,6 +45,7 @@ public class SerieResource extends BaseResource
     }
     
     @GET
+    @RolesAllowed( {"ADMIN", "USER"} ) 
     public List<SerieView> getAll(@DefaultValue("") @QueryParam("directorLastName") String directorLastName,
             @DefaultValue("") @QueryParam("genreName") String genreName, @DefaultValue("") 
                     @QueryParam("actorFirstName") String actorFirstName)
@@ -62,6 +64,7 @@ public class SerieResource extends BaseResource
     }
     
     @GET
+    @RolesAllowed( {"ADMIN", "USER"} ) 
     @Path("/{SerieId}")
     public SerieView get(@PathParam("SerieId") String serieId)
     {
@@ -70,12 +73,14 @@ public class SerieResource extends BaseResource
     }
     
     @POST
+    @RolesAllowed("ADMIN")
     public void create(List<Serie> lstSeries)
     {
         serieService.create(lstSeries);
     }
     
     @PUT
+    @RolesAllowed("ADMIN")
     @Path("/{SerieId}")
     public void update(@PathParam("SerieId") String serieId, Serie serie)
     {
@@ -83,6 +88,7 @@ public class SerieResource extends BaseResource
     }
     
     @DELETE
+    @RolesAllowed("ADMIN")
     @Path("/{SerieId}")
     public void delete(@PathParam("SerieId") String serieId)
     {
