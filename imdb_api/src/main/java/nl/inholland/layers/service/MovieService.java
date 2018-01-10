@@ -32,8 +32,6 @@ public class MovieService extends BaseService
     private final DirectorDAO directorDAO;
     private final CommentDAO commentDAO;
     private final UserDAO userDAO;
-
-    private final ResultService resultService = new ResultService();
     private final GenreDAO genreDAO;
     
     @Inject
@@ -51,9 +49,9 @@ public class MovieService extends BaseService
         Movie movie = null;
         if(ObjectId.isValid(movieId)){
             movie = movieDAO.get(movieId);
-            resultService.requireResult(movie, "Movie not found");
+            super.requireResult(movie, "Movie not found");
         }else{
-            resultService.noValidObjectId("Invalid movie id");
+            super.noValidObjectId("Invalid movie id");
         }
         return movie;
 
@@ -63,7 +61,7 @@ public class MovieService extends BaseService
     {
         List<Movie> movies = movieDAO.getAll();
         if(movies.isEmpty()){
-            resultService.requireResult(movies, "No movies found");
+            super.requireResult(movies, "No movies found");
         }
         return movies;
     }
@@ -71,14 +69,14 @@ public class MovieService extends BaseService
     public List<Movie> getMoviesForActorName(String actorName){
         List<Actor> actors = actorDAO.getByFirstName(actorName);
         
-        resultService.requireResult(actors, "No actors found with last name: " + actorName);
+        super.requireResult(actors, "No actors found with last name: " + actorName);
         
         return movieDAO.getByActor(actors);
     }
      public List<Movie> getMoviesForDirectorName(String directorLastName){
         List<Director> directors = directorDAO.getByLastName(directorLastName);
         
-        resultService.requireResult(directors, "No directors found with last name: " + directorLastName);
+        super.requireResult(directors, "No directors found with last name: " + directorLastName);
         
         return movieDAO.getByDirector(directors);
     }
@@ -86,11 +84,11 @@ public class MovieService extends BaseService
     public List<Movie> getMoviesForUserNameCommented(String userName){
         User userObject = userDAO.getSingleUserByName(userName);
         
-        resultService.requireResult(userObject, "No user found with name: " + userName);
+        super.requireResult(userObject, "No user found with name: " + userName);
         
         List<Comment> comments = commentDAO.getByUser(userObject);
         
-        resultService.requireResult(comments, "No comments found from user: " + userName);
+        super.requireResult(comments, "No comments found from user: " + userName);
 
         return movieDAO.getByComments(comments);
     }
@@ -98,7 +96,7 @@ public class MovieService extends BaseService
     public List<Movie> getMoviesForGenre(String genre){
         Genre genreObject = genreDAO.getByName(genre);
         
-        resultService.requireResult(genreObject, "No genre found with name: + genre");
+        super.requireResult(genreObject, "No genre found with name: + genre");
         
         return movieDAO.getByGenre(genreObject);
     }
@@ -107,7 +105,7 @@ public class MovieService extends BaseService
     public List<Movie> getMoviesForYear(int year){
         List<Movie> movies = movieDAO.getByYear(year);
         
-        resultService.requireResult(movies, "No movies found with year: "+ year);
+        super.requireResult(movies, "No movies found with year: "+ year);
         
         return movies;
     }

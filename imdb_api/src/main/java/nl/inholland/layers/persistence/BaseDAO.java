@@ -19,10 +19,11 @@ import org.mongodb.morphia.dao.BasicDAO;
 /**
  *
  * @author youp
+ * @param <T>
  */
 
 @Singleton
-public abstract class BaseDAO< T extends EntityModel > extends BasicDAO< T, ObjectId>
+public abstract class BaseDAO< T extends EntityModel> extends BasicDAO< T, ObjectId>
 {
     private Datastore ds;
     

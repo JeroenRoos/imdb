@@ -20,11 +20,9 @@ import org.mongodb.morphia.query.UpdateOperations;
  */
 public class ActorService extends BaseService {
     
-    //business logic
-    
     
     private final ActorDAO actorDAO;
-    private final ResultService resultService = new ResultService();
+
     @Inject
     public ActorService(ActorDAO actorDAO){
         this.actorDAO = actorDAO;
@@ -33,7 +31,16 @@ public class ActorService extends BaseService {
     //get actor by id
     public Actor get(String actorId)
     {
-        Actor actor = actorDAO.get(actorId);
+        Actor actor = null;
+        try{
+           
+           actor = actorDAO.get(actorId);
+           
+        }catch(Exception e){
+            
+           super.noValidObjectId(actorId + " is geen geldig id");       
+
+        }
         return actor;
     }
     
@@ -43,7 +50,7 @@ public class ActorService extends BaseService {
         List<Actor> actors = actorDAO.getAll();
         
         if (actors.isEmpty())
-            resultService.requireResult(actors, "No actors found");
+            super.requireResult(actors, "No actors found");
 
         return actors;
     }
@@ -71,15 +78,14 @@ public class ActorService extends BaseService {
         }
         catch (NumberFormatException ex)
         {
-            resultService.parsingError("Something went wrong while converting the age to an integer.");
+            super.parsingError("Something went wrong while converting the age to an integer.");
         }
         
         List<Actor> actors = actorDAO.getByAge(age);
         return actors;
     }
      
-     
-     
+      
      
     // update an actor
     public void update(String actorId, Actor actor)
@@ -95,7 +101,7 @@ public class ActorService extends BaseService {
             actorDAO.update(myQuery, update);
         }
         else
-            resultService.noValidObjectId("The actor id is not valid");
+            super.noValidObjectId("The actor id is not valid");
     }
     
     
@@ -114,7 +120,7 @@ public class ActorService extends BaseService {
                 actorDAO.update(myQuery, update);
             }
             else
-                resultService.noValidObjectId("The actor id is not valid");
+                super.noValidObjectId("The actor id is not valid");
         }
         
     }
@@ -125,30 +131,30 @@ public class ActorService extends BaseService {
         if (!"".equals(actor.getFirstName()) && actor.getFirstName() != null)
             update.set("firstName", actor.getFirstName());
         else if ("".equals(actor.getFirstName()))
-            resultService.emptyField("Firstname cannot be an empty string");
+            super.emptyField("Firstname cannot be an empty string");
 
         if (!"".equals(actor.getLastName()) && actor.getLastName() != null)
             update.set("lastName", actor.getLastName());
         else if ("".equals(actor.getLastName()))
-            resultService.emptyField("Lastname cannot be an empty string");
+            super.emptyField("Lastname cannot be an empty string");
 
         if (!"".equals(actor.getAge()))
             update.set("age", actor.getAge());
         else if ("".equals(actor.getAge()))
         {      
-            resultService.emptyField("Actor must be older than 18.");
+            super.emptyField("Actor must be older than 18.");
         }
     }
      private void checkCreateValidity(Actor actor)
     {
         if ("".equals(actor.getFirstName()) || actor.getFirstName() == null)
-            resultService.emptyField("Firstname cannot be an empty string");
+            super.emptyField("Firstname cannot be an empty string");
         
         if ("".equals(actor.getLastName()) || actor.getLastName() == null)
-            resultService.emptyField("Lastname cannot be an empty string");
+           super.emptyField("Lastname cannot be an empty string");
         
         if (actor.getAge() == 0)
-            resultService.emptyField("Director cannot be aged 0");
+            super.emptyField("Director cannot be aged 0");
     }
     //create new actor     
     public void create(Actor actor)
@@ -176,7 +182,7 @@ public class ActorService extends BaseService {
             actorDAO.deleteById(objectId);
         }
         else
-            resultService.noValidObjectId("The actor id is not valid");
+           super.noValidObjectId("The actor id is not valid");
     }
 
     public void deleteMany(String[] ids)
@@ -191,7 +197,7 @@ public class ActorService extends BaseService {
                 lstObjectIds.add(objectId);
             }
             else
-                resultService.noValidObjectId("The actor id is not valid");
+                super.noValidObjectId("The actor id is not valid");
         }
         
         actorDAO.deleteManyById(lstObjectIds);

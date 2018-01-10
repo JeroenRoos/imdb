@@ -8,10 +8,6 @@ package nl.inholland.layers.service;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import nl.inholland.layers.model.Genre;
 import nl.inholland.layers.model.User;
 import nl.inholland.layers.persistence.UserDAO;
 import org.bson.types.ObjectId;
@@ -20,9 +16,7 @@ import org.mongodb.morphia.query.UpdateOperations;
 
 public class UserService extends BaseService
 {
-
     private final UserDAO userDAO;
-    private final ResultService resultService = new ResultService();
     
     @Inject
     public UserService(UserDAO userDAO){
@@ -37,7 +31,7 @@ public class UserService extends BaseService
     
     public List<User> getAll()
     {
-        List<User> users = new ArrayList<User>(userDAO.getAll());
+        List<User> users = new ArrayList<>(userDAO.getAll());
         return users;
     }
     
@@ -86,7 +80,7 @@ public class UserService extends BaseService
             userDAO.deleteById(objectId);
         }
         else
-            resultService.noValidObjectId("The user id is not valid");
+            super.noValidObjectId("The user id is not valid");
     }
 
     public void deleteMany(String[] ids)
@@ -99,7 +93,7 @@ public class UserService extends BaseService
                 userDAO.deleteById(objectId);
             }
             else
-                resultService.noValidObjectId("The director id is not valid");
+                super.noValidObjectId("The director id is not valid");
         }
     }
     
@@ -116,7 +110,7 @@ public class UserService extends BaseService
             userDAO.update(query, ops);
         }
         else
-            resultService.noValidObjectId("The user id is not valid");
+           super.noValidObjectId("The user id is not valid");
     }
 
     public void updateMany(String[] ids, User[] users)
@@ -129,7 +123,7 @@ public class UserService extends BaseService
                 update(ids[i], users[i]);
             }
             else
-                resultService.noValidObjectId("The user id is not valid");
+                super.noValidObjectId("The user id is not valid");
         }
     }
     
@@ -138,10 +132,10 @@ public class UserService extends BaseService
     private void checkEntryValidity(User u)
     {
         if ("".equals(u.getName()) || u.getName() == null)
-            resultService.emptyField("name cannot be an empty");
+            super.emptyField("name cannot be an empty");
         
         if ("".equals(u.getGender()) || u.getGender() == null)
-            resultService.emptyField("gender cannot be an empty");
+            super.emptyField("gender cannot be an empty");
     }
     
     public void checkDuplicate(User user)
@@ -151,7 +145,7 @@ public class UserService extends BaseService
         {
             if (u.getName().equals(user.getName()))
             {
-                resultService.duplicateDocument("A user with the name " + user.getName() + " already exists.");
+                super.duplicateDocument("A user with the name " + user.getName() + " already exists.");
             }
         }
     }

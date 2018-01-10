@@ -22,7 +22,6 @@ public class DirectorService extends BaseService
 {
 
     private final DirectorDAO directorDAO;
-    private final ResultService resultService = new ResultService();
 
     @Inject
     public DirectorService(DirectorDAO directorDAO)
@@ -33,7 +32,7 @@ public class DirectorService extends BaseService
     public Director get(String directorId)
     {
         Director director = directorDAO.get(directorId);
-        resultService.requireResult(director, "Director not found");
+        super.requireResult(director, "Director not found");
         return director;
     }
 
@@ -42,7 +41,7 @@ public class DirectorService extends BaseService
         List<Director> lstDirectors = directorDAO.getAll();
 
         if (lstDirectors.isEmpty())
-            resultService.requireResult(null, "No directors found");
+            super.requireResult(null, "No directors found");
 
         return lstDirectors;
     }
@@ -62,7 +61,7 @@ public class DirectorService extends BaseService
         }
         catch (Exception ex)
         {
-            resultService.parsingError("Something went wrong while converting the age to an integer.");
+            super.parsingError("Something went wrong while converting the age to an integer.");
         }
         
         List<Director> lstDirectors = directorDAO.getByAge(age);
@@ -100,13 +99,13 @@ public class DirectorService extends BaseService
     private void checkCreateValidity(Director director)
     {
         if ("".equals(director.getFirstName()) || director.getFirstName() == null)
-            resultService.emptyField("Firstname cannot be an empty string");
+            super.emptyField("Firstname cannot be an empty string");
         
         if ("".equals(director.getLastName()) || director.getLastName() == null)
-            resultService.emptyField("Lastname cannot be an empty string");
+            super.emptyField("Lastname cannot be an empty string");
         
         if (director.getAge() == 0)
-            resultService.emptyField("Director cannot be aged 0");
+            super.emptyField("Director cannot be aged 0");
     }
     
     public void checkDuplicate(Director director)
@@ -116,7 +115,7 @@ public class DirectorService extends BaseService
         {
             if (d.getFirstName().equals(director.getFirstName()) && d.getLastName().equals(director.getLastName()))
             {
-                resultService.duplicateDocument("An director with the name " + director.getFirstName() + " " + director.getLastName() + " already exists.");
+                super.duplicateDocument("An director with the name " + director.getFirstName() + " " + director.getLastName() + " already exists.");
             }
         }
     }
@@ -145,7 +144,7 @@ public class DirectorService extends BaseService
             directorDAO.update(query, update);
         }
         else
-            resultService.noValidObjectId("The director id is not valid");
+            super.noValidObjectId("The director id is not valid");
     }
     
     private void updateMany(String[] ids, Director director)
@@ -168,7 +167,7 @@ public class DirectorService extends BaseService
                 lstUpdateOperations[i] = update;
             }
             else
-                resultService.noValidObjectId("The director id is not valid");
+                super.noValidObjectId("The director id is not valid");
         }
         
         directorDAO.updateMany(lstQueries, lstUpdateOperations);
@@ -179,12 +178,12 @@ public class DirectorService extends BaseService
         if (!"".equals(director.getFirstName()) && director.getFirstName() != null)
             update.set("firstName", director.getFirstName());
         else if ("".equals(director.getFirstName()))
-            resultService.emptyField("Firstname cannot be an empty string");
+            super.emptyField("Firstname cannot be an empty string");
 
         if (!"".equals(director.getLastName()) && director.getLastName() != null)
             update.set("lastName", director.getLastName());
         else if ("".equals(director.getLastName()))
-            resultService.emptyField("Lastname cannot be an empty string");
+            super.emptyField("Lastname cannot be an empty string");
 
         if (director.getAge() >= 18)
             update.set("age", director.getAge());
@@ -194,7 +193,7 @@ public class DirectorService extends BaseService
             director.setAge(d.getAge()); 
         }
         else 
-            resultService.emptyField("Director must be older than 18.");
+            super.emptyField("Director must be older than 18.");
     }
     
     public void delete(String directorIds)
@@ -217,7 +216,7 @@ public class DirectorService extends BaseService
             directorDAO.deleteById(objectId);
         }
         else
-            resultService.noValidObjectId("The director id is not valid");
+            super.noValidObjectId("The director id is not valid");
     }
 
     private void deleteMany(String[] ids)
@@ -234,7 +233,7 @@ public class DirectorService extends BaseService
                 lstObjectIds.add(objectId);
             }
             else
-                resultService.noValidObjectId("The director id is not valid");
+                super.noValidObjectId("The director id is not valid");
         }
         
         // Delete all the Directors after each director is checked for validity
@@ -244,6 +243,6 @@ public class DirectorService extends BaseService
     private void checkIfDirectorExists(String directorId)
     {
         Director director = directorDAO.get(directorId);
-        resultService.requireResult(director, "The Director you're trying to delete doesn't exist");
+        super.requireResult(director, "The Director you're trying to delete doesn't exist");
     }
 }

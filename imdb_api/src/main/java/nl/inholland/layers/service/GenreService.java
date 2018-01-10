@@ -8,14 +8,10 @@ package nl.inholland.layers.service;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import nl.inholland.layers.model.Genre;
 import nl.inholland.layers.persistence.GenreDAO;
 import org.bson.types.ObjectId;
-import org.mongodb.morphia.query.Query;
-import org.mongodb.morphia.query.UpdateOperations;
+
 
 
 /**
@@ -25,7 +21,6 @@ import org.mongodb.morphia.query.UpdateOperations;
 public class GenreService extends BaseService {
     
     private final GenreDAO genreDAO;
-    private ResultService resultService = new ResultService();
     
     @Inject
     public GenreService(GenreDAO genreDAO){
@@ -35,18 +30,18 @@ public class GenreService extends BaseService {
     public Genre get(String genreId)
     {
         Genre genre = genreDAO.get(genreId);
-        resultService.requireResult(genre, "genre not found");
+        super.requireResult(genre, "genre not found");
         return genre;
     }
 
     public List<Genre> getMany(String[] ids)
     {        
-        List<Genre> genres = new ArrayList<Genre>();
+        List<Genre> genres = new ArrayList<>();
         for (int i = 0; i < ids.length; i++)
         {
             genres.add(genreDAO.get(ids[i]));
         }
-        resultService.requireResult(genres, "genres not found");
+        super.requireResult(genres, "genres not found");
         
         return genres;
     }
@@ -55,12 +50,13 @@ public class GenreService extends BaseService {
     public List<Genre> getAll()
     {
         List<Genre> genre = genreDAO.getAll();
-        resultService.requireResult(genre, "genres not found");
+        super.requireResult(genre, "genres not found");
         return genre;
     }
     
     public Genre getByName(String genreName){
-        Genre genre = genreDAO.getByName(genreName);
+        Genre genre;
+        genre = genreDAO.getByName(genreName);
         return genre;
     }
     
@@ -79,7 +75,7 @@ public class GenreService extends BaseService {
             genreDAO.updateById(objectId, genre);
 
         }else{
-            resultService.noValidObjectId("Invalid genre id");
+            super.noValidObjectId("Invalid genre id");
         }
     }
     
@@ -100,7 +96,7 @@ public class GenreService extends BaseService {
             objectId = new ObjectId(genreId);
             genreDAO.deleteById(objectId);
         }else{
-            resultService.noValidObjectId("Invalid genre id");
+            super.noValidObjectId("Invalid genre id");
         }
     }
 }

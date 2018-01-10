@@ -5,8 +5,6 @@
  */
 package nl.inholland.layers.resource;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -22,13 +20,10 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
 import nl.inholland.layers.model.Movie;
 import nl.inholland.layers.model.MovieView;
 import nl.inholland.layers.presentation.model.MoviePresenter;
 import nl.inholland.layers.service.MovieService;
-import nl.inholland.layers.service.ResultService;
-import org.bson.types.ObjectId;
 
 @Path("/movies")
 @Consumes (MediaType.APPLICATION_JSON)
@@ -37,7 +32,6 @@ public class MovieResource extends BaseResource
 {
     private final MovieService movieService;
     private final MoviePresenter moviePresenter;
-    private final ResultService resultService = new ResultService();
     private final String HEADER_KEY = System.getenv("HEADER_KEY");
     private final String HEADER_VALUE = System.getenv("HEADER_VALUE");
     
@@ -85,7 +79,7 @@ public class MovieResource extends BaseResource
         return moviePresenter.present(movies);
         }
         
-        resultService.notAuthorizedException("Invalid headers");
+        movieService.notAuthorizedException("Invalid headers");
         
         return null;
     }

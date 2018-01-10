@@ -9,8 +9,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
-import com.mongodb.MongoException;
-import com.mongodb.ServerAddress;
 import javax.inject.Singleton;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;

@@ -6,14 +6,47 @@
 package nl.inholland.layers.service;
 
 import javax.inject.Singleton;
+import javax.ws.rs.BadRequestException;
+import javax.ws.rs.NotAuthorizedException;
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.WebApplicationException;
+import nl.inholland.layers.model.EntityModel;
 
-/**
- *
- * @author youp
- */
+
 
 @Singleton
-public class BaseService
+public class BaseService <T extends EntityModel>
 {
     
+    public void requireResult(Object obj, String message) throws NotFoundException
+    {
+        if (obj == null)
+            throw new NotFoundException(message);
+    }
+    
+    public void emptyField(String message) throws WebApplicationException
+    {
+        throw new BadRequestException(message);
+    }         
+    
+    public void parsingError(String message) throws WebApplicationException
+    {
+        throw new BadRequestException(message);
+    } 
+    
+    public void noValidObjectId(String message) throws BadRequestException
+    {
+        throw new BadRequestException(message);
+    }
+    
+    public void duplicateDocument(String message) throws WebApplicationException
+    {
+        throw new WebApplicationException(message);
+    }
+    
+    public void notAuthorizedException(String message) throws NotAuthorizedException
+    {
+        throw new NotAuthorizedException(message);
+    }
+           
 }

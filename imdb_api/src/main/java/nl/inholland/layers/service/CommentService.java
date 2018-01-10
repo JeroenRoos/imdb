@@ -8,7 +8,6 @@ package nl.inholland.layers.service;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
-import nl.inholland.layers.model.Actor;
 import nl.inholland.layers.model.Comment;
 import nl.inholland.layers.persistence.CommentDAO;
 import org.bson.types.ObjectId;
@@ -20,12 +19,9 @@ import org.mongodb.morphia.query.UpdateOperations;
  * @author CTiel
  */
 public class CommentService extends BaseService {
-    
-    //business logic
-    
-    
+
     private final CommentDAO commentDAO;
-    private final ResultService resultService = new ResultService();
+
     @Inject
     public CommentService(CommentDAO commentDAO){
         this.commentDAO = commentDAO;
@@ -42,7 +38,7 @@ public class CommentService extends BaseService {
         List<Comment> comments = commentDAO.getAll();
         
         if (comments.isEmpty())
-            resultService.requireResult(comments, "No comments found");
+            super.requireResult(comments, "No comments found");
 
         return comments;
     }     
@@ -60,7 +56,7 @@ public class CommentService extends BaseService {
             commentDAO.update(myQuery, update);
         }
         else
-            resultService.noValidObjectId("The comment id is not valid");
+            super.noValidObjectId("The comment id is not valid");
     }
     
     
@@ -78,7 +74,7 @@ public class CommentService extends BaseService {
                 commentDAO.update(myQuery, update);
             }
             else
-                resultService.noValidObjectId("The comment id is not valid");
+                super.noValidObjectId("The comment id is not valid");
         }
         
     }
@@ -89,20 +85,20 @@ public class CommentService extends BaseService {
         if (!"".equals(comment.getMessage()) && comment.getMessage() != null)
             update.set("message", comment.getMessage());
         else if ("".equals(comment.getMessage()))
-            resultService.emptyField("message cannot be an empty string");
+            super.emptyField("message cannot be an empty string");
 
         if (!"".equals(comment.getUser()) && comment.getUser() != null)
             update.set("user", comment.getUser());
         else if ("".equals(comment.getUser()))
-            resultService.emptyField("user cannot be empty");
+           super.emptyField("user cannot be empty");
     }
      private void checkCreateValidity(Comment comment)
     {
         if ("".equals(comment.getMessage()) || comment.getMessage() == null)
-            resultService.emptyField("Firstname cannot be an empty string");
+            super.emptyField("Firstname cannot be an empty string");
         
         if ("".equals(comment.getUser()) || comment.getUser() == null)
-            resultService.emptyField("Lastname cannot be an empty string");
+            super.emptyField("Lastname cannot be an empty string");
     }
      
     public void create(Comment comment)
@@ -129,7 +125,7 @@ public class CommentService extends BaseService {
             commentDAO.deleteById(objectId);
         }
         else
-            resultService.noValidObjectId("The comment id is not valid");
+            super.noValidObjectId("The comment id is not valid");
     }
 
     public void deleteMany(String[] ids)
@@ -144,7 +140,7 @@ public class CommentService extends BaseService {
                 lstObjectIds.add(objectId);
             }
             else
-                resultService.noValidObjectId("The comment id is not valid");
+                super.noValidObjectId("The comment id is not valid");
         }
         
         commentDAO.deleteManyById(lstObjectIds);
