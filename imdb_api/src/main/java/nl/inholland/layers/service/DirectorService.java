@@ -40,11 +40,12 @@ public class DirectorService extends BaseService
         
         // Validation, check if the Director exists
         super.requireResult(director, "Director not found");
+        
         return director;
     }
 
     
-    // Get al existing directors
+    // Get all existing directors
     public List<Director> getAll()
     {
         List<Director> lstDirectors = directorDAO.getAll();
@@ -88,6 +89,7 @@ public class DirectorService extends BaseService
     // Create one or more directors
     public void create(List<Director> lstDirectors)
     {
+        // Create on or more directors based on the lenght of the list
         if (lstDirectors.size() == 1)
             createOne(lstDirectors.get(0));
         else
@@ -248,7 +250,7 @@ public class DirectorService extends BaseService
         else if ("".equals(director.getLastName()))
             super.emptyField("Lastname cannot be an empty string");
 
-        // Check the validity of the firstname field. If its not empty, add it to the update Operation
+        // Check the validity of the age field. If its not empty, add it to the update Operation
         // If it's does exists but is empty, add the age of the director that's gonne be updated. 
         // This is needed because the age field is automatically put to 0 if it doesn't need to be updated
         if (director.getAge() >= 18)

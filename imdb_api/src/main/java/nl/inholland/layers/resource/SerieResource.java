@@ -26,6 +26,9 @@ import nl.inholland.layers.service.SerieService;
  * @author Jeroen
  */
 
+
+// The resource class for Series
+// This class handles the application logic and turns values to objects to be presented later
 @Api("Series")
 @Path("/series")
 @Consumes (MediaType.APPLICATION_JSON)
@@ -42,6 +45,8 @@ public class SerieResource extends BaseResource
         this.seriePresenter = seriePresenter;
     }
     
+    
+    // Get all series (or get all series based on Query Parameters) and sends it to the presenter
     @GET
     @RolesAllowed( {"ADMIN", "USER"} ) 
     @ApiOperation("Gets all Series")
@@ -59,6 +64,8 @@ public class SerieResource extends BaseResource
         return seriePresenter.present(lstSeries);
     }
     
+    
+    // Get one serie and send it to the presenter
     @GET
     @RolesAllowed( {"ADMIN", "USER"} ) 
     @ApiOperation("Gets one Serie")
@@ -69,26 +76,32 @@ public class SerieResource extends BaseResource
         return seriePresenter.present(serie);
     }
     
+    
+    // Create one serie
     @POST
     @RolesAllowed("ADMIN")
-    @ApiOperation("Create one or more Series")
+    @ApiOperation("Create one Serie")
     public void create(List<Serie> lstSeries)
     {
         serieService.create(lstSeries);
     }
     
+    
+    // Update one serie
     @PUT
     @RolesAllowed("ADMIN")
-    @ApiOperation("Update one or more Series")
+    @ApiOperation("Update one Serie")
     @Path("/{SerieId}")
     public void update(@PathParam("SerieId") String serieId, Serie serie)
     {
         serieService.update(serieId, serie);
     }
     
+    
+    // Delete one serie
     @DELETE
     @RolesAllowed("ADMIN")
-    @ApiOperation("Delete one or more Series")
+    @ApiOperation("Delete one Serie")
     @Path("/{SerieId}")
     public void delete(@PathParam("SerieId") String serieId)
     {

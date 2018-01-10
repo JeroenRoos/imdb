@@ -62,7 +62,7 @@ public class DirectorResource extends BaseResource
         return directorPresenter.present(lstDirectors);
     }
     
-    // Get one presenter and send it to the presenter
+    // Get one director and send it to the presenter
     @GET
     @RolesAllowed( {"ADMIN", "USER"} )  
     @ApiOperation("Gets one Director")

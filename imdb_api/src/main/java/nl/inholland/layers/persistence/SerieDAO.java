@@ -18,6 +18,12 @@ import org.mongodb.morphia.query.Query;
  *
  * @author Jeroen
  */
+
+
+// The DAO class for Series
+// This class is used to perform a queries and return the result to the service
+// The basic requests are handled by BaseDAO, only serie specific request will be handled by this DAO
+
 public class SerieDAO extends BaseDAO<Serie>
 {
     private Datastore ds;
@@ -29,25 +35,31 @@ public class SerieDAO extends BaseDAO<Serie>
         this.ds = ds;
     }   
     
-     public List<Serie> getByDirector(List<Director> lstDirectors)
-     {
-        Query<Serie> query = ds.createQuery(Serie.class);      
-        query.filter("director. in", lstDirectors);
-        return query.asList();
+    
+    // Get and return all series with a specific director/directors
+    public List<Serie> getByDirector(List<Director> lstDirectors)
+    {
+       Query<Serie> query = ds.createQuery(Serie.class);      
+       query.filter("director. in", lstDirectors);
+       return query.asList();
+   }
+     
+     
+    // Get and return all series with a specific genre
+    public List<Serie> getByGenre(Genre genre)
+    {
+       Query<Serie> query = ds.createQuery(Serie.class);      
+       query.filter("genre ==", genre);     
+       return query.asList();
     }
      
-     public List<Serie> getByGenre(Genre genre)
-     {
-        Query<Serie> query = ds.createQuery(Serie.class);      
-        query.filter("genre ==", genre);
-        return query.asList();
-     }
-     
-     public List<Serie> getByActor(List<Actor> lstActors)
-     {
-        Query<Serie> query = ds.createQuery(Serie.class);      
-        query.filter("actors in", lstActors);
-        List<Serie> lstSeries = query.asList();
-        return lstSeries;
-     }
+    
+    // Get and return all series with a specific actor/actors
+    public List<Serie> getByActor(List<Actor> lstActors)
+    {
+       Query<Serie> query = ds.createQuery(Serie.class);      
+       query.filter("actors in", lstActors);
+       List<Serie> lstSeries = query.asList();
+       return lstSeries;
+    }
 }
