@@ -55,7 +55,7 @@ public class SerieResource extends BaseResource
             (!"".equals(directorLastName)) ? lstSeries = serieService.getSeriesByDirectorLastName(directorLastName) :
             (!"".equals(genreName)) ? serieService.getSeriesByGenreName(genreName) :
             (!"".equals(actorFirstName)) ? serieService.getSeriesByActorFirstName(actorFirstName) :
-        serieService.getAll();
+            serieService.getAll();
         
         return seriePresenter.present(lstSeries);
     }
