@@ -50,15 +50,12 @@ public class SerieResource extends BaseResource
             @DefaultValue("") @QueryParam("genreName") String genreName, @DefaultValue("") 
                     @QueryParam("actorFirstName") String actorFirstName)
     {
-        List<Serie> lstSeries;
-        if (!"".equals(directorLastName))
-            lstSeries = serieService.getSeriesByDirectorLastName(directorLastName);
-        else if (!"".equals(genreName))
-            lstSeries = serieService.getSeriesByGenreName(genreName);
-        else if (!"".equals(actorFirstName))
-            lstSeries = serieService.getSeriesByActorFirstName(actorFirstName);
-        else
-            lstSeries = serieService.getAll();
+        List<Serie> lstSeries = null;
+        lstSeries =       
+            (!"".equals(directorLastName)) ? lstSeries = serieService.getSeriesByDirectorLastName(directorLastName) :
+            (!"".equals(genreName)) ? serieService.getSeriesByGenreName(genreName) :
+            (!"".equals(actorFirstName)) ? serieService.getSeriesByActorFirstName(actorFirstName) :
+        serieService.getAll();
         
         return seriePresenter.present(lstSeries);
     }

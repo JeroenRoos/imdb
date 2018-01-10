@@ -54,15 +54,11 @@ public class DirectorResource extends BaseResource
     public List<DirectorView> getAll(@DefaultValue("") @QueryParam("lastName") String lastName,
             @DefaultValue("") @QueryParam("age") String age)
     {
-        List<Director> lstDirectors;
-        if (!"".equals(lastName))
-            lstDirectors = directorService.getByName(lastName);
-        
-        else if (!"".equals(age))
-            lstDirectors = directorService.getByAge(age);
-        
-        else
-            lstDirectors = directorService.getAll();
+        List<Director> lstDirectors = null;
+        lstDirectors = 
+            (!"".equals(lastName)) ? directorService.getByName(lastName) :
+            (!"".equals(age)) ? directorService.getByAge(age):        
+            directorService.getAll();
         
         return directorPresenter.present(lstDirectors);
     }

@@ -32,8 +32,6 @@ public class MovieResource extends BaseResource
 {
     private final MovieService movieService;
     private final MoviePresenter moviePresenter;
-    private final String HEADER_KEY = System.getenv("HEADER_KEY");
-    private final String HEADER_VALUE = System.getenv("HEADER_VALUE");
     
     @Inject
     public MovieResource( MovieService movieService,
