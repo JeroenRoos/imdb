@@ -63,15 +63,30 @@ public class User extends EntityModel implements Principal
     public boolean hasRole(String role)
     {
         // Een gok dat het zo moet, werkelijk geen idee
-        if (role.equals(role))
+        if (role.equals(this.role))
             return true;
         else 
             return false;
+    }
+    
+    public void setRole(String role)
+    {
+        this.role = role;
+    }
+    
+    public String getRole()
+    {
+        return this.role;
     }
 
     public Object getPassword()
     {
         return password;
+    }
+    
+    public Object getUsername()
+    {
+        return username;
     }
     
 }

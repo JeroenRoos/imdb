@@ -31,19 +31,20 @@ public class AuthenticationService implements Authenticator<BasicCredentials, Us
     public Optional<User> authenticate(BasicCredentials credentials) throws AuthenticationException
     {
         User user = new User(credentials.getUsername(), credentials.getPassword());
-        
-//        userDAO.get(user);
-        
+
+        //User userFromDB = userDAO.getByLoginCredentials(credentials.getUsername(), credentials.getPassword());
+        // Dit is nu dus nog hardcoded, hier moet een user uit de DB gehaald worden met username & password
         User userFromDB = new User("nelleke", "test");
+        userFromDB.setRole("ADMIN");
         
-        if (!user.getName().equals(userFromDB.getName()))
+        if (!user.getUsername().equals(userFromDB.getUsername()))
         {
             return Optional.empty();
         }
         
         if (user.getPassword().equals(userFromDB.getPassword()))
         {
-            return Optional.of(user);
+            return Optional.of(userFromDB);
         }
         
         return Optional.empty();
