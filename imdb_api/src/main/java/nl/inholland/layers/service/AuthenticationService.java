@@ -33,9 +33,12 @@ public class AuthenticationService implements Authenticator<BasicCredentials, Us
        
         User userFromDB = userDAO.getByCredentials(credentials.getUsername(), credentials.getPassword());
         
-        if(userFromDB == null){
+        if(userFromDB == null)
+        {
             return Optional.empty();
-        }else{
+        }
+        else
+        {
             return Optional.of(userFromDB);
         }
                 

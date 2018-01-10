@@ -56,8 +56,7 @@ public class User extends EntityModel implements Principal
 
     public boolean hasRole(String role)
     {
-        // Een gok dat het zo moet, werkelijk geen idee
-        if (role.equals(role))
+        if (role.equals(this.role))
             return true;
         else 
             return false;
