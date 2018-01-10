@@ -73,7 +73,7 @@ public class ActorResource extends BaseResource{
     public void create(List<Actor> lstActors)
     {
         if (lstActors.size() == 1)
-            actorService.createActor(lstActors.get(0));
+            actorService.create(lstActors.get(0));
         else
             actorService.createMany(lstActors);
     }
@@ -90,13 +90,13 @@ public class ActorResource extends BaseResource{
             actorService.updateMany(ids, actor);
     }  
     //get by Id
-    @GET
-    @Path("/{actorId}")
-    public ActorView get( @PathParam("actorId") String actorId){
-        Actor actor = actorService.get(actorId);
+    //@GET
+    //@Path("/{actorId}")
+    //public ActorView get( @PathParam("actorId") String actorId){
+    //    Actor actor = actorService.getById(actorId, );
         
-        return actorPresenter.present(actor);
-    }
+    //    return actorPresenter.present(actor);
+    //}
 
     @DELETE
     public void delete(@DefaultValue("") @QueryParam("id") String directorIds) 
@@ -104,8 +104,8 @@ public class ActorResource extends BaseResource{
         String[] ids = directorIds.split(",");
         
         if (ids.length == 1)
-            actorService.deleteActor(ids[0]);
+            actorService.delete(ids[0]);
         else
-            actorService.deleteManyActors(ids);
+            actorService.deleteMany(ids);
     }
 }
