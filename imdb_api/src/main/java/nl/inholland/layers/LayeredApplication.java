@@ -24,12 +24,12 @@ import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 public class LayeredApplication extends Application<LayeredConfiguration>
 {
     private GuiceBundle<LayeredConfiguration> guiceBundle;
-    //private SwaggerBundle<LayeredConfiguration> swaggerBundle;
+    private SwaggerBundle<LayeredConfiguration> swaggerBundle;
 
     public static void main(String[] args) throws Exception
     {
-        //new LayeredApplication().run(args);
-        new LayeredApplication().run(new String[] { "server" });
+        new LayeredApplication().run(args);
+        //new LayeredApplication().run(new String[] { "server" });
     }
 
     @Override
@@ -38,8 +38,8 @@ public class LayeredApplication extends Application<LayeredConfiguration>
         configureGuice();
         bootstrap.addBundle(guiceBundle);
         
-        //configureSwagger();
-        //bootstrap.addBundle(swaggerBundle);
+        configureSwagger();
+        bootstrap.addBundle(swaggerBundle);
     }
 
     private void configureGuice()
@@ -52,7 +52,7 @@ public class LayeredApplication extends Application<LayeredConfiguration>
     }
     
     
-    /*private void configureSwagger()
+    private void configureSwagger()
     {
         swaggerBundle = new SwaggerBundle<LayeredConfiguration>() 
             {
@@ -62,7 +62,7 @@ public class LayeredApplication extends Application<LayeredConfiguration>
                     return configuration.swagger;
                 }
             };
-    }*/
+    }
 
     @Override
     public void run( final LayeredConfiguration configuration, 

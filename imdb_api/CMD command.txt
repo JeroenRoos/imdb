@@ -1,0 +1,5 @@
+1: open cmd vanuit deze folder
+
+2: run command -> 
+
+java -jar target\layers-1.0-SNAPSHOT.jar server configuration.yml
