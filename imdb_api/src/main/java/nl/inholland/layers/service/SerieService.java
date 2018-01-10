@@ -65,7 +65,7 @@ public class SerieService extends BaseService
         
         // Validation, check if any series exist 
         if (lstSeries.isEmpty())
-           super.requireResult(lstSeries, "Serie not found");
+           super.requireResult(null, "Serie not found");
         
         return lstSeries;
     }
