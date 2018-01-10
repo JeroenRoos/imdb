@@ -58,23 +58,15 @@ public class MovieResource extends BaseResource
        
             
         List<Movie> movies = null;
-        if(!"".equals(actorName)){
-            
-            movies = movieService.getMoviesForActorName(actorName);            
-        }
-        else if(!"".equals(directorLastName)){
-            
-         movies = movieService.getMoviesForDirectorName(directorLastName);
-        }
-        else if(!"".equals(userName)){
-         movies = movieService.getMoviesForUserNameCommented(userName);
-        }
-        else if(!"".equals(genre)){
-            movies = movieService.getMoviesForGenre(genre);
-        }
-        else{
-            movies = movieService.getAll();
-        }
+        
+        movies = 
+                
+        (!"".equals(actorName)) ? movieService.getMoviesForActorName(actorName) :
+        (!"".equals(directorLastName)) ? movieService.getMoviesForDirectorName(directorLastName) :
+        (!"".equals(userName)) ? movieService.getMoviesForUserNameCommented(userName) :
+        (!"".equals(genre)) ? movieService.getMoviesForGenre(genre) :
+        movieService.getAll();
+               
         
         return moviePresenter.present(movies);
         }
