@@ -17,6 +17,8 @@ import nl.inholland.layers.model.UserView;
  */
 public class CommentPresenter extends BasePresenter
 {
+    private final UserPresenter userPresenter = new UserPresenter();
+    
     public List<CommentView> present (List<Comment> comments)
     {
         List<CommentView> view = new ArrayList<>();
@@ -39,15 +41,8 @@ public class CommentPresenter extends BasePresenter
         CommentView commentView = new CommentView();
         
         commentView.setId(comment.getId());
-        commentView.setMessage(comment.getMessage());
-            
-        UserView userView = new UserView();
-        userView.setId(comment.getUser().getId());
-        userView.setName(comment.getUser().getName());
-        userView.setGender(comment.getUser().getGender());
-        userView.setIsAdmin(comment.getUser().getIsAdmin());
-        
-        commentView.setUser(userView);
+        commentView.setMessage(comment.getMessage());     
+        commentView.setUser(userPresenter.present(comment.getUser()));
         
         return commentView;
     }

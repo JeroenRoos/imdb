@@ -2,12 +2,6 @@ package nl.inholland.layers.presentation.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import nl.inholland.layers.model.Actor;
-import nl.inholland.layers.model.ActorView;
-import nl.inholland.layers.model.Director;
-import nl.inholland.layers.model.DirectorView;
-import nl.inholland.layers.model.Genre;
-import nl.inholland.layers.model.GenreView;
 import nl.inholland.layers.model.Serie;
 import nl.inholland.layers.model.SerieView;
 
@@ -17,9 +11,9 @@ import nl.inholland.layers.model.SerieView;
  */
 public class SeriePresenter extends BasePresenter
 {
-    private GenrePresenter genrePresenter = new GenrePresenter();
-    private ActorPresenter actorPresenter = new ActorPresenter();
-    private DirectorPresenter directorPresenter = new DirectorPresenter();
+    private final GenrePresenter genrePresenter = new GenrePresenter();
+    private final ActorPresenter actorPresenter = new ActorPresenter();
+    private final DirectorPresenter directorPresenter = new DirectorPresenter();
     
     public SerieView present(Serie serie)
     {

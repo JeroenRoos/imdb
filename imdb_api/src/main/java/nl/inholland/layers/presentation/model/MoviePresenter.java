@@ -7,16 +7,8 @@ package nl.inholland.layers.presentation.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import nl.inholland.layers.model.Actor;
-import nl.inholland.layers.model.ActorView;
-import nl.inholland.layers.model.Comment;
-import nl.inholland.layers.model.CommentView;
-import nl.inholland.layers.model.DirectorView;
-import nl.inholland.layers.model.Genre;
-import nl.inholland.layers.model.GenreView;
 import nl.inholland.layers.model.Movie;
 import nl.inholland.layers.model.MovieView;
-import nl.inholland.layers.model.UserView;
 
 /**
  *
@@ -24,6 +16,10 @@ import nl.inholland.layers.model.UserView;
  */
 public class MoviePresenter extends BasePresenter
 {
+    private final GenrePresenter genrePresenter = new GenrePresenter();
+    private final ActorPresenter actorPresenter = new ActorPresenter();
+    private final DirectorPresenter directorPresenter = new DirectorPresenter();
+    
     public List<MovieView> present(List<Movie> movies)
     {
         List<MovieView> view = new ArrayList<MovieView>();
@@ -46,62 +42,14 @@ public class MoviePresenter extends BasePresenter
     private MovieView initMovieView(Movie movie)
     {
         MovieView movieView = new MovieView();
-            movieView.setId(movie.getId());
-            movieView.setTitle(movie.getTitle());
-            movieView.setSummary(movie.getSummary());
+        movieView.setId(movie.getId());
+        movieView.setTitle(movie.getTitle());
+        movieView.setSummary(movie.getSummary());
+        movieView.setYear(movie.getYear());
             
-            List<ActorView> actorViews = new ArrayList<ActorView>();
-            for( Actor actor : movie.getActors()){
-                ActorView actorView = new ActorView();
-                
-                actorView.setId(actor.getId());
-                actorView.setFirstName(actor.getFirstName());
-                actorView.setLastName(actor.getLastName());
-                actorView.setAge(actor.getAge());
-                
-                actorViews.add(actorView);
-            }
-            movieView.setActors(actorViews);
-            
-            List<GenreView> genres = new ArrayList<>();
-            for(Genre genre : movie.getGenre()){
-                GenreView genreView = new GenreView();
-                
-                genreView.setId(genre.getId());
-                genreView.setName(genre.getName());
-                genres.add(genreView);
-            }
-            
-            List<CommentView> comments = new ArrayList<>();
-            for(Comment comment : movie.getComments()){
-                CommentView commentView = new CommentView();
-                
-                commentView.setId(comment.getId());
-                commentView.setMessage(comment.getMessage());
-                
-            
-                UserView userView = new UserView();
-                userView.setId(comment.getUser().getId());
-                userView.setName(comment.getUser().getName());
-                userView.setGender(comment.getUser().getGender());
-                userView.setIsAdmin(comment.getUser().getIsAdmin());
-                
-                commentView.setUser(userView);
-                
-                comments.add(commentView);
-            }
-            
-            movieView.setComments(comments);
-            DirectorView directorView = new DirectorView();
-            
-            directorView.setId(movie.getDirector().getId());
-            directorView.setAge(movie.getDirector().getAge());
-            directorView.setFirstName(movie.getDirector().getFirstName());
-            directorView.setLastName(movie.getDirector().getLastName());
-           
-            movieView.setDirector(directorView);
-            movieView.setGenres(genres);
-            movieView.setYear(movie.getYear());
+        movieView.setGenres(genrePresenter.present(movie.getGenre()));
+        movieView.setDirector(directorPresenter.present(movie.getDirector()));
+        movieView.setActors(actorPresenter.present(movie.getActors()));
         
         return movieView;
     }
