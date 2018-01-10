@@ -54,7 +54,7 @@ public class LayeredApplication extends Application<LayeredConfiguration>
     
     private void configureSwagger()
     {
-        swaggerBundle = new SwaggerBundle<LayeredConfiguration>() 
+        //swaggerBundle = new SwaggerBundle<LayeredConfiguration>() 
             {
                 @Override
                 protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(LayeredConfiguration configuration) 
