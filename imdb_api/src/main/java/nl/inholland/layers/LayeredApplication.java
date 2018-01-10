@@ -5,6 +5,8 @@
  */
 package nl.inholland.layers;
 
+import com.google.inject.Stage;
+import nl.inholland.layers.service.AuthorizationService;
 import com.hubspot.dropwizard.guice.GuiceBundle;
 import io.dropwizard.Application;
 import io.dropwizard.auth.AuthDynamicFeature;
@@ -17,7 +19,6 @@ import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 import nl.inholland.health.DatabaseHealthCheck;
 import nl.inholland.layers.model.User;
 import nl.inholland.layers.service.AuthenticationService;
-import nl.inholland.layers.service.AuthorizationService;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 
 public class LayeredApplication extends Application<LayeredConfiguration>
@@ -27,9 +28,8 @@ public class LayeredApplication extends Application<LayeredConfiguration>
 
     public static void main(String[] args) throws Exception
     {
-        new LayeredApplication().run(new String[] { "server" } );
-        //(args);
-        //(new String[] { "server" } );
+        //new LayeredApplication().run(args);
+        new LayeredApplication().run(new String[] { "server" });
     }
 
     @Override
@@ -48,11 +48,11 @@ public class LayeredApplication extends Application<LayeredConfiguration>
             .addModule( new LayeredModule() )
             .enableAutoConfig(getClass().getPackage().getName())
             .setConfigClass(LayeredConfiguration.class)
-            .build();
+            .build(Stage.DEVELOPMENT);
     }
     
     
-    /* private void configureSwagger()
+    private void configureSwagger()
     {
         swaggerBundle = new SwaggerBundle<LayeredConfiguration>() 
             {
@@ -62,7 +62,7 @@ public class LayeredApplication extends Application<LayeredConfiguration>
                     return configuration.swagger;
                 }
             };
-    } */
+    }
 
     @Override
     public void run( final LayeredConfiguration configuration, 

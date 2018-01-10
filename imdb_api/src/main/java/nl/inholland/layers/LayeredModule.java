@@ -29,13 +29,15 @@ public class LayeredModule extends AbstractModule
     
     @Provides
     @Singleton
-    Datastore providesDatastore()
+    Datastore providesDatastore(LayeredConfiguration configuration)
     {
         MongoClient mongo = new MongoClient(new MongoClientURI("mongodb://" + DB_USERNAME + ":" + DB_PASSWORD + "@ds121575.mlab.com:21575/imdb"));
+        //MongoClient mongo = new MongoClient(new MongoClientURI(configuration.database.mongoURI));
 
         Morphia morphia = new Morphia();
         
         return morphia.createDatastore(mongo, "imdb");
+        //return morphia.createDatastore(mongo, configuration.database.dbName);
     }
    
 }

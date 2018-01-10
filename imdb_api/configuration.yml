@@ -1,3 +1,6 @@
 ## YAML Template.
+database:
+    mongoURI: mongodb://imdb:imdb@ds121575:mlab.com:21575/imdb
+    dbName: imdb
 swagger:
     resourcePackage: nl.inholland.layers.resource
