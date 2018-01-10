@@ -48,15 +48,7 @@ public class MovieResource extends BaseResource
             @Context HttpHeaders headers,
             @DefaultValue("") @QueryParam("commentsByUserName") String userName,
             @DefaultValue("") @QueryParam("genre") String genre){
-        
-        List<String> headerParams = null;
-        if(headers.getRequestHeader(HEADER_KEY) != null){         
-            headerParams = headers.getRequestHeader(HEADER_KEY);
-        }
-        
-        if(headerParams != null && headerParams.contains(HEADER_VALUE)){
-       
-            
+           
         List<Movie> movies = null;
         
         movies = 
@@ -66,14 +58,8 @@ public class MovieResource extends BaseResource
         (!"".equals(userName)) ? movieService.getMoviesForUserNameCommented(userName) :
         (!"".equals(genre)) ? movieService.getMoviesForGenre(genre) :
         movieService.getAll();
-               
-        
+              
         return moviePresenter.present(movies);
-        }
-        
-        movieService.notAuthorizedException("Invalid headers");
-        
-        return null;
     }
     
     @GET
