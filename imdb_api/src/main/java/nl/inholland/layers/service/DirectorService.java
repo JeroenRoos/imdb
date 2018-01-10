@@ -32,9 +32,11 @@ public class DirectorService extends BaseService
         this.directorDAO = directorDAO;
     }
 
+    
+    // Get an existing director by ID
     public Director getDirectorById(String directorId)
     {
-        Director director = (Director) super.getById(directorId, directorDAO);
+        Director director = (Director)super.getById(directorId, directorDAO);
         
         // Validation, check if the Director exists
         super.requireResult(director, "Director not found");
@@ -274,7 +276,16 @@ public class DirectorService extends BaseService
     // Delete one director by ID
     private void deleteOne(String directorId)
     {
-      super.delete(directorId, directorDAO);
+        // Validation, check if the ID is valid
+        if(ObjectId.isValid(directorId))
+        {
+            // Validation, check if the director exists
+            checkIfDirectorExists(directorId);
+            
+            super.delete(directorId, directorDAO);
+        }
+        else
+            super.noValidObjectId("The director ID is not valid.");
     }
 
     
@@ -298,6 +309,7 @@ public class DirectorService extends BaseService
         }
         
         // Delete all the Directors after each director is checked for validity
+        //super.deleteMany(ids, directorDAO);
         directorDAO.deleteManyById(lstObjectIds);
     }
     

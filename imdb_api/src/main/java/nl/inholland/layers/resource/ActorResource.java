@@ -94,8 +94,9 @@ public class ActorResource extends BaseResource{
     @Path("/{actorId}")
     public ActorView get( @PathParam("actorId") String actorId){
         Actor actor = actorService.getById(actorId);
-        
+
         return actorPresenter.present(actor);
+
     }
 
     @DELETE
