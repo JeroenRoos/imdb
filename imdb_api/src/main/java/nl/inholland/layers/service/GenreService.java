@@ -40,7 +40,7 @@ public class GenreService extends BaseService {
         {
             genres.add(genreDAO.get(ids[i]));
         }
-        super.requireResult(genres, "genres not found");
+        super.errorHandler.requireResult(genres, "genres not found");
         
         return genres;
     }
@@ -73,7 +73,7 @@ public class GenreService extends BaseService {
             genreDAO.updateById(objectId, genre);
 
         }else{
-            super.noValidObjectId("Invalid genre id");
+            super.errorHandler.noValidObjectId("Invalid genre id");
         }
     }
     

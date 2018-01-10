@@ -5,7 +5,6 @@
  */
 package nl.inholland.layers.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import nl.inholland.layers.model.User;
@@ -34,7 +33,6 @@ public class UserService extends BaseService
         List<User> users = super.getAll(userDAO);
         return users;
     }
-    
     
     public List<User> getByName(String name){
        List<User> user = userDAO.getByName(name);
@@ -94,7 +92,7 @@ public class UserService extends BaseService
             userDAO.update(query, ops);
         }
         else
-           super.noValidObjectId("The user id is not valid");
+           super.errorHandler.noValidObjectId("The user id is not valid");
     }
 
     public void updateMany(String[] ids, User[] users)
@@ -107,7 +105,7 @@ public class UserService extends BaseService
                 update(ids[i], users[i]);
             }
             else
-                super.noValidObjectId("The user id is not valid");
+                super.errorHandler.noValidObjectId("The user id is not valid");
         }
     }
     
@@ -116,10 +114,10 @@ public class UserService extends BaseService
     private void checkEntryValidity(User u)
     {
         if ("".equals(u.getName()) || u.getName() == null)
-            super.emptyField("name cannot be an empty");
+            super.errorHandler.emptyField("name cannot be an empty");
         
         if ("".equals(u.getGender()) || u.getGender() == null)
-            super.emptyField("gender cannot be an empty");
+            super.errorHandler.emptyField("gender cannot be an empty");
     }
     
     public void checkDuplicate(User user)
@@ -129,7 +127,7 @@ public class UserService extends BaseService
         {
             if (u.getName().equals(user.getName()))
             {
-                super.duplicateDocument("A user with the name " + user.getName() + " already exists.");
+                super.errorHandler.duplicateDocument("A user with the name " + user.getName() + " already exists.");
             }
         }
     }

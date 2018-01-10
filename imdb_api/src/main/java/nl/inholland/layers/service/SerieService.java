@@ -52,7 +52,7 @@ public class SerieService extends BaseService
         Serie serie = serieDAO.get(serieId);
         
         // Validation, check if the serie exists
-        super.requireResult(serie, "Serie not found");
+        super.errorHandler.requireResult(serie, "Serie not found");
         
         return serie;
     }
@@ -75,7 +75,7 @@ public class SerieService extends BaseService
         
         // Validation, check if any directors exist with the lastname
         if (lstDirectors.isEmpty())
-            super.requireResult(null, "No series found with name: " + directorLastName);
+            super.errorHandler.requireResult(null, "No series found with name: " + directorLastName);
     
         return serieDAO.getByDirector(lstDirectors);
     }
@@ -87,7 +87,7 @@ public class SerieService extends BaseService
         Genre genre = genreDAO.getByName(genreName);
         
         // Validation, check if any genres exist with the genre name
-        super.requireResult(genre, "No series found with name: " + genreName);
+        super.errorHandler.requireResult(genre, "No series found with name: " + genreName);
         
         return serieDAO.getByGenre(genre);
     }
@@ -100,7 +100,7 @@ public class SerieService extends BaseService
         
         // Validation, check if any actors exist with the firstname
         if (lstActors.isEmpty())
-            super.requireResult(null, "No actors found with name: " + actorName);
+            super.errorHandler.requireResult(null, "No actors found with name: " + actorName);
     
         return serieDAO.getByActor(lstActors);
     }
@@ -146,27 +146,27 @@ public class SerieService extends BaseService
     {
         // Check the validity of the title field
         if (serie.getTitle() == null || "".equals(serie.getTitle()))
-            super.emptyField("Title cannot be an empty string.");
+            super.errorHandler.emptyField("Title cannot be an empty string.");
             
         // Check the validity of the summary field
         if (serie.getSummary() == null || "".equals(serie.getSummary()))
-            super.emptyField("Summary cannot be an empty string.");
+            super.errorHandler.emptyField("Summary cannot be an empty string.");
             
         // Check the validity of the year field
         if (serie.getYear() <= 1878)
-            super.emptyField("The year of the serie cannot be lower than 1878. The first piece of movie ever made comes from this year.");
+            super.errorHandler.emptyField("The year of the serie cannot be lower than 1878. The first piece of movie ever made comes from this year.");
             
         // Check the validity of the genre field
         if (serie.getGenre().isEmpty())
-            super.emptyField("The serie must have a genre.");
+            super.errorHandler.emptyField("The serie must have a genre.");
             
         // Check the validity of the actor field
         if (serie.getActors().isEmpty())
-            super.emptyField("The serie must have an actor.");    
+            super.errorHandler.emptyField("The serie must have an actor.");    
             
         // Check the validity of the director field
         if (serie.getDirectors().isEmpty())
-            super.emptyField("The serie must have an director.");
+            super.errorHandler.emptyField("The serie must have an director.");
     }
            
     
@@ -191,7 +191,7 @@ public class SerieService extends BaseService
             serieDAO.update(query, update);
         }
         else
-            super.noValidObjectId("The serie id is not valid");
+            super.errorHandler.noValidObjectId("The serie id is not valid");
     }
     
     
@@ -203,14 +203,14 @@ public class SerieService extends BaseService
         if (serie.getTitle() != null && !"".equals(serie.getTitle()))
                 update.set("title", serie.getTitle());
         else if ("".equals(serie.getTitle()))
-            super.emptyField("Title cannot be an empty string.");
+            super.errorHandler.emptyField("Title cannot be an empty string.");
             
         // Check the validity of the summary field. If its not empty, add it to the update Operation
         // If it's does exists but is empty, throw an exception
         if (serie.getSummary() != null && !"".equals(serie.getSummary()))
             update.set("summary", serie.getSummary());
         else if ("".equals(serie.getSummary()))
-            super.emptyField("Summary cannot be an empty string.");
+            super.errorHandler.emptyField("Summary cannot be an empty string.");
             
         // Check the validity of the year field. If its not empty, add it to the update Operation
         // If it's does exists but is empty, add the year of the serie that's gonne be updated. 
@@ -223,28 +223,29 @@ public class SerieService extends BaseService
             serie.setYear(s.getYear()); 
         }
         else 
-            super.emptyField("The year of the serie cannot be lower than 1878. The first movie ever made comes from this year.");
+            super.errorHandler.emptyField("The year of the serie cannot be lower than 1878. "
+                    + "The first movie ever made comes from this year.");
             
         // Check the genre of the title field. If its not empty, add it to the update Operation
         // If it's does exists but is empty, throw an exception
         if (serie.getGenre() != null || !serie.getGenre().isEmpty())
             update.set("genre", serie.getGenre());
         else 
-            super.emptyField("The serie must have a genre.");
+            super.errorHandler.emptyField("The serie must have a genre.");
             
         // Check the validity of the actor field. If its not empty, add it to the update Operation
         // If it's does exists but is empty, throw an exception
         if (serie.getActors() != null || !serie.getActors().isEmpty())
             update.set("actors", serie.getActors());
         else
-            super.emptyField("The serie must have an actor.");    
+            super.errorHandler.emptyField("The serie must have an actor.");    
             
         // Check the validity of the director field. If its not empty, add it to the update Operation
         // If it's does exists but is empty, throw an exception
         if (serie.getDirectors() != null || !serie.getDirectors().isEmpty())
             update.set("director", serie.getDirectors());
         else 
-            super.emptyField("The serie must have an director.");
+            super.errorHandler.emptyField("The serie must have an director.");
     }
       
     
@@ -263,7 +264,7 @@ public class SerieService extends BaseService
             serieDAO.deleteById(objectId);
         }
         else
-            super.noValidObjectId("The Serie you're trying to delete doesn't exist.");
+            super.errorHandler.noValidObjectId("The Serie you're trying to delete doesn't exist.");
     }
     
     
@@ -271,6 +272,6 @@ public class SerieService extends BaseService
     private void checkIfSerieExists(String serieId)
     {
         Serie serie = serieDAO.get(serieId);
-        super.requireResult(serie, "The Serie you're trying to edit doesn't exist");
+        super.errorHandler.requireResult(serie, "The Serie you're trying to edit doesn't exist");
     }
 }

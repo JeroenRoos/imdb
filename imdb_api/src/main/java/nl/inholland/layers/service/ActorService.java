@@ -5,7 +5,6 @@
  */
 package nl.inholland.layers.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import nl.inholland.layers.model.Actor;
@@ -18,7 +17,7 @@ import org.mongodb.morphia.query.UpdateOperations;
  *
  * @author CTiel
  */
-public class ActorService extends BaseService {
+public class ActorService extends BaseService  {
     
     
     private final ActorDAO actorDAO;
@@ -67,7 +66,7 @@ public class ActorService extends BaseService {
         }
         catch (NumberFormatException ex)
         {
-            super.parsingError("Something went wrong while converting the age to an integer.");
+            super.errorHandler.parsingError("Something went wrong while converting the age to an integer.");
         }
         
         List<Actor> actors = actorDAO.getByAge(age);
@@ -90,7 +89,7 @@ public class ActorService extends BaseService {
             actorDAO.update(myQuery, update);
         }
         else
-            super.noValidObjectId("The actor id is not valid");
+            super.errorHandler.noValidObjectId("The actor id is not valid");
     }
     
     
@@ -109,7 +108,7 @@ public class ActorService extends BaseService {
                 actorDAO.update(myQuery, update);
             }
             else
-                super.noValidObjectId("The actor id is not valid");
+                super.errorHandler.noValidObjectId("The actor id is not valid");
         }
         
     }
@@ -120,30 +119,30 @@ public class ActorService extends BaseService {
         if (!"".equals(actor.getFirstName()) && actor.getFirstName() != null)
             update.set("firstName", actor.getFirstName());
         else if ("".equals(actor.getFirstName()))
-            super.emptyField("Firstname cannot be an empty string");
+            super.errorHandler.emptyField("Firstname cannot be an empty string");
 
         if (!"".equals(actor.getLastName()) && actor.getLastName() != null)
             update.set("lastName", actor.getLastName());
         else if ("".equals(actor.getLastName()))
-            super.emptyField("Lastname cannot be an empty string");
+            super.errorHandler.emptyField("Lastname cannot be an empty string");
 
         if (!"".equals(actor.getAge()))
             update.set("age", actor.getAge());
         else if ("".equals(actor.getAge()))
         {      
-            super.emptyField("Actor must be older than 18.");
+            super.errorHandler.emptyField("Actor must be older than 18.");
         }
     }
      private void checkCreateValidity(Actor actor)
     {
         if ("".equals(actor.getFirstName()) || actor.getFirstName() == null)
-            super.emptyField("Firstname cannot be an empty string");
+            super.errorHandler.emptyField("Firstname cannot be an empty string");
         
         if ("".equals(actor.getLastName()) || actor.getLastName() == null)
-           super.emptyField("Lastname cannot be an empty string");
+           super.errorHandler.emptyField("Lastname cannot be an empty string");
         
         if (actor.getAge() == 0)
-            super.emptyField("Director cannot be aged 0");
+            super.errorHandler.emptyField("Director cannot be aged 0");
     }
     //create new actor     
     public void create(Actor actor)

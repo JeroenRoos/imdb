@@ -7,22 +7,20 @@ package nl.inholland.layers.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.ws.rs.BadRequestException;
-import javax.ws.rs.NotAuthorizedException;
-import javax.ws.rs.NotFoundException;
-import javax.ws.rs.WebApplicationException;
 import nl.inholland.layers.model.EntityModel;
 import nl.inholland.layers.persistence.BaseDAO;
 import org.bson.types.ObjectId;
 
 
 
-
 @Singleton
 public class BaseService <T extends EntityModel>
 {
+    @Inject  ErrorHandler errorHandler;
 
+    
     //get all
     public List<T> getAll(BaseDAO baseDAO)
     {
@@ -42,7 +40,7 @@ public class BaseService <T extends EntityModel>
            
         }catch(Exception e){
             
-           noValidObjectId(objectId + " is not a valid id");       
+           errorHandler.noValidObjectId(objectId + " is not a valid id");       
 
         }
         return object;
@@ -58,7 +56,7 @@ public class BaseService <T extends EntityModel>
             baseDAO.deleteById(objectIdConverted);
         }
         else
-           noValidObjectId(objectId + " is not a valid id");
+           errorHandler.noValidObjectId(objectId + " is not a valid id");
     }
     
         
@@ -76,58 +74,10 @@ public class BaseService <T extends EntityModel>
             }
             else
                 
-                noValidObjectId("One or more id's are not valid");
+                errorHandler.noValidObjectId("One or more id's are not valid");
         }
         
         baseDAO.deleteMany(lstObjectIds);
     }
-        
-
-    // If the object doesn't exists --> thrown an error
-    public void requireResult(Object obj, String message) throws NotFoundException
-    {
-        if (obj == null)
-            throw new NotFoundException(message);
-    }
-    
-    
-    // Throw an exception because an required field is empty or doesn't exist
-    public void emptyField(String message) throws WebApplicationException
-    {
-        throw new BadRequestException(message);
-    }         
-    
-    
-    // Throw an exception because an number input wan't valid during the parsing
-    public void parsingError(String message) throws WebApplicationException
-    {
-        throw new BadRequestException(message);
-    } 
-    
-    
-    // Throw an exception because the given objectID wasn't valid
-    public void noValidObjectId(String message) throws BadRequestException
-    {
-        throw new BadRequestException(message);
-    }
-    
-    
-    // Throw an exception because the document already exists
-    public void duplicateDocument(String message) throws WebApplicationException
-    {
-        throw new WebApplicationException(message);
-    }
-    
-    
-    // Throw an exception because the user is not authorized for an operation
-    public void notAuthorizedException(String message) throws NotAuthorizedException
-    {
-        throw new NotAuthorizedException(message);
-    }
-
-    void get(String actorId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-       
 
 }

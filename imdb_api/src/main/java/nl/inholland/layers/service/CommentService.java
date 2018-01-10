@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 package nl.inholland.layers.service;
-
-import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import nl.inholland.layers.model.Comment;
@@ -53,7 +51,7 @@ public class CommentService extends BaseService {
             commentDAO.update(myQuery, update);
         }
         else
-            super.noValidObjectId("The comment id is not valid");
+            super.errorHandler.noValidObjectId("The comment id is not valid");
     }
     
     
@@ -71,7 +69,7 @@ public class CommentService extends BaseService {
                 commentDAO.update(myQuery, update);
             }
             else
-                super.noValidObjectId("The comment id is not valid");
+                super.errorHandler.noValidObjectId("The comment id is not valid");
         }
         
     }
@@ -82,20 +80,20 @@ public class CommentService extends BaseService {
         if (!"".equals(comment.getMessage()) && comment.getMessage() != null)
             update.set("message", comment.getMessage());
         else if ("".equals(comment.getMessage()))
-            super.emptyField("message cannot be an empty string");
+            super.errorHandler.emptyField("message cannot be an empty string");
 
         if (!"".equals(comment.getUser()) && comment.getUser() != null)
             update.set("user", comment.getUser());
         else if ("".equals(comment.getUser()))
-           super.emptyField("user cannot be empty");
+           super.errorHandler.emptyField("user cannot be empty");
     }
      private void checkCreateValidity(Comment comment)
     {
         if ("".equals(comment.getMessage()) || comment.getMessage() == null)
-            super.emptyField("Firstname cannot be an empty string");
+            super.errorHandler.emptyField("Firstname cannot be an empty string");
         
         if ("".equals(comment.getUser()) || comment.getUser() == null)
-            super.emptyField("Lastname cannot be an empty string");
+            super.errorHandler.emptyField("Lastname cannot be an empty string");
     }
      
     public void create(Comment comment)

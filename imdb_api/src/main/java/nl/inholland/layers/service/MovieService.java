@@ -5,7 +5,6 @@
  */
 package nl.inholland.layers.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import nl.inholland.layers.model.Actor;
@@ -62,14 +61,14 @@ public class MovieService extends BaseService
     public List<Movie> getMoviesForActorName(String actorName){
         List<Actor> actors = actorDAO.getByFirstName(actorName);
         
-        super.requireResult(actors, "No actors found with last name: " + actorName);
+        super.errorHandler.requireResult(actors, "No actors found with last name: " + actorName);
         
         return movieDAO.getByActor(actors);
     }
      public List<Movie> getMoviesForDirectorName(String directorLastName){
         List<Director> directors = directorDAO.getByLastName(directorLastName);
         
-        super.requireResult(directors, "No directors found with last name: " + directorLastName);
+        super.errorHandler.requireResult(directors, "No directors found with last name: " + directorLastName);
         
         return movieDAO.getByDirector(directors);
     }
@@ -77,11 +76,11 @@ public class MovieService extends BaseService
     public List<Movie> getMoviesForUserNameCommented(String userName){
         User userObject = userDAO.getSingleUserByName(userName);
         
-        super.requireResult(userObject, "No user found with name: " + userName);
+        super.errorHandler.requireResult(userObject, "No user found with name: " + userName);
         
         List<Comment> comments = commentDAO.getByUser(userObject);
         
-        super.requireResult(comments, "No comments found from user: " + userName);
+        super.errorHandler.requireResult(comments, "No comments found from user: " + userName);
 
         return movieDAO.getByComments(comments);
     }
@@ -89,7 +88,7 @@ public class MovieService extends BaseService
     public List<Movie> getMoviesForGenre(String genre){
         Genre genreObject = genreDAO.getByName(genre);
         
-        super.requireResult(genreObject, "No genre found with name: + genre");
+        super.errorHandler.requireResult(genreObject, "No genre found with name: + genre");
         
         return movieDAO.getByGenre(genreObject);
     }
@@ -98,7 +97,7 @@ public class MovieService extends BaseService
     public List<Movie> getMoviesForYear(int year){
         List<Movie> movies = movieDAO.getByYear(year);
         
-        super.requireResult(movies, "No movies found with year: "+ year);
+        super.errorHandler.requireResult(movies, "No movies found with year: "+ year);
         
         return movies;
     }
