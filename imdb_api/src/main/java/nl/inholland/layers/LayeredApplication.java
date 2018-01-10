@@ -28,8 +28,7 @@ public class LayeredApplication extends Application<LayeredConfiguration>
 
     public static void main(String[] args) throws Exception
     {
-        new LayeredApplication().run(args);
-        //new LayeredApplication().run(new String[] { "server" });
+        new LayeredApplication().run(new String[] { "server", "configuration.yml" });
     }
 
     @Override
@@ -73,8 +72,7 @@ public class LayeredApplication extends Application<LayeredConfiguration>
                 guiceBundle.getInjector().getInstance( 
                         DatabaseHealthCheck.class ) );
         
-        // Dit is een letterlijke COPY PASTE uit het stappenplan van Nelleke, maar het werkt niet
-        // Werkelijk geen idee waarom
+
         environment.jersey().register( new AuthDynamicFeature(
                 new BasicCredentialAuthFilter.Builder<User>()
                     .setAuthenticator( 
