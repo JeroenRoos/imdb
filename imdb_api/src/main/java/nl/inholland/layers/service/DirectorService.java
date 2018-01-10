@@ -49,6 +49,11 @@ public class DirectorService extends BaseService
     public List<Director> getAll()
     {
         List<Director> lstDirectors = super.getAll(directorDAO);
+        
+        // Validation, check if any directors exist 
+        if (lstDirectors.isEmpty())
+            super.requireResult(null, "Director not found");
+        
         return lstDirectors;
     }
     

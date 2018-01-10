@@ -62,6 +62,8 @@ public class SerieService extends BaseService
     public List<Serie> getAll()
     {
         List<Serie> lstSeries = super.getAll(serieDAO);
+
+       
         return lstSeries;
     }
     
