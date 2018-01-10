@@ -5,6 +5,7 @@
  */
 package nl.inholland.layers.resource;
 
+import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -40,6 +41,7 @@ public class UserResource extends BaseResource
     }
     
     @GET
+    @ApiOperation("Gets all users")
     public List<UserView> getAll(@DefaultValue("") @QueryParam("gender") String gender,
             @DefaultValue("") @QueryParam("name") String name,
             @DefaultValue("") @QueryParam("isAdmin") String isAdmin){

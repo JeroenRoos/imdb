@@ -78,8 +78,8 @@ public class ActorResource extends BaseResource{
             actorService.createMany(lstActors);
     }
         
-      @PUT
-     @Path("/{id}")
+    @PUT
+    @Path("/{id}")
     public void update(@PathParam("id") String actorIds, Actor actor) //@PathParam
     {
         String[] ids = actorIds.split(",");
@@ -98,7 +98,7 @@ public class ActorResource extends BaseResource{
         return actorPresenter.present(actor);
     }
 
-     @DELETE
+    @DELETE
     public void delete(@DefaultValue("") @QueryParam("id") String directorIds) 
     {     
         String[] ids = directorIds.split(",");

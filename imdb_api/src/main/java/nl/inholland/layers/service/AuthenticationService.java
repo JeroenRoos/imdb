@@ -19,20 +19,22 @@ import org.mongodb.morphia.AuthenticationException;
  */
 public class AuthenticationService implements Authenticator<BasicCredentials, User>
 {
-    
     private final UserDAO userDAO;
 
     @Inject
-    public AuthenticationService(UserDAO userDAO){
+    public AuthenticationService(UserDAO userDAO)
+    {
         this.userDAO = userDAO;
     }
     
+    // Authenticates a user with the credentials and returns the user
     @Override
     public Optional<User> authenticate(BasicCredentials credentials) throws AuthenticationException
     {      
-       
+       // Get the user from the database with the User Credentials
         User userFromDB = userDAO.getByCredentials(credentials.getUsername(), credentials.getPassword());
         
+        // Checks if the user exists, if not, the user will see an error message
         if(userFromDB == null)
         {
             return Optional.empty();

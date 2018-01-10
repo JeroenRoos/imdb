@@ -32,8 +32,6 @@ public class MovieResource extends BaseResource
 {
     private final MovieService movieService;
     private final MoviePresenter moviePresenter;
-    private final String HEADER_KEY = System.getenv("HEADER_KEY");
-    private final String HEADER_VALUE = System.getenv("HEADER_VALUE");
     
     @Inject
     public MovieResource( MovieService movieService,
@@ -48,40 +46,18 @@ public class MovieResource extends BaseResource
             @Context HttpHeaders headers,
             @DefaultValue("") @QueryParam("commentsByUserName") String userName,
             @DefaultValue("") @QueryParam("genre") String genre){
-        
-        List<String> headerParams = null;
-        if(headers.getRequestHeader(HEADER_KEY) != null){         
-            headerParams = headers.getRequestHeader(HEADER_KEY);
-        }
-        
-        if(headerParams != null && headerParams.contains(HEADER_VALUE)){
-       
-            
+           
         List<Movie> movies = null;
-        if(!"".equals(actorName)){
-            
-            movies = movieService.getMoviesForActorName(actorName);            
-        }
-        else if(!"".equals(directorLastName)){
-            
-         movies = movieService.getMoviesForDirectorName(directorLastName);
-        }
-        else if(!"".equals(userName)){
-         movies = movieService.getMoviesForUserNameCommented(userName);
-        }
-        else if(!"".equals(genre)){
-            movies = movieService.getMoviesForGenre(genre);
-        }
-        else{
-            movies = movieService.getAll();
-        }
         
+        movies = 
+                
+        (!"".equals(actorName)) ? movieService.getMoviesForActorName(actorName) :
+        (!"".equals(directorLastName)) ? movieService.getMoviesForDirectorName(directorLastName) :
+        (!"".equals(userName)) ? movieService.getMoviesForUserNameCommented(userName) :
+        (!"".equals(genre)) ? movieService.getMoviesForGenre(genre) :
+        movieService.getAll();
+              
         return moviePresenter.present(movies);
-        }
-        
-        movieService.notAuthorizedException("Invalid headers");
-        
-        return null;
     }
     
     @GET

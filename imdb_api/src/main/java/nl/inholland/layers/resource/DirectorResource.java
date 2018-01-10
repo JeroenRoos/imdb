@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package nl.inholland.layers.resource;
 
 import io.swagger.annotations.Api;
@@ -31,6 +26,9 @@ import nl.inholland.layers.service.DirectorService;
  * @author Jeroen
  */
 
+
+// The resource class for Directors
+// This class handles the application logic and turns values to objects to be presented later
 @Api("Directors")
 @Path("/directors")
 @Consumes (MediaType.APPLICATION_JSON)
@@ -48,28 +46,26 @@ public class DirectorResource extends BaseResource
         this.directorPresenter = directorPresenter;
     }
     
+    // Get all directors (or get all directors based on Query Parameters) and sends it to the presenter
     @GET
     @RolesAllowed( {"ADMIN", "USER"} )  
-    @ApiOperation("Gets all Directors")
+    @ApiOperation("Gets all Directors (or get all directors based on Query Parameters)")
     public List<DirectorView> getAll(@DefaultValue("") @QueryParam("lastName") String lastName,
             @DefaultValue("") @QueryParam("age") String age)
     {
-        List<Director> lstDirectors;
-        if (!"".equals(lastName))
-            lstDirectors = directorService.getByName(lastName);
-        
-        else if (!"".equals(age))
-            lstDirectors = directorService.getByAge(age);
-        
-        else
-            lstDirectors = directorService.getAll();
+        List<Director> lstDirectors = null;
+        lstDirectors = 
+            (!"".equals(lastName)) ? directorService.getByLastName(lastName) :
+            (!"".equals(age)) ? directorService.getByAge(age):        
+            directorService.getAll();
         
         return directorPresenter.present(lstDirectors);
     }
     
+    // Get one presenter and send it to the presenter
     @GET
     @RolesAllowed( {"ADMIN", "USER"} )  
-    @ApiOperation("Gets a Director")
+    @ApiOperation("Gets one Director")
     @Path("/{DirectorId}")
     public DirectorView get (@PathParam("DirectorId") String directorId)
     {
@@ -77,6 +73,8 @@ public class DirectorResource extends BaseResource
         return directorPresenter.present(director);
     }
     
+    
+    // Create one or multiple directors
     @POST
     @RolesAllowed("ADMIN")
     @ApiOperation("Create a Director")
@@ -85,6 +83,8 @@ public class DirectorResource extends BaseResource
           directorService.create(lstDirectors);
     }
     
+    
+    // Update on ore multiple directors
     @PUT
     @RolesAllowed("ADMIN")
     @ApiOperation("Update a Director")
@@ -94,6 +94,7 @@ public class DirectorResource extends BaseResource
     }
     
     
+    // Delete one or multiple directors
     @DELETE
     @RolesAllowed("ADMIN")
     @ApiOperation("Delete a Director")

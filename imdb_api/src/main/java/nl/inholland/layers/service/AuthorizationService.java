@@ -14,6 +14,8 @@ import nl.inholland.layers.model.User;
  */
 public class AuthorizationService extends BaseService implements Authorizer<User>
 {
+    // Check and returns if the user has the role to perform a request
+    // String role represents the RolesAllowed("") from the resource classes
     @Override
     public boolean authorize(User authenticator, String role)
     {
