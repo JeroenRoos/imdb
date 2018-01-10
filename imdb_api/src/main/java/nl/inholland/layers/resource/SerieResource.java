@@ -1,10 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package nl.inholland.layers.resource;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -29,6 +26,7 @@ import nl.inholland.layers.service.SerieService;
  * @author Jeroen
  */
 
+@Api("Series")
 @Path("/series")
 @Consumes (MediaType.APPLICATION_JSON)
 @Produces (MediaType.APPLICATION_JSON)
@@ -46,6 +44,7 @@ public class SerieResource extends BaseResource
     
     @GET
     @RolesAllowed( {"ADMIN", "USER"} ) 
+    @ApiOperation("Gets all Series")
     public List<SerieView> getAll(@DefaultValue("") @QueryParam("directorLastName") String directorLastName,
             @DefaultValue("") @QueryParam("genreName") String genreName, @DefaultValue("") 
                     @QueryParam("actorFirstName") String actorFirstName)
@@ -62,6 +61,7 @@ public class SerieResource extends BaseResource
     
     @GET
     @RolesAllowed( {"ADMIN", "USER"} ) 
+    @ApiOperation("Gets one Serie")
     @Path("/{SerieId}")
     public SerieView get(@PathParam("SerieId") String serieId)
     {
@@ -71,6 +71,7 @@ public class SerieResource extends BaseResource
     
     @POST
     @RolesAllowed("ADMIN")
+    @ApiOperation("Create one or more Series")
     public void create(List<Serie> lstSeries)
     {
         serieService.create(lstSeries);
@@ -78,6 +79,7 @@ public class SerieResource extends BaseResource
     
     @PUT
     @RolesAllowed("ADMIN")
+    @ApiOperation("Update one or more Series")
     @Path("/{SerieId}")
     public void update(@PathParam("SerieId") String serieId, Serie serie)
     {
@@ -86,6 +88,7 @@ public class SerieResource extends BaseResource
     
     @DELETE
     @RolesAllowed("ADMIN")
+    @ApiOperation("Delete one or more Series")
     @Path("/{SerieId}")
     public void delete(@PathParam("SerieId") String serieId)
     {

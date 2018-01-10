@@ -54,14 +54,6 @@ public class User extends EntityModel implements Principal
         this.isAdmin = isAdmin;
     }
 
-    public boolean hasRole(String role)
-    {
-        if (role.equals(this.role))
-            return true;
-        else 
-            return false;
-    }
-
     public String getPassword()
     {
         return password;
@@ -70,5 +62,16 @@ public class User extends EntityModel implements Principal
     public String getUsername()
     {
         return username;
+    }
+    
+    
+    // Check if the User has the proper role for an request
+    // The role of the user will be compared with the roles from RolesAllowed("")
+    public boolean hasRole(String role)
+    {
+        if (role.equals(this.role))
+            return true;
+        else 
+            return false;
     }
 }
