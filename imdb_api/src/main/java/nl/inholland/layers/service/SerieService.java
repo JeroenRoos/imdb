@@ -149,6 +149,14 @@ public class SerieService extends BaseService
         {
             super.errorHandler.parsingError("Something went wrong while converting the year to an integer.");
         }
+        
+        // Validation, check if the range of years is correct
+        if (year01 > year02)
+        {
+            int tempYear = year01;
+            year01 = year02;
+            year02 = tempYear;
+        }
             
         lstSeries = serieDAO.getByBetweenYearAndGenre(year01, year02, genre);
         
