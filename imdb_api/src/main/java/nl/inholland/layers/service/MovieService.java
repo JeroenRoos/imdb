@@ -119,9 +119,6 @@ public class MovieService extends BaseService
         User userObject =  userDAO.getSingleUserByName(userName);
         super.errorHandler.requireResult(userObject, "No users found for the provided user name");
         
-        List<Comment> comments = commentDAO.getByUser(userObject);        
-        super.errorHandler.requireResult(userObject, "No comments found for the provided user name");
-        
         int timeMinInt = 0;
         int timeMaxInt = 0;
         
@@ -142,8 +139,11 @@ public class MovieService extends BaseService
             timeMaxInt = tempYear;
         }
         
+        List<Comment> comments = commentDAO.getByUserAndTimeSpan(userObject, timeMinInt, timeMaxInt);        
+        super.errorHandler.requireResult(userObject, "No comments found for the provided user name");
+        
        
-        List<Movie> movies = movieDAO.getByCommentsAndTimeSpan(comments, timeMinInt, timeMaxInt);
+        List<Movie> movies = movieDAO.getByComments(comments);
         
         super.errorHandler.requireResult(movies, "No movies found for the provided parameters");
         
