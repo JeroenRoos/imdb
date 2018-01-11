@@ -14,7 +14,7 @@ public class Comment extends EntityModel
 {
     private String message;
     
-    private DateTime postDate;
+    private int postDate;
     
     @Reference
     private User user;
@@ -29,12 +29,12 @@ public class Comment extends EntityModel
         this.message = message;
     }
 
-    public DateTime getPostDate()
+    public int getPostDate()
     {
         return postDate;
     }
 
-    public void setPostDate(DateTime postDate)
+    public void setPostDate(int postDate)
     {
         this.postDate = postDate;
     }

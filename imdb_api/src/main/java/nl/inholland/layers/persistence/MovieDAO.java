@@ -50,6 +50,14 @@ public class MovieDAO extends BaseDAO<Movie>
         return query.asList();
     }
     
+    public List<Movie> getByCommentsAndTimeSpan(List<Comment> comments, int timeMin, int timeMax){
+        Query<Movie> query = ds.createQuery(Movie.class);
+        
+        query.filter("comments in", comments);
+        return query.field("postDate").greaterThanOrEq(timeMin)
+                .field("postDate").lessThanOrEq(timeMax).asList();
+    }
+    
     public List<Movie> getByGenre(Genre genre){
         Query<Movie> query = ds.createQuery(Movie.class);
         

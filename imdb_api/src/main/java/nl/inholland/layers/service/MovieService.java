@@ -114,6 +114,43 @@ public class MovieService extends BaseService
         return movieDAO.getByComments(comments);
     }
     
+    public List<Movie> getByUserNameCommentedAndTimeSpan(String userName, String timeMin, String timeMax)
+    {
+        User userObject =  userDAO.getSingleUserByName(userName);
+        super.errorHandler.requireResult(userObject, "No users found for the provided user name");
+        
+        List<Comment> comments = commentDAO.getByUser(userObject);        
+        super.errorHandler.requireResult(userObject, "No comments found for the provided user name");
+        
+        int timeMinInt = 0;
+        int timeMaxInt = 0;
+        
+        try
+        {
+            timeMinInt = Integer.parseInt(timeMin);
+            timeMaxInt = Integer.parseInt(timeMax);
+        }
+        catch (Exception ex)
+        {
+            super.errorHandler.parsingError("Something went wrong while converting the time to a valid integer.");
+        }
+        
+        //If the "year from" is greater than the "year to", swap them around
+        if (timeMinInt > timeMaxInt){
+            int tempYear = timeMinInt;
+            timeMinInt = timeMaxInt;
+            timeMaxInt = tempYear;
+        }
+        
+       
+        List<Movie> movies = movieDAO.getByCommentsAndTimeSpan(comments, timeMinInt, timeMaxInt);
+        
+        super.errorHandler.requireResult(movies, "No movies found for the provided parameters");
+        
+        return movies;
+    }
+    
+    
     public List<Movie> getMoviesForGenre(String genre){
         Genre genreObject = genreDAO.getByName(genre);
         
