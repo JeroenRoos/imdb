@@ -61,17 +61,29 @@ public class MovieService extends BaseService
     public List<Movie>getByRatingAndYear(String yearMin, String yearMax, String rating)
     {        
         List<Movie> movies;
-          
+        int ratingToInt = 0; 
         Range range = super.setRange(yearMin, yearMax);
         
-        movies = movieDAO.getByRatingAndYearRange(range.getMin(), range.getMax(), rating);
-
-        if (movies.isEmpty())        
+        try{
             
-            super.errorHandler.requireResult(null, "No movies found with these parameters.");
+          ratingToInt = Integer.parseInt(rating);
+           
+        }catch(NumberFormatException e){
+            
+          super.errorHandler.parsingError("Rating is a number between 0 and 10");
+        }
+        
+        movies = movieDAO.getByRatingAndYearRange(range.getMin(), range.getMax(), ratingToInt);
+
+        
+        if (movies.isEmpty())
+        {                                                
+           super.errorHandler.requireResult(null, "No movies found.");
+        }
         
         return movies;      
     }
+
                       
             
     public List<Movie> getMoviesForActorName(String actorName){

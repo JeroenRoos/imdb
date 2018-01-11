@@ -45,7 +45,7 @@ public class Range extends ErrorHandler {
         
         try
         {
-            if (!"".equals(min) || "".equals(max)) {
+            if (!"".equals(min) || !"".equals(max)) {
                    
                tempMin = Integer.parseInt(min);
                tempMax = Integer.parseInt(max);   

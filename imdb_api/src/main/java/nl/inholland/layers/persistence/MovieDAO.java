@@ -27,7 +27,7 @@ public class MovieDAO extends BaseDAO<Movie>
         this.ds = ds;
     }
 
-    public List<Movie> getByRatingAndYearRange(int yearMin, int yearMax, String rating)
+    public List<Movie> getByRatingAndYearRange(int yearMin, int yearMax, int rating)
     {
         return createQuery()
                 .field("year").greaterThanOrEq(yearMin)
