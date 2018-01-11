@@ -46,14 +46,14 @@ public class MovieService extends BaseService
 
     public Movie getById(String movieId)
     {
-        Movie movie = (Movie) super.getById(movieId, userDAO);  
+        Movie movie = (Movie) super.getById(movieId);  
         return movie;
 
     }
     
     public List<Movie> getAll()
     {
-        List<Movie> movies = super.getAll(movieDAO);
+        List<Movie> movies = super.getAll();
         return movies;
     }   
     
@@ -182,12 +182,12 @@ public class MovieService extends BaseService
     
     public void delete(String movieId)
     {
-        super.delete(movieId, userDAO);
+        super.delete(movieId);
     }
 
     public void deleteMany(String[] ids)
     {
-        super.deleteMany(ids, movieDAO);
+        super.deleteMany(ids);
     }
     
     

@@ -16,15 +16,15 @@ import nl.inholland.layers.persistence.BaseDAO;
 import org.bson.types.ObjectId;
 
 
-
 @Singleton
 public class BaseService <T extends EntityModel>
 {
     @Inject ErrorHandler errorHandler;
+    private BaseDAO baseDAO;
 
     
     //get all
-    public List<T> getAll(BaseDAO baseDAO)
+    public List<T> getAll()
     {
         List<T> objects;
             objects = baseDAO.getAll();
@@ -33,7 +33,7 @@ public class BaseService <T extends EntityModel>
     }
      
     //get by id
-    public T getById(String objectId,  BaseDAO baseDAO)
+    public T getById(String objectId)
     {
         T object = null;
         try{
@@ -49,7 +49,7 @@ public class BaseService <T extends EntityModel>
     }
      
     //delete    
-        public void delete(String objectId, BaseDAO baseDAO)
+        public void delete(String objectId)
     {
         ObjectId objectIdConverted;
         if (ObjectId.isValid(objectId))
@@ -63,7 +63,7 @@ public class BaseService <T extends EntityModel>
     
         
     //delete many
-    public void deleteMany(String[] ids, BaseDAO baseDAO)
+    public void deleteMany(String[] ids)
     {
         List<ObjectId> lstObjectIds = new ArrayList<>();
         
@@ -76,12 +76,13 @@ public class BaseService <T extends EntityModel>
             }
             else
                 
-                errorHandler.noValidObjectId("One or more id's are not valid");
+          errorHandler.noValidObjectId("One or more id's are not valid");
         }
         
         baseDAO.deleteMany(lstObjectIds);
     }
 
+    //set range
     public Range setRange(String min, String max){
         
         return new Range(min, max);

@@ -30,7 +30,7 @@ public class ActorService extends BaseService  {
     //get actor by id
     public Actor getById(String actorId)
     {
-        Actor actor = (Actor) super.getById(actorId,actorDAO);
+        Actor actor = (Actor) super.getById(actorId);
 
         return actor;
     }
@@ -38,7 +38,7 @@ public class ActorService extends BaseService  {
     //get all actors
         public List<Actor> getAll()
     {
-        List<Actor> actors = super.getAll(actorDAO);
+        List<Actor> actors = super.getAll();
         
         return actors;
     }
@@ -163,12 +163,12 @@ public class ActorService extends BaseService  {
     
         public void delete(String actorId)
     {
-         super.delete(actorId, actorDAO);
+         super.delete(actorId);
     }
 
     public void deleteMany(String[] ids)
     {         
-        super.deleteMany(ids, actorDAO);
+        super.deleteMany(ids);
     }
     
 }

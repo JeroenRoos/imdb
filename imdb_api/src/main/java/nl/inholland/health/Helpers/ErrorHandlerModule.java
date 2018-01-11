@@ -5,7 +5,6 @@
  */
 package nl.inholland.health.Helpers;
 
-import nl.inholland.health.Helpers.ErrorHandler;
 import com.google.inject.Module;
 import io.dropwizard.auth.AuthValueFactoryProvider.Binder;
 import nl.inholland.layers.service.BaseService;
@@ -21,6 +20,6 @@ public class ErrorHandlerModule implements Module {
 
     @Override
     public void configure(com.google.inject.Binder binder) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("ErrorHandler could not be bound to BaseService."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -5,7 +5,6 @@
  */
 package nl.inholland.health.Helpers;
 
-import com.fasterxml.jackson.dataformat.xml.XmlAnnotationIntrospector.Pair;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.NotFoundException;
