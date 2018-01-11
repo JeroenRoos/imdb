@@ -113,7 +113,22 @@ public class SerieService extends BaseService
     public List<Serie> getSeriesByYearAndGenre(String years, String genreName)
     {
         String[] lstYear = years.split(",");
-        return null;
+        Genre genre = genreDAO.getByName(genreName);
+        int year01 = 0;
+        int year02 = 0;
+        
+        // Validation, try to parse the age to a valid integer
+        try
+        {
+            year01 = Integer.parseInt(lstYear[0]);
+            year02 = Integer.parseInt(lstYear[1]);
+        }
+        catch (Exception ex)
+        {
+            super.errorHandler.parsingError("Something went wrong while converting the age to an integer.");
+        }
+        
+        return serieDAO.getByYearAndGenre(year01, year02, genre);
     }
     
     
