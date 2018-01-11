@@ -46,9 +46,11 @@ public class MovieResource extends BaseResource
     @GET
     @RolesAllowed( {"ADMIN", "USER"} ) 
     @ApiOperation("Get movies by rating between a period")
-    @Path("/{yearMin}/{yearMax}/{rating}")
-    public List<MovieView> getByYearAndRating(@PathParam("yearMin") String yearMin, @PathParam("yearMax") String yearMax
-            ,@PathParam("rating") String rating)
+    @Path("/")
+    public List<MovieView> getByYearAndRating(
+            @DefaultValue("") @QueryParam("yearMin") String yearMin, 
+            @DefaultValue("") @QueryParam("yearMax") String yearMax,
+            @DefaultValue("") @QueryParam("rating") String rating)
     {                   
         List<Movie> movies = movieService.getByRatingAndYear(yearMin,yearMax, rating);              
         return moviePresenter.present(movies);
