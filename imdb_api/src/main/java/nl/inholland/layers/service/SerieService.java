@@ -147,7 +147,7 @@ public class SerieService extends BaseService
         }
         catch (Exception ex)
         {
-            super.errorHandler.parsingError("Something went wrong while converting the year to an integer.");
+            super.errorHandler.parsingError("Something went wrong while converting the year to a valid integer.");
         }
         
         // Validation, check if the range of years is correct
@@ -216,7 +216,7 @@ public class SerieService extends BaseService
             
         // Check the validity of the year field
         if (serie.getYear() <= 1878)
-            super.errorHandler.emptyField("The year of the serie cannot be lower than 1878. The first piece of movie ever made comes from this year.");
+            super.errorHandler.emptyField("The year of the serie cannot be lower than 1878. The first movie ever made comes from this year.");
             
         // Check the validity of the genre field
         if (serie.getGenre().isEmpty())
