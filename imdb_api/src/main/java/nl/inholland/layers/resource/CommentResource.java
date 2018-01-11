@@ -22,6 +22,7 @@ import nl.inholland.layers.model.CommentView;
 import nl.inholland.layers.presentation.model.CommentPresenter;
 import nl.inholland.layers.service.CommentService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Api("Comments")
 @Path("/comments")
@@ -71,6 +72,7 @@ public class CommentResource extends BaseResource{
     }  
     //get by Id
     @GET
+    @ApiOperation("Gets a single comment")
     @Path("/{CommentId}")
     public CommentView get( @PathParam("CommentId") String commentId){
         Comment comment = commentService.getCommentById(commentId);

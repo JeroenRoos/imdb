@@ -36,7 +36,7 @@ public class DirectorService extends BaseService
     // Get an existing director by ID
     public Director getDirectorById(String directorId)
     {
-        Director director = (Director)super.getById(directorId);
+        Director director = (Director)super.getById(directorId, directorDAO);
         
         // Validation, check if the Director exists
         super.errorHandler.requireResult(director, "Director not found");
@@ -48,7 +48,7 @@ public class DirectorService extends BaseService
     // Get all existing directors
     public List<Director> getAll()
     {
-        List<Director> lstDirectors = super.getAll();
+        List<Director> lstDirectors = super.getAll(directorDAO);
         
         // Validation, check if any directors exist 
         if (lstDirectors.isEmpty())
@@ -297,7 +297,7 @@ public class DirectorService extends BaseService
             // Validation, check if the director exists
             checkIfDirectorExists(directorId);
             
-            super.delete(directorId);
+            super.delete(directorId, directorDAO);
         }
         else
             super.errorHandler.noValidObjectId("The director ID is not valid.");

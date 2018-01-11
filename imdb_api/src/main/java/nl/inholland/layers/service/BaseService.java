@@ -20,11 +20,9 @@ import org.bson.types.ObjectId;
 public class BaseService <T extends EntityModel>
 {
     @Inject ErrorHandler errorHandler;
-    private BaseDAO baseDAO;
-
     
     //get all
-    public List<T> getAll()
+    public List<T> getAll(BaseDAO baseDAO)
     {
         List<T> objects;
             objects = baseDAO.getAll();
@@ -33,7 +31,7 @@ public class BaseService <T extends EntityModel>
     }
      
     //get by id
-    public T getById(String objectId)
+    public T getById(String objectId, BaseDAO baseDAO)
     {
         T object = null;
         try{
@@ -49,7 +47,7 @@ public class BaseService <T extends EntityModel>
     }
      
     //delete    
-        public void delete(String objectId)
+        public void delete(String objectId, BaseDAO baseDAO)
     {
         ObjectId objectIdConverted;
         if (ObjectId.isValid(objectId))
@@ -63,7 +61,7 @@ public class BaseService <T extends EntityModel>
     
         
     //delete many
-    public void deleteMany(String[] ids)
+    public void deleteMany(String[] ids, BaseDAO baseDAO)
     {
         List<ObjectId> lstObjectIds = new ArrayList<>();
         

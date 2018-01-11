@@ -36,4 +36,11 @@ public class CommentDAO extends BaseDAO<Comment>
         List<Comment> comments = createQuery().field("user").equal(user).asList();
         return comments;
     }
+    
+    public List<Comment> getByUserAndTimeSpan(User user, int timeMin, int timeMax){        
+        List<Comment> comments = createQuery().field("user").equal(user).field("postDate").greaterThanOrEq(timeMin)
+                .field("postDate").lessThanOrEq(timeMax).asList();
+        return comments;
+}
+    
 }

@@ -14,6 +14,7 @@ import nl.inholland.layers.model.Director;
 import nl.inholland.layers.persistence.DirectorDAO;
 import nl.inholland.layers.model.Genre;
 import nl.inholland.layers.model.Movie;
+import nl.inholland.layers.model.Serie;
 import nl.inholland.layers.model.User;
 import nl.inholland.layers.persistence.ActorDAO;
 import nl.inholland.layers.persistence.CommentDAO;
@@ -46,14 +47,19 @@ public class MovieService extends BaseService
 
     public Movie getById(String movieId)
     {
-        Movie movie = (Movie) super.getById(movieId);  
+        Movie movie = (Movie) super.getById(movieId, movieDAO);  
         return movie;
 
     }
     
     public List<Movie> getAll()
     {
-        List<Movie> movies = super.getAll();
+
+        List<Movie> movies = super.getAll(movieDAO);
+
+        if (movies.isEmpty())
+            super.errorHandler.requireResult(null, "no movies found");
+       
         return movies;
     }   
     
@@ -119,9 +125,6 @@ public class MovieService extends BaseService
         User userObject =  userDAO.getSingleUserByName(userName);
         super.errorHandler.requireResult(userObject, "No users found for the provided user name");
         
-        List<Comment> comments = commentDAO.getByUser(userObject);        
-        super.errorHandler.requireResult(userObject, "No comments found for the provided user name");
-        
         int timeMinInt = 0;
         int timeMaxInt = 0;
         
@@ -142,8 +145,11 @@ public class MovieService extends BaseService
             timeMaxInt = tempYear;
         }
         
+        List<Comment> comments = commentDAO.getByUserAndTimeSpan(userObject, timeMinInt, timeMaxInt);        
+        super.errorHandler.requireResult(userObject, "No comments found for the provided user name");
+        
        
-        List<Movie> movies = movieDAO.getByCommentsAndTimeSpan(comments, timeMinInt, timeMaxInt);
+        List<Movie> movies = movieDAO.getByComments(comments);
         
         super.errorHandler.requireResult(movies, "No movies found for the provided parameters");
         
@@ -255,12 +261,12 @@ public class MovieService extends BaseService
     
     public void delete(String movieId)
     {
-        super.delete(movieId);
+        super.delete(movieId, genreDAO);
     }
 
     public void deleteMany(String[] ids)
     {
-        super.deleteMany(ids);
+        super.deleteMany(ids, genreDAO);
     }
     
     

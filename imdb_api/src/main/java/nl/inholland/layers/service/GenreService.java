@@ -29,7 +29,7 @@ public class GenreService extends BaseService {
     
     public Genre getById(String genreId)
     {
-        Genre genre = (Genre) super.getById(genreId);
+        Genre genre = (Genre) super.getById(genreId, genreDAO);
         return genre;
     }
 
@@ -48,7 +48,7 @@ public class GenreService extends BaseService {
     
     public List<Genre> getAll()
     {
-        List<Genre> genre = super.getAll();
+        List<Genre> genre = super.getAll(genreDAO);
         return genre;
     }
     
@@ -89,6 +89,6 @@ public class GenreService extends BaseService {
     }
     
     public void delete(String genreId){
-        super.delete(genreId);
+        super.delete(genreId, genreDAO);
     }
 }

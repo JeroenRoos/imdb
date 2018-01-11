@@ -24,13 +24,13 @@ public class UserService extends BaseService
     
     public User getById(String userId)
     {
-        User user = (User) super.getById(userId);
+        User user = (User) super.getById(userId, userDAO);
         return user;
     }
     
     public List<User> getAll()
     {
-        List<User> users = super.getAll();
+        List<User> users = super.getAll(userDAO);
         return users;
     }
     
@@ -71,12 +71,12 @@ public class UserService extends BaseService
    
     public void delete(String userId)
     {
-        super.delete(userId);
+        super.delete(userId, userDAO);
     }
 
     public void deleteMany(String[] ids)
     {        
-        super.deleteMany(ids);
+        super.deleteMany(ids, userDAO);
     }
     
     public void update(String userId, User user){
