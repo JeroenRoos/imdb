@@ -52,7 +52,7 @@ public class SerieResource extends BaseResource
     @ApiOperation("Gets all Series")
     public List<SerieView> getAll(@DefaultValue("") @QueryParam("directorLastName") String directorLastName,
             @DefaultValue("") @QueryParam("genreName") String genreName, @DefaultValue("") 
-                    @QueryParam("actorFirstName") String actorFirstName)
+            @QueryParam("actorFirstName") String actorFirstName)
     {
         List<Serie> lstSeries = null;
         lstSeries =       
@@ -74,6 +74,18 @@ public class SerieResource extends BaseResource
     {
         Serie serie = serieService.getById(serieId);
         return seriePresenter.present(serie);
+    }
+    
+    
+    // Get one serie and send it to the presenter
+    @GET
+    @RolesAllowed( {"ADMIN", "USER"} ) 
+    @ApiOperation("Gets one Serie")
+    @Path("/{year}/{genreName}")
+    public List<SerieView> getByYearAndGenre(@PathParam("year") String years, @PathParam("genreName") String genreName)
+    {
+        List<Serie> lstSeries = serieService.getSeriesByYearAndGenre(years, genreName);
+        return seriePresenter.present(lstSeries);
     }
     
     
