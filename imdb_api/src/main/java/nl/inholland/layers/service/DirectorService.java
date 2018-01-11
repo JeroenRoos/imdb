@@ -62,6 +62,11 @@ public class DirectorService extends BaseService
     public List<Director> getByLastName(String directorName)
     {
         List<Director> lstDirectors = directorDAO.getByLastName(directorName);
+        
+        // Validation, check if any directors exist with this lastname
+        if (lstDirectors.isEmpty())
+            super.errorHandler.requireResult(null, "Director not found with lastname: " + directorName);
+        
         return lstDirectors;
     }  
     
@@ -82,6 +87,11 @@ public class DirectorService extends BaseService
         }
         
         List<Director> lstDirectors = directorDAO.getByAge(age);
+        
+        // Validation, check if any directors exist with this age
+        if (lstDirectors.isEmpty())
+            super.errorHandler.requireResult(null, "Director not found with age: " + directorAge);
+        
         return lstDirectors;
     }
     

@@ -78,7 +78,7 @@ public class SerieService extends BaseService
         
         // Validation, check if any directors exist with the lastname
         if (lstDirectors.isEmpty())
-            super.errorHandler.requireResult(null, "No series found with name director lastname: " + directorLastName);
+            super.errorHandler.requireResult(null, "No directors found with name director lastname: " + directorLastName);
     
         List<Serie> lstSeries = serieDAO.getByDirector(lstDirectors);
         
