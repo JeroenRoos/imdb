@@ -48,7 +48,7 @@ public class SerieResource extends BaseResource
     // Get all series (or get all series based on Query Parameters) and sends it to the presenter
     @GET
     @RolesAllowed( {"ADMIN", "USER"} ) 
-    @ApiOperation("Gets all Series")
+    @ApiOperation("Gets all Series (or get all series based on Query Parameters)")
     public List<SerieView> getAll(@DefaultValue("") @QueryParam("directorLastName") String directorLastName,
             @DefaultValue("") @QueryParam("genreName") String genreName, @DefaultValue("") 
             @QueryParam("actorFirstName") String actorFirstName)
@@ -64,10 +64,10 @@ public class SerieResource extends BaseResource
     }
     
     
-    // Get one serie and send it to the presenter
+    // Get one serie by ID and send it to the presenter
     @GET
     @RolesAllowed( {"ADMIN", "USER"} ) 
-    @ApiOperation("Gets one Serie")
+    @ApiOperation("Gets one Serie by ID")
     @Path("/{SerieId}")
     public SerieView get(@PathParam("SerieId") String serieId)
     {
@@ -76,14 +76,16 @@ public class SerieResource extends BaseResource
     }
     
     
-    // Get one serie and send it to the presenter
+    // Get and return all series with specific genre and range of years
     @GET
     @RolesAllowed( {"ADMIN", "USER"} ) 
-    @ApiOperation("Gets one Serie")
-    @Path("/{year}/{genreName}")
-    public List<SerieView> getByYearAndGenre(@PathParam("year") String years, @PathParam("genreName") String genreName)
+    @ApiOperation("Gets all series between 2 years and with a specific genre.")
+    @Path("/{year01}/{year02}/{genreName}")
+    public List<SerieView> getByYearAndGenre(@PathParam("year01") String fromYear, 
+                                             @PathParam("year02") String toYear, 
+                                             @PathParam("genreName") String genreName)
     {
-        List<Serie> lstSeries = serieService.getSeriesByYearAndGenre(years, genreName);
+        List<Serie> lstSeries = serieService.getSeriesByYearAndGenre(fromYear, toYear, genreName);
         return seriePresenter.present(lstSeries);
     }
     

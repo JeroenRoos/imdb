@@ -78,9 +78,15 @@ public class SerieService extends BaseService
         
         // Validation, check if any directors exist with the lastname
         if (lstDirectors.isEmpty())
-            super.errorHandler.requireResult(null, "No series found with name: " + directorLastName);
+            super.errorHandler.requireResult(null, "No directors found with name director lastname: " + directorLastName);
     
-        return serieDAO.getByDirector(lstDirectors);
+        List<Serie> lstSeries = serieDAO.getByDirector(lstDirectors);
+        
+        // Validation, check if any series exist with the director lastname
+        if (lstSeries.isEmpty())
+            super.errorHandler.requireResult(null, "No series found with this director lastname: " + directorLastName);
+        
+        return lstSeries;
     }
     
     
@@ -90,9 +96,15 @@ public class SerieService extends BaseService
         Genre genre = genreDAO.getByName(genreName);
         
         // Validation, check if any genres exist with the genre name
-        super.errorHandler.requireResult(genre, "No series found with name: " + genreName);
+        super.errorHandler.requireResult(genre, "No genre found with name: " + genreName);
         
-        return serieDAO.getByGenre(genre);
+        List<Serie> lstSeries = serieDAO.getByGenre(genre);
+        
+        // Validation, check if any series exist with the genre
+        if (lstSeries.isEmpty())
+            super.errorHandler.requireResult(null, "No series found with the genre: " + genreName);
+        
+        return lstSeries;
     }
     
     
@@ -103,17 +115,56 @@ public class SerieService extends BaseService
         
         // Validation, check if any actors exist with the firstname
         if (lstActors.isEmpty())
-            super.errorHandler.requireResult(null, "No actors found with name: " + actorName);
+            super.errorHandler.requireResult(null, "No actors found with actor name: " + actorName);
     
-        return serieDAO.getByActor(lstActors);
+        List<Serie> lstSeries = serieDAO.getByActor(lstActors);
+        
+        // Validation, check if any series exist with the actor firstname
+        if (lstSeries.isEmpty())
+            super.errorHandler.requireResult(null, "No series found with the actor name: " + actorName);
+        
+        return lstSeries;
     }
     
     
-    
-    public List<Serie> getSeriesByYearAndGenre(String years, String genreName)
+    // Get and return all series with specific genre and range of years
+    public List<Serie> getSeriesByYearAndGenre(String fromYear, String toYear, String genreName)
     {
-        String[] lstYear = years.split(",");
-        return null;
+        Genre genre = genreDAO.getByName(genreName);
+        List<Serie> lstSeries = null;
+        
+        // Validation, check if any genres exist with the genre name
+        super.errorHandler.requireResult(genre, "No genre found with name: " + genreName);
+
+        int year01 = 0;
+        int year02 = 0;
+            
+        // Validation, try to parse the year to a valid integer
+        try
+        {
+            year01 = Integer.parseInt(fromYear);
+            year02 = Integer.parseInt(toYear);
+        }
+        catch (Exception ex)
+        {
+            super.errorHandler.parsingError("Something went wrong while converting the year to an integer.");
+        }
+        
+        // Validation, check if the range of years is correct
+        if (year01 > year02)
+        {
+            int tempYear = year01;
+            year01 = year02;
+            year02 = tempYear;
+        }
+            
+        lstSeries = serieDAO.getByBetweenYearAndGenre(year01, year02, genre);
+        
+        // Validation, check if any genres exist with the genre name
+        if (lstSeries.isEmpty())
+            super.errorHandler.requireResult(null, "No series found with these parameters.");
+        
+        return lstSeries;
     }
     
     
