@@ -81,10 +81,13 @@ public class SerieResource extends BaseResource
     @GET
     @RolesAllowed( {"ADMIN", "USER"} ) 
     @ApiOperation("Gets all series between 2 years and with a specific genre.")
-    @Path("/{year01}/{year02}/{genreName}")
-    public List<SerieView> getByYearAndGenre(@PathParam("year01") String fromYear, 
-                                             @PathParam("year02") String toYear, 
-                                             @PathParam("genreName") String genreName)
+    //@Path("/{year01}/{year02}/{genreName}")
+    @Path("/genres/{genreName}")
+    public List<SerieView> getByYearAndGenre(//@PathParam("year01") String fromYear, 
+                                             //@PathParam("year02") String toYear, 
+                                             @PathParam("genreName") String genreName,
+                                             @DefaultValue("") @QueryParam("yearFrom") String fromYear, 
+                                             @DefaultValue("") @QueryParam("yearTo") String toYear)
     {
         List<Serie> lstSeries = serieService.getSeriesByYearAndGenre(fromYear, toYear, genreName);
         return seriePresenter.present(lstSeries);
