@@ -7,7 +7,6 @@ package nl.inholland.layers.resource;
 
 import java.util.Arrays;
 import java.util.List;
-import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -33,28 +32,28 @@ public class GenreResource extends BaseResource{
     private final GenreService genreService;
     private final GenrePresenter genrePresenter;
     
-    @Inject
     public GenreResource( GenreService genreService,
             GenrePresenter genrePresenter){
+        
         this.genreService = genreService;
         this.genrePresenter = genrePresenter;
     }
+
     
     @GET
     public List<GenreView> getAll(@DefaultValue("") @QueryParam("name") String genreName ){
         if(!"".equals(genreName)){
-            Genre genre = genreService.getByName(genreName);
             
+            Genre genre = genreService.getByName(genreName);          
             return genrePresenter.present(genre);
 
         }else{
             
-            List<Genre> genres = genreService.getAll();
-        
+            List<Genre> genres = genreService.getAll();      
             return genrePresenter.present(genres);
-        }
-       
+        }      
     }
+ 
     
     @GET
     @Path("/{GenreId}")
@@ -64,14 +63,12 @@ public class GenreResource extends BaseResource{
         
         if (ids.length == 1)
         {
-            Genre genre = genreService.getById(ids[0]);
-        
+            Genre genre = genreService.getById(ids[0]);   
             return genrePresenter.present(genre);
         }
         else
         {
-            List<Genre> genres =  genreService.getMany(ids);
-            
+            List<Genre> genres =  genreService.getMany(ids);          
             return genrePresenter.present(genres);
         }
     }
@@ -84,6 +81,7 @@ public class GenreResource extends BaseResource{
     @PUT
     @Path("/{GenreId}")
     public void update(@PathParam("GenreId") String genreId, Genre genre){
+        
         genreService.update(genreId, genre);
     }
     
