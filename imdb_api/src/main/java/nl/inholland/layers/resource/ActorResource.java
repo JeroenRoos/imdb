@@ -21,11 +21,14 @@ import nl.inholland.layers.model.Actor;
 import nl.inholland.layers.model.ActorView;
 import nl.inholland.layers.presentation.model.ActorPresenter;
 import nl.inholland.layers.service.ActorService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  *
  * @author CTiel
  */
+@Api("Actors")
 @Path("/actors")
 @Consumes (MediaType.APPLICATION_JSON)
 @Produces (MediaType.APPLICATION_JSON)
