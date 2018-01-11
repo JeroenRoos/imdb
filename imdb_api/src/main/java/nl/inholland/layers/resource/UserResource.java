@@ -66,6 +66,7 @@ public class UserResource extends BaseResource
     }
     
     @GET
+    @ApiOperation("Gets a single user")
     @Path("/{userId}")
     public UserView get( @PathParam("userId") String userId){
         User user = userService.getById(userId);

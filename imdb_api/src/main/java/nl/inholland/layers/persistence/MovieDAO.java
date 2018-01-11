@@ -49,7 +49,6 @@ public class MovieDAO extends BaseDAO<Movie>
         query.filter("comments in", comments);
         return query.asList();
     }
-    
     public List<Movie> getByGenre(Genre genre){
         Query<Movie> query = ds.createQuery(Movie.class);
         

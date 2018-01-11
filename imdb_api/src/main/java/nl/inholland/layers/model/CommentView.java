@@ -11,7 +11,7 @@ public class CommentView
 {
     private ObjectId id;
     private String message;
-    private DateTime postDate;
+    private int postDate;
     private UserView user;
     
     public ObjectId getId()
@@ -34,12 +34,12 @@ public class CommentView
         this.message = message;
     }
 
-    public DateTime getPostDate()
+    public int getPostDate()
     {
         return postDate;
     }
 
-    public void setPostDate(DateTime postDate)
+    public void setPostDate(int postDate)
     {
         this.postDate = postDate;
     }

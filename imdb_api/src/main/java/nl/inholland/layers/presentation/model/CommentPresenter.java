@@ -41,7 +41,8 @@ public class CommentPresenter extends BasePresenter
         CommentView commentView = new CommentView();
         
         commentView.setId(comment.getId());
-        commentView.setMessage(comment.getMessage());     
+        commentView.setMessage(comment.getMessage());
+        commentView.setPostDate(comment.getPostDate());
         commentView.setUser(userPresenter.present(comment.getUser()));
         
         return commentView;

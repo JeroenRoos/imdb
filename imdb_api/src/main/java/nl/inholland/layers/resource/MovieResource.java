@@ -75,6 +75,23 @@ public class MovieResource extends BaseResource
         return moviePresenter.present(movies);
     }
     
+    
+    @GET
+    @ApiOperation("Get movies by comments from a user within a certain timeframe")
+    @Path("/movies/{userName}")
+    public List<MovieView> getByUserNameCommentedAndTimeSpan(
+            @PathParam("userName") String userName, 
+            @DefaultValue("") @QueryParam("timeMin") String timeMin, 
+            @DefaultValue("") @QueryParam("timeMax") String timeMax)
+    {
+        
+        List<Movie> movies = null;
+        
+        movies = movieService.getByUserNameCommentedAndTimeSpan(userName, timeMin, timeMax);
+        
+        return moviePresenter.present(movies);
+    }
+    
     @GET
     @Path("/genres/{genreName}")
     public List<MovieView> getByYearAndGenre(
