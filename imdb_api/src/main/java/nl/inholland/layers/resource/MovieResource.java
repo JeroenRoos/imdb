@@ -5,6 +5,7 @@
  */
 package nl.inholland.layers.resource;
 
+import io.swagger.annotations.Api;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -25,6 +26,7 @@ import nl.inholland.layers.model.MovieView;
 import nl.inholland.layers.presentation.model.MoviePresenter;
 import nl.inholland.layers.service.MovieService;
 
+@Api("Movies")
 @Path("/movies")
 @Consumes (MediaType.APPLICATION_JSON)
 @Produces (MediaType.APPLICATION_JSON)
@@ -43,7 +45,6 @@ public class MovieResource extends BaseResource
     @GET
     public List<MovieView> getAll(@DefaultValue("") @QueryParam("actorLastName") String actorName, 
             @DefaultValue("") @QueryParam("directorLastName") String directorLastName,
-            @Context HttpHeaders headers,
             @DefaultValue("") @QueryParam("commentsByUserName") String userName,
             @DefaultValue("") @QueryParam("genre") String genre){
            
