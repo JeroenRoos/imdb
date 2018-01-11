@@ -130,15 +130,51 @@ public class MovieService extends BaseService
         
         return movies;
     }
+    
+    public List<Movie> getByYearAndGenre(String genreName, String yearFromString, String yearToString, String sortKey, boolean sortDesc){
 
-    public List<Movie> getByYearAndGenre(String genreName, String yearFrom, String yearTo, String sortKey, String sortDir){
         
+        List<Movie> movies = null;
+        
+        // Get genre by the genre name supplied
         Genre genre = genreDAO.getByName(genreName);
-
-        int yearFromInt = Integer.parseInt(yearFrom);
-        int yearToInt = Integer.parseInt(yearTo);
+        super.errorHandler.requireResult(genre, "No genres found for the provided genre name");
         
-        List<Movie> movies = movieDAO.getByYearAndGenre(genre, yearFromInt, yearToInt, sortKey, sortDir);
+        int yearFrom = 0;
+        int yearTo = 0;
+        
+        //Validation, try to parse the year to a valid integer
+        try{
+            yearFrom = Integer.parseInt(yearFromString);
+            yearTo = Integer.parseInt(yearToString);
+        }
+        catch (Exception ex){
+            super.errorHandler.parsingError("Something went wrong while converting the year to a valid integer.");
+        }
+        
+        //If the "year from" is greater than the "year to", swap them around
+        if (yearFrom > yearTo){
+            int tempYear = yearFrom;
+            yearFrom = yearTo;
+            yearTo = tempYear;
+        }
+        
+        //If sortKey was not supplied, set it to default to "title", else: check if sortKey is a field in the Movie class
+        try{  
+
+            Movie.class.getDeclaredField(sortKey);
+            
+        }catch (Exception ex){
+            super.errorHandler.parsingError("Invalid sorting field");
+        }
+
+        //Add "-" to sortKey to get descending sort
+        if(sortDesc){
+            sortKey = "-" + sortKey;
+        }
+        
+        
+        movies = movieDAO.getByYearAndGenre(genre, yearFrom, yearTo, sortKey);
         
         super.errorHandler.requireResult(movies, "No movies found for the provided parameters");
         

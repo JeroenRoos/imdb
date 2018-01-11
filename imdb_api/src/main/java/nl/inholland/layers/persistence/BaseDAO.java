@@ -65,4 +65,6 @@ public abstract class BaseDAO<T extends EntityModel> extends BasicDAO< T, Object
             ds.delete(o);
         });
     }
+    
+
 }
