@@ -135,7 +135,12 @@ public class SerieService extends BaseService
         
         // Validation, check if any genres exist with the genre name
         super.errorHandler.requireResult(genre, "No genre found with name: " + genreName);
-
+        
+        if ("".equals(toYear))
+            super.errorHandler.emptyField("The toYear parameter cannot be empty.");
+        if ("".equals(fromYear))
+            super.errorHandler.emptyField("The fromYear parameter cannot be empty.");
+            
         int year01 = 0;
         int year02 = 0;
             
