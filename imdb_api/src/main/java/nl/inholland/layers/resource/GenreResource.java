@@ -23,7 +23,6 @@ import nl.inholland.layers.service.GenreService;
 import nl.inholland.layers.model.GenreView;
 import nl.inholland.layers.model.Genre;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 
 @Api("Genres")
 @Path("/genres")

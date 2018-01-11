@@ -45,8 +45,7 @@ public class MovieService extends BaseService
 
     public Movie getById(String movieId)
     {
-        Movie movie = (Movie) super.getById(movieId, userDAO);
-   
+        Movie movie = (Movie) super.getById(movieId, userDAO);  
         return movie;
 
     }
@@ -54,10 +53,16 @@ public class MovieService extends BaseService
     public List<Movie> getAll()
     {
         List<Movie> movies = super.getAll(movieDAO);
-
         return movies;
     }
     
+    public List<Movie>getMoviesByRatingAndYear(int yearMin, int yearMax, int rating)
+    {        
+        List<Movie> movies = movieDAO.getByRatingAndYear(yearMin, yearMax, rating);
+        return movies;      
+    }
+                      
+            
     public List<Movie> getMoviesForActorName(String actorName){
         List<Actor> actors = actorDAO.getByFirstName(actorName);
         
@@ -102,7 +107,6 @@ public class MovieService extends BaseService
         return movies;
     }
     
-    
     public void update(String movieId, Movie movie){
         ObjectId objectId;
         if(ObjectId.isValid(movieId))
@@ -145,7 +149,7 @@ public class MovieService extends BaseService
     public void deleteMany(String[] ids)
     {
         super.deleteMany(ids, movieDAO);
-  
     }
+    
     
 }

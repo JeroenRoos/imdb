@@ -5,7 +5,6 @@
  */
 package nl.inholland.layers.model;
 
-import java.security.Principal;
 import java.util.List;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Reference;

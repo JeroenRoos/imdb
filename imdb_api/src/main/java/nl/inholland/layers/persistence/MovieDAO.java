@@ -16,10 +16,7 @@ import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 
-/**
- *
- * @author youp
- */
+
 public class MovieDAO extends BaseDAO<Movie>
 {
     private Datastore ds;
@@ -28,6 +25,13 @@ public class MovieDAO extends BaseDAO<Movie>
     {
         super(Movie.class, ds);
         this.ds = ds;
+    }
+    
+    public List<Movie> getByRatingAndYear(int yearMin, int yearMax, int rating)
+    {
+       Query<Movie> query = ds.createQuery(Movie.class);      
+       query.filter("rating ==", rating);       
+        return query.asList();          
     }
     
     public List<Movie> getByActor(List<Actor> actors){

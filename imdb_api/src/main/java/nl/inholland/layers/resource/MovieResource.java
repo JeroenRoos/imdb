@@ -6,7 +6,9 @@
 package nl.inholland.layers.resource;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import java.util.List;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -18,11 +20,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import nl.inholland.layers.model.Movie;
 import nl.inholland.layers.model.MovieView;
+import nl.inholland.layers.model.SerieView;
 import nl.inholland.layers.presentation.model.MoviePresenter;
 import nl.inholland.layers.service.MovieService;
 
@@ -32,7 +33,7 @@ import nl.inholland.layers.service.MovieService;
 @Produces (MediaType.APPLICATION_JSON)
 public class MovieResource extends BaseResource
 {
-    private final MovieService movieService;
+     private final MovieService movieService;
     private final MoviePresenter moviePresenter;
     
     @Inject
@@ -42,6 +43,19 @@ public class MovieResource extends BaseResource
         this.moviePresenter = moviePresenter;
     }
     
+    //get movies by rating and between a period
+    @GET
+    @RolesAllowed( {"ADMIN", "USER"} ) 
+    @ApiOperation("Get movies by rating between a period")
+    @Path("/{yearMin}/{yearMax}/{rating}")
+    public List<MovieView> getByYearAndRating(@PathParam("year") int yearMin, @PathParam("yearMax") int yearMax
+            ,@PathParam("rating") int rating)
+    {     
+               
+        List<Movie> movies = movieService.getMoviesByRatingAndYear(yearMin,yearMax, rating);              
+        return moviePresenter.present(movies);
+    }
+           
     @GET
     public List<MovieView> getAll(@DefaultValue("") @QueryParam("actorLastName") String actorName, 
             @DefaultValue("") @QueryParam("directorLastName") String directorLastName,

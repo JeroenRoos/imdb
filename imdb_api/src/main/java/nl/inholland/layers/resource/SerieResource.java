@@ -26,7 +26,6 @@ import nl.inholland.layers.service.SerieService;
  * @author Jeroen
  */
 
-
 // The resource class for Series
 // This class handles the application logic and turns values to objects to be presented later
 @Api("Series")
