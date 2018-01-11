@@ -39,7 +39,8 @@ public class SerieResource extends BaseResource
     private final SeriePresenter seriePresenter;
     
     @Inject
-    public SerieResource(SerieService serieService, SeriePresenter seriePresenter)
+    public SerieResource(SerieService serieService, 
+                         SeriePresenter seriePresenter)
     {
         this.serieService = serieService;
         this.seriePresenter = seriePresenter;
@@ -51,12 +52,12 @@ public class SerieResource extends BaseResource
     @RolesAllowed( {"ADMIN", "USER"} ) 
     @ApiOperation("Gets all Series (or get all series based on Query Parameters)")
     public List<SerieView> getAll(@DefaultValue("") @QueryParam("directorLastName") String directorLastName,
-            @DefaultValue("") @QueryParam("genreName") String genreName, @DefaultValue("") 
-            @QueryParam("actorFirstName") String actorFirstName)
+                                  @DefaultValue("") @QueryParam("genreName") String genreName, 
+                                  @DefaultValue("") @QueryParam("actorFirstName") String actorFirstName)
     {
         List<Serie> lstSeries = null;
         lstSeries =       
-            (!"".equals(directorLastName)) ? lstSeries = serieService.getSeriesByDirectorLastName(directorLastName) :
+            (!"".equals(directorLastName)) ? serieService.getSeriesByDirectorLastName(directorLastName) :
             (!"".equals(genreName)) ? serieService.getSeriesByGenreName(genreName) :
             (!"".equals(actorFirstName)) ? serieService.getSeriesByActorFirstName(actorFirstName) :
             serieService.getAll();
@@ -81,7 +82,6 @@ public class SerieResource extends BaseResource
     @GET
     @RolesAllowed( {"ADMIN", "USER"} ) 
     @ApiOperation("Gets all series between 2 years and with a specific genre.")
-    //@Path("/{year01}/{year02}/{genreName}")
     @Path("/genres/{genreName}")
     public List<SerieView> getByYearAndGenre(@PathParam("genreName") String genreName,
                                              @DefaultValue("") @QueryParam("yearFrom") String fromYear, 
@@ -107,7 +107,8 @@ public class SerieResource extends BaseResource
     @RolesAllowed("ADMIN")
     @ApiOperation("Update one Serie")
     @Path("/{SerieId}")
-    public void update(@PathParam("SerieId") String serieId, Serie serie)
+    public void update(@PathParam("SerieId") String serieId, 
+                       Serie serie)
     {
         serieService.update(serieId, serie);
     }
