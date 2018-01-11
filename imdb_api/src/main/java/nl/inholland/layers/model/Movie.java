@@ -5,21 +5,17 @@
  */
 package nl.inholland.layers.model;
 
-import java.security.Principal;
+
 import java.util.List;
-import org.bson.types.ObjectId;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
-import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Reference;
 
 @Entity(value = "movies", noClassnameStored = true)
 public class Movie extends EntityModel
 {
-    private String title;
-    
+    private String title;    
     private String summary;
+    private int rating;
     
     @Reference
     private List<Actor> actors;
@@ -105,6 +101,14 @@ public class Movie extends EntityModel
         this.year = year;
     }
     
-    
+    public void getRating(int rating){
+        
+        this.rating = rating;
+    }
+  
+    public void setRating(int rating){
+        
+        this.rating = rating;
+    }
     
 }

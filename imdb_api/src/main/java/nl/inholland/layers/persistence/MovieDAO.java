@@ -70,5 +70,4 @@ public class MovieDAO extends BaseDAO<Movie>
         
         ds.delete(query.filter("_id in", objects));
     }
-    
 }

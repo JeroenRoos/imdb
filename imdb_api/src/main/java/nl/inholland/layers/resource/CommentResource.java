@@ -21,7 +21,10 @@ import nl.inholland.layers.model.Comment;
 import nl.inholland.layers.model.CommentView;
 import nl.inholland.layers.presentation.model.CommentPresenter;
 import nl.inholland.layers.service.CommentService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
+@Api("Comments")
 @Path("/comments")
 @Consumes (MediaType.APPLICATION_JSON)
 @Produces (MediaType.APPLICATION_JSON)
@@ -75,7 +78,8 @@ public class CommentResource extends BaseResource{
         
         return commentPresenter.present(comment);
     }
-
+   
+    
      @DELETE
     public void delete(@DefaultValue("") @QueryParam("id") String commentIds) 
     {     

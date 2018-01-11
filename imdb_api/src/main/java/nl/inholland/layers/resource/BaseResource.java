@@ -11,12 +11,12 @@ import nl.inholland.layers.model.EntityModel;
 
 
 
+
 @Singleton
 public class BaseResource <T extends EntityModel> 
 {
-
     public BaseResource(){
-        
+                
     }
 
 }
