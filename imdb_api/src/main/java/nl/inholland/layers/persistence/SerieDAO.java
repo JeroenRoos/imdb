@@ -23,7 +23,6 @@ import org.mongodb.morphia.query.Query;
 // The DAO class for Series
 // This class is used to perform a queries and return the result to the service
 // The basic requests are handled by BaseDAO, only serie specific request will be handled by this DAO
-
 public class SerieDAO extends BaseDAO<Serie>
 {
     private Datastore ds;
@@ -65,7 +64,9 @@ public class SerieDAO extends BaseDAO<Serie>
        
     
     // Get and return all series with specific genre and range of years
-    public List<Serie> getByBetweenYearAndGenre(int year01, int year02, Genre genre)
+    public List<Serie> getByBetweenYearAndGenre(int year01, 
+                                                int year02, 
+                                                Genre genre)
     {
         return createQuery()
                 .field("year").greaterThanOrEq(year01)
