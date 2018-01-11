@@ -65,5 +65,7 @@ public abstract class BaseDAO< T extends EntityModel> extends BasicDAO< T, Objec
             ds.delete(o);
         });
     }
+    
+    public List<T> findBetweenYears()
 
 }

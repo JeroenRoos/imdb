@@ -71,4 +71,16 @@ public class MovieDAO extends BaseDAO<Movie>
         ds.delete(query.filter("_id in", objects));
     }
     
+    public List<Movie> getByYearAndGenre(Genre genre, int yearFrom, int yearTo, String sortKey, String sortDir){
+        Query<Movie> query = ds.createQuery(Movie.class);
+        
+            return query
+                .field("year").greaterThanOrEq(yearFrom)
+                .field("year").lessThanOrEq(yearTo)
+                .filter("genre", genre)
+                .asList();
+                    
+
+    }
+    
 }

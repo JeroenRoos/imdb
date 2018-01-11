@@ -62,6 +62,23 @@ public class MovieResource extends BaseResource
     }
     
     @GET
+    @Path("/genres/{genreName}")
+    public List<MovieView> getByYearAndGenre(
+            @PathParam("genreName") String genreName, 
+            @DefaultValue("") @QueryParam("yearFrom") String yearFrom, 
+            @DefaultValue("") @QueryParam("yearTo") String yearTo,
+            @DefaultValue("") @QueryParam("sortKey") String sortKey, 
+            @DefaultValue("") @QueryParam("sortDir") String sortDir
+            ){
+        
+        List<Movie> movies = null;
+        
+        movies = movieService.getByYearAndGenre(genreName, yearFrom, yearTo, sortKey, sortDir);
+        
+        return moviePresenter.present(movies);
+    }
+    
+    @GET
     @Path("/{MovieId}")
     public MovieView get( @PathParam("MovieId") String movieId){
         Movie Movie = movieService.getById(movieId);
