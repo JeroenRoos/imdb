@@ -14,6 +14,7 @@ import nl.inholland.layers.model.Director;
 import nl.inholland.layers.persistence.DirectorDAO;
 import nl.inholland.layers.model.Genre;
 import nl.inholland.layers.model.Movie;
+import nl.inholland.layers.model.Serie;
 import nl.inholland.layers.model.User;
 import nl.inholland.layers.persistence.ActorDAO;
 import nl.inholland.layers.persistence.CommentDAO;
@@ -53,7 +54,12 @@ public class MovieService extends BaseService
     
     public List<Movie> getAll()
     {
-        List<Movie> movies = movieDAO.getAll();
+
+        List<Movie> movies = super.getAll(movieDAO);
+
+        if (movies.isEmpty())
+            super.errorHandler.requireResult(null, "no movies found");
+       
         return movies;
     }   
     

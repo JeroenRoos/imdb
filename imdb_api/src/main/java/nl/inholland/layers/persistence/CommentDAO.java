@@ -42,3 +42,5 @@ public class CommentDAO extends BaseDAO<Comment>
                 .field("postDate").lessThanOrEq(timeMax).asList();
         return comments;
 }
+    
+}
