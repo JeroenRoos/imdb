@@ -62,9 +62,10 @@ public class SerieDAO extends BaseDAO<Serie>
        List<Serie> lstSeries = query.asList();
        return lstSeries;
     }
+       
     
-    
-    public List<Serie> getByYearAndGenre(int year01, int year02, Genre genre)
+    // Get and return all series with specific genre and range of years
+    public List<Serie> getByBetweenYearAndGenre(int year01, int year02, Genre genre)
     {
         return createQuery()
                 .field("year").greaterThanOrEq(year01)
@@ -72,5 +73,5 @@ public class SerieDAO extends BaseDAO<Serie>
                 .filter("genre ==", genre)
                 .asList();
     }
-
+    
 }
