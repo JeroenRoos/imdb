@@ -91,6 +91,7 @@ public class MovieResource extends BaseResource
     }
     
     @GET
+    @ApiOperation("Get movies by genre name within a time span marked by years and sort the results by movie-field")
     @Path("/genres/{genreName}")
     public List<MovieView> getByYearAndGenre(
             @PathParam("genreName") String genreName, 
