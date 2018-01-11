@@ -67,13 +67,13 @@ public class MovieResource extends BaseResource
             @PathParam("genreName") String genreName, 
             @DefaultValue("") @QueryParam("yearFrom") String yearFrom, 
             @DefaultValue("") @QueryParam("yearTo") String yearTo,
-            @DefaultValue("") @QueryParam("sortKey") String sortKey, 
-            @DefaultValue("") @QueryParam("sortDir") String sortDir
+            @DefaultValue("title") @QueryParam("sortKey") String sortKey, 
+            @DefaultValue("false") @QueryParam("sortDesc") boolean sortDesc
             ){
         
         List<Movie> movies = null;
         
-        movies = movieService.getByYearAndGenre(genreName, yearFrom, yearTo, sortKey, sortDir);
+        movies = movieService.getByYearAndGenre(genreName, yearFrom, yearTo, sortKey, sortDesc);
         
         return moviePresenter.present(movies);
     }
