@@ -63,6 +63,9 @@ public class SerieService extends BaseService
     {
         List<Serie> lstSeries = super.getAll(serieDAO);
 
+        // Validation, check if the serie exists
+        if (lstSeries.isEmpty())
+            super.errorHandler.requireResult(null, "Serie not found");
        
         return lstSeries;
     }
@@ -103,6 +106,14 @@ public class SerieService extends BaseService
             super.errorHandler.requireResult(null, "No actors found with name: " + actorName);
     
         return serieDAO.getByActor(lstActors);
+    }
+    
+    
+    
+    public List<Serie> getSeriesByYearAndGenre(String years, String genreName)
+    {
+        String[] lstYear = years.split(",");
+        return null;
     }
     
     
