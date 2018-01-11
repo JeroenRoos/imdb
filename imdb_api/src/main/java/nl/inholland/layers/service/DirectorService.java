@@ -36,7 +36,7 @@ public class DirectorService extends BaseService
     // Get an existing director by ID
     public Director getDirectorById(String directorId)
     {
-        Director director = (Director)super.getById(directorId, directorDAO);
+        Director director = (Director)super.getById(directorId);
         
         // Validation, check if the Director exists
         super.errorHandler.requireResult(director, "Director not found");
@@ -48,7 +48,7 @@ public class DirectorService extends BaseService
     // Get all existing directors
     public List<Director> getAll()
     {
-        List<Director> lstDirectors = super.getAll(directorDAO);
+        List<Director> lstDirectors = super.getAll();
         
         // Validation, check if any directors exist 
         if (lstDirectors.isEmpty())
@@ -113,7 +113,7 @@ public class DirectorService extends BaseService
         // Validation, check if all the required fields do exist and are not empty
         checkCreateValidity(director);
             
-        // Validation, check if any of the directors already exist in the database
+        // Validation, check if the director already exist in the database
         checkDuplicate(director);
         
         directorDAO.create(director);
@@ -140,11 +140,11 @@ public class DirectorService extends BaseService
     private void checkCreateValidity(Director director)
     {
         // Check the validity of the firstname field
-        if ("".equals(director.getFirstName()) || director.getFirstName() == null)
+        if (director.getFirstName() == null || "".equals(director.getFirstName()))
             super.errorHandler.emptyField("Firstname cannot be an empty string");
         
         // Check the validity of the lastname field
-        if ("".equals(director.getLastName()) || director.getLastName() == null)
+        if (director.getLastName() == null || "".equals(director.getLastName()))
             super.errorHandler.emptyField("Lastname cannot be an empty string");
         
         // Check the validity of the age field
@@ -247,21 +247,21 @@ public class DirectorService extends BaseService
     {
         // Check the validity of the firstname field. If its not empty, add it to the update Operation
         // If it's does exists but is empty, throw an exception
-        if (!"".equals(director.getFirstName()) && director.getFirstName() != null)
+        if (director.getFirstName() != null && !"".equals(director.getFirstName()))
             update.set("firstName", director.getFirstName());
         else if ("".equals(director.getFirstName()))
             super.errorHandler.emptyField("Firstname cannot be an empty string");
-
+        
         // Check the validity of the lastname field. If its not empty, add it to the update Operation
         // If it's does exists but is empty, throw an exception
-        if (!"".equals(director.getLastName()) && director.getLastName() != null)
+        if (director.getLastName() != null && !"".equals(director.getLastName()))
             update.set("lastName", director.getLastName());
         else if ("".equals(director.getLastName()))
             super.errorHandler.emptyField("Lastname cannot be an empty string");
-
+        
         // Check the validity of the age field. If its not empty, add it to the update Operation
-        // If it's does exists but is empty, add the age of the director that's gonne be updated. 
-        // This is needed because the age field is automatically put to 0 if it doesn't need to be updated
+        // If it does exists but is empty, add the age of the director that's gonne be updated. 
+        // This is needed because the age field is automatically put to 0 if it doesn't exist
         if (director.getAge() >= 18)
             update.set("age", director.getAge());
         else if (director.getAge() == 0)
@@ -297,7 +297,7 @@ public class DirectorService extends BaseService
             // Validation, check if the director exists
             checkIfDirectorExists(directorId);
             
-            super.delete(directorId, directorDAO);
+            super.delete(directorId);
         }
         else
             super.errorHandler.noValidObjectId("The director ID is not valid.");
@@ -305,7 +305,7 @@ public class DirectorService extends BaseService
 
     
     // Delete multiple directors by ID
-    private void deleteMany(String[] ids)
+    public void deleteMany(String[] ids)
     {
         List<ObjectId> lstObjectIds = new ArrayList<>();
         
@@ -324,7 +324,6 @@ public class DirectorService extends BaseService
         }
         
         // Delete all the Directors after each director is checked for validity
-        //super.deleteMany(ids, directorDAO);
         directorDAO.deleteManyById(lstObjectIds);
     }
     

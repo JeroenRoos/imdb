@@ -31,8 +31,7 @@ public class MoviePresenter extends BasePresenter
         }
         return view;
     }
-    
-    
+      
     public MovieView present(Movie movie)
     {
         MovieView movieView = initMovieView(movie);

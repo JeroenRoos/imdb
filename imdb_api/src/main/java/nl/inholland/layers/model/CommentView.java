@@ -6,10 +6,12 @@
 package nl.inholland.layers.model;
 
 import org.bson.types.ObjectId;
+import org.joda.time.DateTime;
 public class CommentView
 {
     private ObjectId id;
     private String message;
+    private DateTime postDate;
     private UserView user;
     
     public ObjectId getId()
@@ -30,6 +32,16 @@ public class CommentView
     public void setMessage(String message)
     {
         this.message = message;
+    }
+
+    public DateTime getPostDate()
+    {
+        return postDate;
+    }
+
+    public void setPostDate(DateTime postDate)
+    {
+        this.postDate = postDate;
     }
 
     public UserView getUser()

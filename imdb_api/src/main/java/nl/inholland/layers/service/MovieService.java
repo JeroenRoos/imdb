@@ -7,6 +7,7 @@ package nl.inholland.layers.service;
 
 import java.util.List;
 import javax.inject.Inject;
+import nl.inholland.health.Helpers.Range;
 import nl.inholland.layers.model.Actor;
 import nl.inholland.layers.model.Comment;
 import nl.inholland.layers.model.Director;
@@ -45,19 +46,46 @@ public class MovieService extends BaseService
 
     public Movie getById(String movieId)
     {
-        Movie movie = (Movie) super.getById(movieId, userDAO);
-   
+        Movie movie = (Movie) super.getById(movieId);  
         return movie;
 
     }
     
     public List<Movie> getAll()
     {
-        List<Movie> movies = super.getAll(movieDAO);
-
+        List<Movie> movies = super.getAll();
         return movies;
-    }
+    }   
     
+    //get movie by rating between year x and year y
+    public List<Movie>getByRatingAndYear(String yearMin, String yearMax, String rating)
+    {        
+        List<Movie> movies;
+        int ratingToInt = 0; 
+        Range range = super.setRange(yearMin, yearMax);
+        
+        try{
+            
+          ratingToInt = Integer.parseInt(rating);
+           
+        }catch(NumberFormatException e){
+            
+          super.errorHandler.parsingError("Rating is a number between 0 and 10");
+        }
+        
+        movies = movieDAO.getByRatingAndYearRange(range.getMin(), range.getMax(), ratingToInt);
+
+        
+        if (movies.isEmpty())
+        {                                                
+           super.errorHandler.requireResult(null, "No movies found.");
+        }
+        
+        return movies;      
+    }
+
+                      
+            
     public List<Movie> getMoviesForActorName(String actorName){
         List<Actor> actors = actorDAO.getByFirstName(actorName);
         
@@ -65,6 +93,7 @@ public class MovieService extends BaseService
         
         return movieDAO.getByActor(actors);
     }
+    
      public List<Movie> getMoviesForDirectorName(String directorLastName){
         List<Director> directors = directorDAO.getByLastName(directorLastName);
         
@@ -103,7 +132,7 @@ public class MovieService extends BaseService
     }
     
     public List<Movie> getByYearAndGenre(String genreName, String yearFromString, String yearToString, String sortKey, boolean sortDesc){
-        
+
         
         List<Movie> movies = null;
         
@@ -152,7 +181,7 @@ public class MovieService extends BaseService
         return movies;
     }
     
-    
+
     public void update(String movieId, Movie movie){
         ObjectId objectId;
         if(ObjectId.isValid(movieId))
@@ -189,13 +218,13 @@ public class MovieService extends BaseService
     
     public void delete(String movieId)
     {
-        super.delete(movieId, userDAO);
+        super.delete(movieId);
     }
 
     public void deleteMany(String[] ids)
     {
-        super.deleteMany(ids, movieDAO);
-  
+        super.deleteMany(ids);
     }
+    
     
 }

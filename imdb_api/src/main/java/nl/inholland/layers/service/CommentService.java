@@ -27,13 +27,13 @@ public class CommentService extends BaseService {
     
     public Comment getCommentById(String commentID)
     {
-        Comment comment = (Comment) super.getById(commentID, commentDAO);
+        Comment comment = (Comment) super.getById(commentID);
         return comment;
     }
     
     public List<Comment> getAll()
     {
-        List<Comment> comments = super.getAll(commentDAO);
+        List<Comment> comments = super.getAll();
         
         return comments;
     }     
@@ -113,11 +113,11 @@ public class CommentService extends BaseService {
     
     public void delete(String commentId)
     {
-        super.delete(commentId, commentDAO);
+        super.delete(commentId);
     }
 
     public void deleteMany(String[] ids)
     {
-        super.deleteMany(ids, commentDAO);
+        super.deleteMany(ids);
     }
 }

@@ -22,7 +22,6 @@ import nl.inholland.layers.model.CommentView;
 import nl.inholland.layers.presentation.model.CommentPresenter;
 import nl.inholland.layers.service.CommentService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 
 @Api("Comments")
 @Path("/comments")

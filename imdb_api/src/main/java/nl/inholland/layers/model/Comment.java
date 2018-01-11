@@ -5,7 +5,7 @@
  */
 package nl.inholland.layers.model;
 
-import java.security.Principal;
+import org.joda.time.DateTime;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Reference;
 
@@ -13,6 +13,8 @@ import org.mongodb.morphia.annotations.Reference;
 public class Comment extends EntityModel
 {
     private String message;
+    
+    private DateTime postDate;
     
     @Reference
     private User user;
@@ -25,6 +27,16 @@ public class Comment extends EntityModel
     public void setMessage(String message)
     {
         this.message = message;
+    }
+
+    public DateTime getPostDate()
+    {
+        return postDate;
+    }
+
+    public void setPostDate(DateTime postDate)
+    {
+        this.postDate = postDate;
     }
 
     public User getUser()
