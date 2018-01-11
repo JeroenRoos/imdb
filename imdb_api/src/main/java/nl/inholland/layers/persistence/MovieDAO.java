@@ -79,7 +79,7 @@ public class MovieDAO extends BaseDAO<Movie>
                 .field("year").lessThanOrEq(yearTo)
                 .filter("genre", genre)
                 .asList();
-                    
+                   
 
     }
     

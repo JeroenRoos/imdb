@@ -78,7 +78,8 @@ public class CommentResource extends BaseResource{
         
         return commentPresenter.present(comment);
     }
-
+   
+    
      @DELETE
     public void delete(@DefaultValue("") @QueryParam("id") String commentIds) 
     {     
