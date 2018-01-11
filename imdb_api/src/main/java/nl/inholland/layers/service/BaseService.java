@@ -5,10 +5,12 @@
  */
 package nl.inholland.layers.service;
 
+import nl.inholland.health.Helpers.ErrorHandler;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import nl.inholland.health.Helpers.Range;
 import nl.inholland.layers.model.EntityModel;
 import nl.inholland.layers.persistence.BaseDAO;
 import org.bson.types.ObjectId;
@@ -18,7 +20,7 @@ import org.bson.types.ObjectId;
 @Singleton
 public class BaseService <T extends EntityModel>
 {
-    @Inject  ErrorHandler errorHandler;
+    @Inject ErrorHandler errorHandler;
 
     
     //get all
@@ -80,4 +82,8 @@ public class BaseService <T extends EntityModel>
         baseDAO.deleteMany(lstObjectIds);
     }
 
+    public Range setRange(String min, String max){
+        
+        return new Range(min, max);
+    }
 }

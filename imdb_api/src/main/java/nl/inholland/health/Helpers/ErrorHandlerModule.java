@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nl.inholland.layers.service;
+package nl.inholland.health.Helpers;
 
+import nl.inholland.health.Helpers.ErrorHandler;
 import com.google.inject.Module;
 import io.dropwizard.auth.AuthValueFactoryProvider.Binder;
+import nl.inholland.layers.service.BaseService;
 
 /**
  *

@@ -26,12 +26,14 @@ public class MovieDAO extends BaseDAO<Movie>
         super(Movie.class, ds);
         this.ds = ds;
     }
-    
-    public List<Movie> getByRatingAndYear(int yearMin, int yearMax, int rating)
+
+    public List<Movie> getByRatingAndYearRange(int yearMin, int yearMax, String rating)
     {
-       Query<Movie> query = ds.createQuery(Movie.class);      
-       query.filter("rating ==", rating);       
-        return query.asList();          
+        return createQuery()
+                .field("year").greaterThanOrEq(yearMin)
+                .field("year").lessThanOrEq(yearMax)
+                .field("rating").greaterThanOrEq(rating)
+                .asList();       
     }
     
     public List<Movie> getByActor(List<Actor> actors){

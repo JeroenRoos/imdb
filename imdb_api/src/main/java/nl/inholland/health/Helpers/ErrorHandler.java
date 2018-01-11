@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nl.inholland.layers.service;
+package nl.inholland.health.Helpers;
 
+import com.fasterxml.jackson.dataformat.xml.XmlAnnotationIntrospector.Pair;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.NotFoundException;
@@ -60,5 +61,6 @@ public class ErrorHandler {
 
     void get(String actorId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    } 
+    
 }

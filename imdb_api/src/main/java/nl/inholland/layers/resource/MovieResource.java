@@ -23,7 +23,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import nl.inholland.layers.model.Movie;
 import nl.inholland.layers.model.MovieView;
-import nl.inholland.layers.model.SerieView;
 import nl.inholland.layers.presentation.model.MoviePresenter;
 import nl.inholland.layers.service.MovieService;
 
@@ -48,11 +47,10 @@ public class MovieResource extends BaseResource
     @RolesAllowed( {"ADMIN", "USER"} ) 
     @ApiOperation("Get movies by rating between a period")
     @Path("/{yearMin}/{yearMax}/{rating}")
-    public List<MovieView> getByYearAndRating(@PathParam("year") int yearMin, @PathParam("yearMax") int yearMax
-            ,@PathParam("rating") int rating)
-    {     
-               
-        List<Movie> movies = movieService.getMoviesByRatingAndYear(yearMin,yearMax, rating);              
+    public List<MovieView> getByYearAndRating(@PathParam("year") String yearMin, @PathParam("yearMax") String yearMax
+            ,@PathParam("rating") String rating)
+    {                   
+        List<Movie> movies = movieService.getByRatingAndYear(yearMin,yearMax, rating);              
         return moviePresenter.present(movies);
     }
            

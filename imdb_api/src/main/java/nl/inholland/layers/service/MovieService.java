@@ -7,6 +7,7 @@ package nl.inholland.layers.service;
 
 import java.util.List;
 import javax.inject.Inject;
+import nl.inholland.health.Helpers.Range;
 import nl.inholland.layers.model.Actor;
 import nl.inholland.layers.model.Comment;
 import nl.inholland.layers.model.Director;
@@ -54,11 +55,21 @@ public class MovieService extends BaseService
     {
         List<Movie> movies = super.getAll(movieDAO);
         return movies;
-    }
+    }   
     
-    public List<Movie>getMoviesByRatingAndYear(int yearMin, int yearMax, int rating)
+    //get movie by rating between year x and year y
+    public List<Movie>getByRatingAndYear(String yearMin, String yearMax, String rating)
     {        
-        List<Movie> movies = movieDAO.getByRatingAndYear(yearMin, yearMax, rating);
+        List<Movie> movies;
+          
+        Range range = super.setRange(yearMin, yearMax);
+        
+        movies = movieDAO.getByRatingAndYearRange(range.getMin(), range.getMax(), rating);
+
+        if (movies.isEmpty())        
+            
+            super.errorHandler.requireResult(null, "No movies found with these parameters.");
+        
         return movies;      
     }
                       
@@ -70,6 +81,7 @@ public class MovieService extends BaseService
         
         return movieDAO.getByActor(actors);
     }
+    
      public List<Movie> getMoviesForDirectorName(String directorLastName){
         List<Director> directors = directorDAO.getByLastName(directorLastName);
         
