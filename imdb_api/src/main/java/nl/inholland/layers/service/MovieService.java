@@ -118,7 +118,22 @@ public class MovieService extends BaseService
         
         return movies;
     }
+
+    public List<Movie> getByYearAndGenre(String genreName, String yearFrom, String yearTo, String sortKey, String sortDir){
+        
+        Genre genre = genreDAO.getByName(genreName);
+
+        int yearFromInt = Integer.parseInt(yearFrom);
+        int yearToInt = Integer.parseInt(yearTo);
+        
+        List<Movie> movies = movieDAO.getByYearAndGenre(genre, yearFromInt, yearToInt, sortKey, sortDir);
+        
+        super.errorHandler.requireResult(movies, "No movies found for the provided parameters");
+        
+        return movies;
+    }
     
+
     public void update(String movieId, Movie movie){
         ObjectId objectId;
         if(ObjectId.isValid(movieId))

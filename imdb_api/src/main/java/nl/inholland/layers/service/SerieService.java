@@ -37,7 +37,10 @@ public class SerieService extends BaseService
     private final ActorDAO actorDAO;
     
     @Inject
-    public SerieService(SerieDAO serieDAO, DirectorDAO directorDAO, GenreDAO genreDAO, ActorDAO actorDAO)
+    public SerieService(SerieDAO serieDAO, 
+                        DirectorDAO directorDAO, 
+                        GenreDAO genreDAO, 
+                        ActorDAO actorDAO)
     {
         this.serieDAO = serieDAO;
         this.directorDAO = directorDAO;
@@ -128,14 +131,22 @@ public class SerieService extends BaseService
     
     
     // Get and return all series with specific genre and range of years
-    public List<Serie> getSeriesByYearAndGenre(String fromYear, String toYear, String genreName)
+    public List<Serie> getSeriesByYearAndGenre(String fromYear, 
+                                               String toYear, 
+                                               String genreName)
     {
         Genre genre = genreDAO.getByName(genreName);
         List<Serie> lstSeries = null;
         
         // Validation, check if any genres exist with the genre name
         super.errorHandler.requireResult(genre, "No genre found with name: " + genreName);
-
+        
+        // Validation, check if query parameters are not empty
+        if ("".equals(toYear))
+            super.errorHandler.emptyField("The toYear parameter cannot be empty.");
+        if ("".equals(fromYear))
+            super.errorHandler.emptyField("The fromYear parameter cannot be empty.");
+            
         int year01 = 0;
         int year02 = 0;
             
@@ -147,7 +158,7 @@ public class SerieService extends BaseService
         }
         catch (Exception ex)
         {
-            super.errorHandler.parsingError("Something went wrong while converting the year to an integer.");
+            super.errorHandler.parsingError("Something went wrong while converting the year to a valid integer.");
         }
         
         // Validation, check if the range of years is correct
@@ -216,7 +227,7 @@ public class SerieService extends BaseService
             
         // Check the validity of the year field
         if (serie.getYear() <= 1878)
-            super.errorHandler.emptyField("The year of the serie cannot be lower than 1878. The first piece of movie ever made comes from this year.");
+            super.errorHandler.emptyField("The year of the serie cannot be lower than 1878. The first movie ever made comes from this year.");
             
         // Check the validity of the genre field
         if (serie.getGenre().isEmpty())
@@ -233,7 +244,8 @@ public class SerieService extends BaseService
            
     
     // Update one serie
-    public void update(String serieId, Serie serie)
+    public void update(String serieId, 
+                       Serie serie)
     {
         ObjectId objectId;
         
@@ -258,7 +270,9 @@ public class SerieService extends BaseService
     
     
     // Validation, check if all the field(s) that are gonne be updated are not empty
-    private void checkUpdateValidity(UpdateOperations<Serie> update, Serie serie, ObjectId id)
+    private void checkUpdateValidity(UpdateOperations<Serie> update, 
+                                     Serie serie, 
+                                     ObjectId id)
     {
         // Check the validity of the title field. If its not empty, add it to the update Operation
         // If it's does exists but is empty, throw an exception

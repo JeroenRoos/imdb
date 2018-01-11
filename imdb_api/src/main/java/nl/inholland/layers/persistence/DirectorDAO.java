@@ -57,10 +57,10 @@ public class DirectorDAO extends BaseDAO<Director>
     
     
     // Update multiple directors 
-    public void updateMany(Query[] lstQueries, UpdateOperations[] lstUpdateOperations)
+    public void updateMany(Query[] lstQueries, 
+                           UpdateOperations[] lstUpdateOperations)
     {
-        for (int i = 0; i < lstUpdateOperations.length; i++)
+        for (int i = 0; i < lstQueries.length; i++)
             update(lstQueries[i], lstUpdateOperations[i]);
     }
-    
 }

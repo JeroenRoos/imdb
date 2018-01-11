@@ -40,7 +40,7 @@ public class DirectorResource extends BaseResource
     
     @Inject
     public DirectorResource(DirectorService directorService, 
-            DirectorPresenter directorPresenter)
+                            DirectorPresenter directorPresenter)
     {
         this.directorService = directorService;
         this.directorPresenter = directorPresenter;
@@ -51,7 +51,7 @@ public class DirectorResource extends BaseResource
     @RolesAllowed( {"ADMIN", "USER"} )  
     @ApiOperation("Gets all Directors (or get all directors based on Query Parameters)")
     public List<DirectorView> getAll(@DefaultValue("") @QueryParam("lastName") String lastName,
-            @DefaultValue("") @QueryParam("age") String age)
+                                     @DefaultValue("") @QueryParam("age") String age)
     {
         List<Director> lstDirectors = null;
         lstDirectors = 
@@ -80,7 +80,7 @@ public class DirectorResource extends BaseResource
     @ApiOperation("Create a Director")
     public void create(List<Director> lstDirectors)
     {
-          directorService.create(lstDirectors);
+        directorService.create(lstDirectors);
     }
     
     
