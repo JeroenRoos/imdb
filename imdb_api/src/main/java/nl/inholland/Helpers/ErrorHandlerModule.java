@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nl.inholland.health.Helpers;
+package nl.inholland.Helpers;
 
 import com.google.inject.Module;
 import io.dropwizard.auth.AuthValueFactoryProvider.Binder;
