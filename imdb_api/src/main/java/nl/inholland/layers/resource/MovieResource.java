@@ -54,25 +54,7 @@ public class MovieResource extends BaseResource
         List<Movie> movies = movieService.getByRatingAndYear(yearMin,yearMax, rating);              
         return moviePresenter.present(movies);
     }
-           
-    @GET
-    public List<MovieView> getAll(@DefaultValue("") @QueryParam("actorLastName") String actorName, 
-            @DefaultValue("") @QueryParam("directorLastName") String directorLastName,
-            @DefaultValue("") @QueryParam("commentsByUserName") String userName,
-            @DefaultValue("") @QueryParam("genre") String genre){
-           
-        List<Movie> movies = null;
-        
-        movies = 
-                
-        (!"".equals(actorName)) ? movieService.getMoviesForActorName(actorName) :
-        (!"".equals(directorLastName)) ? movieService.getMoviesForDirectorName(directorLastName) :
-        (!"".equals(userName)) ? movieService.getMoviesForUserNameCommented(userName) :
-        (!"".equals(genre)) ? movieService.getMoviesForGenre(genre) :
-        movieService.getAll();
-              
-        return moviePresenter.present(movies);
-    }
+          
     
     
     @GET
@@ -135,5 +117,25 @@ public class MovieResource extends BaseResource
     @POST
     public void create(Movie Movie){
         
+    }
+    
+    @GET
+    @Path("/")
+    public List<MovieView> getAll(@DefaultValue("") @QueryParam("actorLastName") String actorName, 
+            @DefaultValue("") @QueryParam("directorLastName") String directorLastName,
+            @DefaultValue("") @QueryParam("commentsByUserName") String userName,
+            @DefaultValue("") @QueryParam("genre") String genre){
+           
+        List<Movie> movies = null;
+        
+        movies = 
+                
+        (!"".equals(actorName)) ? movieService.getMoviesForActorName(actorName) :
+        (!"".equals(directorLastName)) ? movieService.getMoviesForDirectorName(directorLastName) :
+        (!"".equals(userName)) ? movieService.getMoviesForUserNameCommented(userName) :
+        (!"".equals(genre)) ? movieService.getMoviesForGenre(genre) :
+        movieService.getAll();
+              
+        return moviePresenter.present(movies);
     }
 }
