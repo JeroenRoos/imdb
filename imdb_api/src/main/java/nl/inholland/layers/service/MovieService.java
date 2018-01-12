@@ -123,7 +123,7 @@ public class MovieService extends BaseService
     public List<Movie> getByUserNameCommentedAndTimeSpan(String userName, String timeMin, String timeMax)
     {
         User userObject =  userDAO.getSingleUserByName(userName);
-        super.errorHandler.requireResult(userObject, "No users found for the provided user name");
+        super.errorHandler.requireResult(userObject, "No user was found for the provided user name");
         
         int timeMinInt = 0;
         int timeMaxInt = 0;
@@ -135,10 +135,9 @@ public class MovieService extends BaseService
         }
         catch (Exception ex)
         {
-            super.errorHandler.parsingError("Something went wrong while converting the time to a valid integer.");
+            super.errorHandler.parsingError("Something went wrong while converting the timespan to an integer value.");
         }
         
-        //If the "year from" is greater than the "year to", swap them around
         if (timeMinInt > timeMaxInt){
             int tempYear = timeMinInt;
             timeMinInt = timeMaxInt;
