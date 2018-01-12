@@ -95,20 +95,9 @@ public class DirectorService extends BaseService
         return lstDirectors;
     }
     
-   
-    // Create one or more directors
-    public void create(List<Director> lstDirectors)
-    {
-        // Create on or more directors based on the lenght of the list
-        if (lstDirectors.size() == 1)
-            createOne(lstDirectors.get(0));
-        else
-            createMany(lstDirectors);
-    }
-    
     
     // Create one director
-    private void createOne(Director director)
+    public void createOne(Director director)
     {
         // Validation, check if all the required fields do exist and are not empty
         checkCreateValidity(director);
@@ -121,7 +110,7 @@ public class DirectorService extends BaseService
 
     
     // Create multiple directors
-    private void createMany(List<Director> lstDirectors)
+    public void createMany(List<Director> lstDirectors)
     {
         for (Director director : lstDirectors)
         {
@@ -170,22 +159,8 @@ public class DirectorService extends BaseService
     }
     
     
-    // Update one or more existing directors
-    public void update(String directorIds, Director director)
-    {
-        // Split the directorsIds
-        String[] ids = directorIds.split(",");
-
-        // Update on or more directors based on the lenght of the array
-        if (ids.length == 1)
-            updateOne(ids[0], director);
-        else
-            updateMany(ids, director);  
-    }
-    
-    
     // Update one director
-    private void updateOne(String directorId, Director director)
+    public void updateOne(String directorId, Director director)
     {
         ObjectId objectId;
         
@@ -210,7 +185,7 @@ public class DirectorService extends BaseService
     
     
     // Update multipe directors at the same time
-    private void updateMany(String[] ids, Director director)
+    public void updateMany(String[] ids, Director director)
     {       
         Query[] lstQueries = new Query[ids.length];
         UpdateOperations[] lstUpdateOperations = new UpdateOperations[ids.length];
@@ -274,22 +249,8 @@ public class DirectorService extends BaseService
     }
     
     
-    // Delete on ore more directors
-    public void delete(String directorIds)
-    {
-        // Split the directorsIds
-        String[] ids = directorIds.split(",");
-        
-        // Update on or more directors based on the lenght of the array
-        if (ids.length == 1)
-            deleteOne(ids[0]);
-        else
-            deleteMany(ids);
-    }
-    
-    
     // Delete one director by ID
-    private void deleteOne(String directorId)
+    public void deleteOne(String directorId)
     {
         // Validation, check if the ID is valid
         if(ObjectId.isValid(directorId))
