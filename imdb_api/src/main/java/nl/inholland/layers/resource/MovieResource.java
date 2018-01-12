@@ -83,11 +83,8 @@ public class MovieResource extends BaseResource
             @PathParam("userName") String userName, 
             @DefaultValue("") @QueryParam("timeMin") String timeMin, 
             @DefaultValue("") @QueryParam("timeMax") String timeMax)
-    {
-        
-        List<Movie> movies = null;
-        
-        movies = movieService.getByUserNameCommentedAndTimeSpan(userName, timeMin, timeMax);
+    {        
+        List<Movie> movies = movieService.getByUserNameCommentedAndTimeSpan(userName, timeMin, timeMax);
         
         return moviePresenter.present(movies);
     }
