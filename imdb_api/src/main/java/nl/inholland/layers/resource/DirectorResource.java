@@ -80,7 +80,11 @@ public class DirectorResource extends BaseResource
     @ApiOperation("Create a Director")
     public void create(List<Director> lstDirectors)
     {
-        directorService.create(lstDirectors);
+        // Create on or more directors based on the lenght of the list
+        if (lstDirectors.size() == 1)
+            directorService.createOne(lstDirectors.get(0));
+        else
+            directorService.createMany(lstDirectors);
     }
     
     
@@ -90,7 +94,14 @@ public class DirectorResource extends BaseResource
     @ApiOperation("Update a Director")
     public void update(@QueryParam("id") String directorIds, Director director)
     {      
-        directorService.update(directorIds, director);
+        // Split the directorsIds
+        String[] ids = directorIds.split(",");
+
+        // Update on or more directors based on the lenght of the array
+        if (ids.length == 1)
+            directorService.updateOne(ids[0], director);
+        else
+            directorService.updateMany(ids, director);  
     }
     
     
@@ -100,6 +111,13 @@ public class DirectorResource extends BaseResource
     @ApiOperation("Delete a Director")
     public void delete(@QueryParam("id") String directorIds) 
     {  
-        directorService.delete(directorIds);
+        // Split the directorsIds
+        String[] ids = directorIds.split(",");
+        
+        // Update on or more directors based on the lenght of the array
+        if (ids.length == 1)
+            directorService.deleteOne(ids[0]);
+        else
+            directorService.deleteMany(ids);
     }
 }
