@@ -23,6 +23,8 @@ import nl.inholland.layers.service.GenreService;
 import nl.inholland.layers.model.GenreView;
 import nl.inholland.layers.model.Genre;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import javax.inject.Inject;
 
 @Api("Genres")
 @Path("/genres")
@@ -33,6 +35,7 @@ public class GenreResource extends BaseResource{
     private final GenreService genreService;
     private final GenrePresenter genrePresenter;
     
+    @Inject
     public GenreResource( GenreService genreService,
             GenrePresenter genrePresenter){
         
@@ -87,14 +90,13 @@ public class GenreResource extends BaseResource{
     }
     
     @PUT
+    @ApiOperation("Update multiple genres")
     public void updateMany(@QueryParam("id") String genreIds, Genre genre){
         
         List<String> ids = Arrays.asList(genreIds.split(","));
         
-        if (ids.size() == 1)
-             genreService.update(ids.get(0), genre);
-        else
-            genreService.updateMany(ids, genre);
+        
+        genreService.updateMany(ids, genre);
     }
     
     @DELETE
