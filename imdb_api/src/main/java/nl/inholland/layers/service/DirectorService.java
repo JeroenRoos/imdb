@@ -94,23 +94,10 @@ public class DirectorService extends BaseService
         
         return lstDirectors;
     }
-    
-    
-    // Create one director
-    public void createOne(Director director)
-    {
-        // Validation, check if all the required fields do exist and are not empty
-        checkCreateValidity(director);
-            
-        // Validation, check if the director already exist in the database
-        checkDuplicate(director);
-        
-        directorDAO.create(director);
-    }
 
     
     // Create multiple directors
-    public void createMany(List<Director> lstDirectors)
+    public void create(List<Director> lstDirectors)
     {
         for (Director director : lstDirectors)
         {
@@ -159,33 +146,8 @@ public class DirectorService extends BaseService
     }
     
     
-    // Update one director
-    public void updateOne(String directorId, Director director)
-    {
-        ObjectId objectId;
-        
-        // Validation, check if the ID is valid
-        if (ObjectId.isValid(directorId))
-        {
-            // Validation, Check if the directors exists 
-            checkIfDirectorExists(directorId);
-            
-            objectId = new ObjectId(directorId);
-            Query query = directorDAO.createQuery().field("_id").equal(objectId);
-            UpdateOperations<Director> update = directorDAO.createUpdateOperations();
-
-            // Validation, check if all the field(s) that are gonne be updated are not empty
-            checkUpdateValidity(update, director, objectId);       
-            
-            directorDAO.update(query, update);
-        }
-        else
-            super.errorHandler.noValidObjectId("The director id is not valid");
-    }
-    
-    
     // Update multipe directors at the same time
-    public void updateMany(String[] ids, Director director)
+    public void update(String[] ids, Director director)
     {       
         Query[] lstQueries = new Query[ids.length];
         UpdateOperations[] lstUpdateOperations = new UpdateOperations[ids.length];
@@ -247,26 +209,10 @@ public class DirectorService extends BaseService
         else 
             super.errorHandler.emptyField("Director must be older than 18.");
     }
-    
-    
-    // Delete one director by ID
-    public void deleteOne(String directorId)
-    {
-        // Validation, check if the ID is valid
-        if(ObjectId.isValid(directorId))
-        {
-            // Validation, check if the director exists
-            checkIfDirectorExists(directorId);
-            
-            super.delete(directorId, directorDAO);
-        }
-        else
-            super.errorHandler.noValidObjectId("The director ID is not valid.");
-    }
 
     
     // Delete multiple directors by ID
-    public void deleteMany(String[] ids)
+    public void delete(String[] ids)
     {
         List<ObjectId> lstObjectIds = new ArrayList<>();
         
